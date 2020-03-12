@@ -1,8 +1,8 @@
-#Meeting Minutes
+# Meeting Minutes
 
 ---
 
-###Friday 13<sup>th</sup> March
+## Friday 13<sup>th</sup> March
 
 - First three folders contain data for analysis
 - 0 - baseline; 1 - first drug; 2 - second drug; each file approx. 3 minutes in length
@@ -21,4 +21,3 @@
 - Not human data, safe medical data, ethically approved - not traceable back to original subject; no concerns about hosting data online
 
 ---
-
