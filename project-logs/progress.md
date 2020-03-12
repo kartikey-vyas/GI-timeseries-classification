@@ -9,7 +9,7 @@ This document will serve as a progress log, including lists of tasks, comments o
 |  ---  |  ---  | **Andreas - Dive into Part IV**                                      |
 |   ✔   |   ✔   | Best/Good Enough Practices in Scientific Computing                   |
 |   ✔   |       | On Communicating Scientific Data                                     |
-|       |       | Improving the traditional information management in natural sciences |
+|       |   ✔   | Improving the traditional information management in natural sciences |
 |       |       | Git Book                                                             |
 |       |       | Data Science Process, Ch 1 and 2 of Geron (2017)                     |
 |       |       | Time-series features, Ch 1 and 8 of Nielsen (2019)                   |
