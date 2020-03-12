@@ -15,6 +15,7 @@ Since I am working from a Windows 10 PC, I decided to use a Linux distribution t
   - jupyter-notebook 6.0.3
 - Git for version control
   - github repo: <https://github.com/kartikey-vyas/engsci700-project37>
-  - GitKraken for GUI
 - Windows Terminal >_
 - VS Code
+  - VS Code Remote (connects to WSL Ubuntu)
+  - GitLens
