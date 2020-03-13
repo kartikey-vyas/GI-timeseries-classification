@@ -1,6 +1,6 @@
-# Louis' Log
+# Louis: Project Log
 
-###### Friday 6<sup>th</sup> March 
+###### Friday 6<sup>th</sup> March
 
 First meeting with Peng and Andreas. Introduction to the project.
 
