@@ -36,3 +36,8 @@ This set up will be used going forward from 13/03.
 - Meeting with Peng (see meeting minutes)
 - Organise time to see Andreas after reading time-series docs and getting started with `tsfresh`
 - Continue literature review, start with the MEA documents sent by Peng.
+
+## Monday 16 March
+
+- adapted [progress.md](progress.md) to contain summaries of all of the readings that we complete.
+- read Geron (2017) chapters 1 and 2, completed summary.
