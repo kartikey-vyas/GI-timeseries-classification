@@ -15,7 +15,7 @@ This document will serve as a progress log, including lists of tasks, comments o
 |   ✔   |   ✔   | Best/Good Enough Practices in Scientific Computing                   |
 |   ✔   |       | On Communicating Scientific Data                                     |
 |       |   ✔   | Improving the traditional information management in natural sciences |
-|       |       | Git Book                                                             |
+|   ✔   |       | Git Book                                                             |
 |   ✔   |       | Data Science Process, Ch 1 and 2 of Geron (2017)                     |
 |       |       | Time-series features, Ch 1 and 8 of Nielsen (2019)                   |
 |       |       | Time-series features, overview from Fulcher (2018)                   |
@@ -54,3 +54,15 @@ This chapter discussed the fundamentals of ML. It discussed different ways of ca
 - Overfitting
 - Underfitting
 - Testing and Validating (train-test split, cross-validation)
+
+#### Chapter 2 - End to End ML Project <!-- omit in toc -->
+
+**Outline of Steps**
+
+- Big Picture
+  - Frame the problem
+    - Objective of the solution; how will the predictions be used downstream?
+    - Current solution; improvements, requirements
+    - ML solution type; Supervised, Classification, Batch
+  - Select performance measure
+  - Check the assumptions
