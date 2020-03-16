@@ -2,6 +2,14 @@
 
 This is document will serve as a progress log for my part 4 project. It is written in markdown.
 
+- [Kartikey's Log](#kartikeys-log)
+  - [Setting up a development environment](#setting-up-a-development-environment)
+    - [Technologies Used](#technologies-used)
+    - [Workflow](#workflow)
+  - [Progress Log](#progress-log)
+    - [Friday 13 March](#friday-13-march)
+    - [Monday 16 March](#monday-16-march)
+
 ## Setting up a development environment
 
 Since I am working from a Windows 10 PC, I decided to use a Linux distribution that I run natively on windows through the Windows Subsystem for Linux (WSL 2). This contains a linux kernel that runs alongside windows - it is like a lightweight VM.
@@ -31,13 +39,15 @@ Since I am working from a Windows 10 PC, I decided to use a Linux distribution t
 
 This set up will be used going forward from 13/03.
 
-## Friday 13 March
+## Progress Log
+
+### Friday 13 March
 
 - Meeting with Peng (see meeting minutes)
 - Organise time to see Andreas after reading time-series docs and getting started with `tsfresh`
 - Continue literature review, start with the MEA documents sent by Peng.
 
-## Monday 16 March
+### Monday 16 March
 
 - adapted [progress.md](progress.md) to contain summaries of all of the readings that we complete.
 - read Geron (2017) chapters 1 and 2, completed summary.
