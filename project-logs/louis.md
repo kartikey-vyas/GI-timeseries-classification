@@ -16,10 +16,13 @@ Started with Markdown as a log using [Markdown and Visual Studio Code](https://c
 
 ###### Friday 13<sup>th</sup> March
 
-Installed `Markdown All in One` and uninstalled `Markdown TOC` and `Markdown Shortcuts`.
+Installed `Markdown All in One` and `Markdown Preview Github Styling`, and uninstalled `Markdown TOC` and `Markdown Shortcuts`.
 
 Meeting with Peng (technical info).
 
 *Improving the Traditional Information Management in Natural Sciences* &mdash; discusses using timestamps as a way of managing data. I think in the case of our project, this isn't too relevant, as we are not collecting any data ourselves and practicing standard version control is sufficient.
 
 #
+
+###### Wednesday 18<sup>th</sup> March
+
