@@ -20,7 +20,7 @@ This document will serve as a progress log, including lists of tasks, comments o
 |   ✔   |   ✔   | Best/Good Enough Practices in Scientific Computing                   |
 |   ✔   |   ✔   | On Communicating Scientific Data                                     |
 |       |   ✔   | Improving the traditional information management in natural sciences |
-|   ✔   |       | Git Book                                                             |
+|   ✔   |   ✔   | Pro Git                                                              |
 |   ✔   |       | Data Science Process, Ch 1 and 2 of Geron (2017)                     |
 |       |       | Time-series features, Ch 1 and 8 of Nielsen (2019)                   |
 |       |       | Time-series features, overview from Fulcher (2018)                   |

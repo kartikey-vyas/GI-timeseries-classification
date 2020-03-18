@@ -1,20 +1,27 @@
-# Louis: Project Log
+# Louis: Project Log <!-- omit in toc -->
 
-###### Friday 6<sup>th</sup> March
+- [Week 1](#week-1)
+- [Week 2](#week-2)
+- [Week 3](#week-3)
+
+### Week 1
+
+#### Friday 6<sup>th</sup> March <!-- omit in toc -->
 
 First meeting with Peng and Andreas. Introduction to the project.
 
 #
 
-###### Thursday 12<sup>th</sup> March
+### Week 2
+
+#### Thursday 12<sup>th</sup> March <!-- omit in toc -->
 
 Started with Markdown as a log using [Markdown and Visual Studio Code](https://code.visualstudio.com/docs/languages/markdown?fbclid=IwAR1Y7I6vyp4QvUq57frUk-NKwY-bZRNwcU2Cn_B8eS3ybC0qT6pQQnl1fFk) as a guide. Installed `markdownlint`, `Markdown TOC`, `Markdown Shortcuts`, and `Markdown Preview Enhanced`. Potential extensions to consider are `Markdown Theme Kit`, `Markdown Preview Github Styling`.
 
 `Ctrl + K` `V` to open preview.
 
-#
 
-###### Friday 13<sup>th</sup> March
+#### Friday 13<sup>th</sup> March <!-- omit in toc -->
 
 Installed `Markdown All in One` and `Markdown Preview Github Styling`, and uninstalled `Markdown TOC` and `Markdown Shortcuts`.
 
@@ -24,6 +31,10 @@ Meeting with Peng (technical info).
 
 #
 
-###### Wednesday 18<sup>th</sup> March
+### Week 3
 
-To omit entries from the table of contents, include `<!-- omit in toc -->` at the end of the line. 
+#### Wednesday 18<sup>th</sup> March <!-- omit in toc -->
+
+To omit entries from the table of contents, include `<!-- omit in toc -->` at the end of the line. To create a TOC, `Ctrl + P` and type `> Markdown All in One: Create Table of Contents`.
+
+Completed and summarised all *Best Practices* readings. Read chapter 1 of *Hands-On ML*.
