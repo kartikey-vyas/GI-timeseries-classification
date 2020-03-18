@@ -38,3 +38,20 @@ Meeting with Peng (technical info).
 To omit entries from the table of contents, include `<!-- omit in toc -->` at the end of the line. To create a TOC, `Ctrl + P` and type `> Markdown All in One: Create Table of Contents`.
 
 Completed and summarised all *Best Practices* readings. Read chapter 1 of *Hands-On ML*.
+
+#### Thursday 19<sup>th</sup> March <!-- omit in toc -->
+
+**Virtual environment in Python**
+
+1. Install Anaconda [here](https://www.anaconda.com/distribution/#download-section) 
+2. Add the following variables to PATH:
+   -  C:\Users\Louiis\Anaconda3\Scripts
+   -  C:\Users\Louii\Anaconda3
+   -  C:\Users\Louii\Anaconda3\Library\bin
+3. Run Anaconda Prompt as administrator and run:
+   - `python -m install --upgrade pip`
+   - `pip install --upgrade anaconda-navigator`
+   - `pip install --upgrade virtualenv`
+   - `pip install --upgrade virtualenvwrapper-win`
+4. Navigate to the target path using `cd`
+5. Type `virtualenv env`
