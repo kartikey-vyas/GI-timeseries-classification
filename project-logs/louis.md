@@ -26,3 +26,4 @@ Meeting with Peng (technical info).
 
 ###### Wednesday 18<sup>th</sup> March
 
+To omit entries from the table of contents, include `<!-- omit in toc -->` at the end of the line. 
