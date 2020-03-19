@@ -7,8 +7,8 @@ This is document will serve as a progress log for my part 4 project. It is writt
     - [Technologies Used](#technologies-used)
     - [Workflow](#workflow)
   - [Progress Log](#progress-log)
-    - [Friday 13 March](#friday-13-march)
-    - [Monday 16 March](#monday-16-march)
+    - [Week 2](#week-2)
+    - [Week 3](#week-3)
 
 ## Setting up a development environment
 
@@ -41,13 +41,27 @@ This set up will be used going forward from 13/03.
 
 ## Progress Log
 
-### Friday 13 March
+### Week 2
+
+#### Friday 13<sup>th</sup> March <!-- omit in toc -->
 
 - Meeting with Peng (see meeting minutes)
 - Organise time to see Andreas after reading time-series docs and getting started with `tsfresh`
 - Continue literature review, start with the MEA documents sent by Peng.
 
-### Monday 16 March
+### Week 3
+
+#### Monday 16<sup>th</sup> March <!-- omit in toc -->
 
 - adapted [progress.md](progress.md) to contain summaries of all of the readings that we complete.
 - read Geron (2017) chapters 1 and 2, completed summary.
+
+#### Tuesday 17<sup>th</sup> March <!-- omit in toc -->
+
+- Downloaded and installed Python KOANS
+- going to commit some time everyday to work through KOANS and improve python skills
+
+#### Thursday 18<sup>th</sup> March <!-- omit in toc -->
+
+- fixed some of the markdown linting issues by creating [.markdownlint.json](.markdownlint.json) in the project-logs directory.
+  - if theres an annoying rule that keeps causing unnecessary warnings in your markdown file, add the rule name followed by false to the json file. e.g. `MD032 = false`
