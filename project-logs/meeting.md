@@ -1,6 +1,9 @@
-# Meeting Minutes
+# Meeting Minutes <!-- omit in toc -->
 
-### Friday 13<sup>th</sup> March
+- [Friday 13<sup>th</sup> March](#friday-13supthsup-march)
+- [Friday 20<sup>th</sup> March](#friday-20supthsup-march)
+
+## Friday 13<sup>th</sup> March
 
 - First three folders contain data for analysis
 - 0 - baseline; 1 - first drug; 2 - second drug; each file approx. 3 minutes in length
@@ -18,4 +21,9 @@
 - Every week, find no more than 1-2 papers and do a quick summary
 - Not human data, safe medical data, ethically approved - not traceable back to original subject; no concerns about hosting data online
 
----
+## Friday 20<sup>th</sup> March
+
+- HPC commands on Twist
+- Use coming week to do lit review
+- Get started with running the simulation
+- Get started with some machine learning
