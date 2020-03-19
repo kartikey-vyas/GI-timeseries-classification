@@ -58,4 +58,4 @@ Completed and summarised all *Best Practices* readings. Read chapter 1 of *Hands
  - `conda update python`
  - `pip install --upgrade pip`
 
-Completed chapter 2 of *Hands-On ML*. Quite a good chapter, goes through an entire end-to-end project; may be worth going back and having another read in future. Jupyter notebook stored in OneDrive. 
+Completed chapter 2 of *Hands-On ML*. Quite a good chapter, goes through an entire end-to-end project; may be worth going back and having another read in future. Jupyter notebook stored in OneDrive, and source code for the book can be found [here](https://github.com/ageron/handson-ml). 

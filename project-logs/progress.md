@@ -21,7 +21,7 @@ This document will serve as a progress log, including lists of tasks, comments o
 |   ✔   |   ✔   | On Communicating Scientific Data                                     |
 |       |   ✔   | Improving the traditional information management in natural sciences |
 |   ✔   |   ✔   | Pro Git                                                              |
-|   ✔   |       | Data Science Process, Ch 1 and 2 of Geron (2017)                     |
+|   ✔   |   ✔   | Data Science Process, Ch 1 and 2 of Geron (2017)                     |
 |       |       | Time-series features, Ch 1 and 8 of Nielsen (2019)                   |
 |       |       | Time-series features, overview from Fulcher (2018)                   |
 |       |       | Learn about tsfresh, Christ et al. (2016, 2018)                      |
@@ -73,6 +73,8 @@ This chapter discussed the fundamentals of ML. It discussed different ways of ca
     - ML solution type; Supervised, Classification, Batch
   - Select performance measure
   - Check the assumptions
+
+*Source code [here](https://github.com/ageron/handson-ml).*
 
 #
 
