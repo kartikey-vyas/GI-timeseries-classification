@@ -9,6 +9,7 @@ This is document will serve as a progress log for my part 4 project. It is writt
   - [Progress Log](#progress-log)
     - [Week 2](#week-2)
     - [Week 3](#week-3)
+    - [Week 4 (Teaching-free week)](#week-4-teaching-free-week)
 
 ## Setting up a development environment
 
@@ -65,3 +66,15 @@ This set up will be used going forward from 13/03.
 
 - fixed some of the markdown linting issues by creating [.markdownlint.json](.markdownlint.json) in the project-logs directory.
   - if theres an annoying rule that keeps causing unnecessary warnings in your markdown file, add the rule name followed by false to the json file. e.g. `MD032 = false`
+
+#### Friday 19<sup>th</sup> March <!-- omit in toc -->
+
+- Meeting with Peng and Andreas
+- continued python koans
+
+### Week 4 (Teaching-free week)
+
+#### Wednesday 25<sup>th</sup> <!-- omit in toc -->
+
+- Watched literature review workshop video
+- starting time-series readings
