@@ -78,3 +78,4 @@ This set up will be used going forward from 13/03.
 
 - Watched literature review workshop video
 - starting time-series readings
+  - read Nielsen chapter 1 and chapter 8
