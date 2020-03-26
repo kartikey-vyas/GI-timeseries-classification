@@ -79,3 +79,8 @@ This set up will be used going forward from 13/03.
 - Watched literature review workshop video
 - starting time-series readings
   - read Nielsen chapter 1 and chapter 8
+
+#### Thursday 26<sup>th</sup> <!-- omit in toc -->
+
+- completed ch8 nielsen
+- starting tsfresh readings

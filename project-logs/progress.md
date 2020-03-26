@@ -10,6 +10,7 @@ This document will serve as a progress log, including lists of tasks, comments o
     - [Best Practices for Scientific Computing](#best-practices-for-scientific-computing)
     - [Improving the Traditional Information Management in Natural Sciences](#improving-the-traditional-information-management-in-natural-sciences)
     - [On the Communication of Scientific Data: The Full-Metadata Format](#on-the-communication-of-scientific-data-the-full-metadata-format)
+    - [Practical Time Series Analysis (Nielsen, 2018)](#practical-time-series-analysis-nielsen-2018)
   - [The Literature Review](#the-literature-review)
 
 ## To Read
@@ -19,11 +20,11 @@ This document will serve as a progress log, including lists of tasks, comments o
 |  ---  |  ---  | **Andreas - Dive into Part IV**                                      |
 |   ✔   |   ✔   | Best/Good Enough Practices in Scientific Computing                   |
 |   ✔   |   ✔   | On Communicating Scientific Data                                     |
-|       |   ✔   | Improving the traditional information management in natural sciences |
+|   ✔   |   ✔   | Improving the traditional information management in natural sciences |
 |   ✔   |   ✔   | Pro Git                                                              |
 |   ✔   |   ✔   | Data Science Process, Ch 1 and 2 of Geron (2017)                     |
-|       |       | Time-series features, Ch 1 and 8 of Nielsen (2019)                   |
-|       |       | Time-series features, overview from Fulcher (2018)                   |
+|   ✔   |       | Time-series features, Ch 1 and 8 of Nielsen (2019)                   |
+|   ✔   |       | Time-series features, overview from Fulcher (2018)                   |
 |       |       | Learn about tsfresh, Christ et al. (2016, 2018)                      |
 |  ---  |  ---  | **Peng's Material**                                                  |
 |       |       | MEA 2019                                                             |
@@ -76,9 +77,10 @@ This chapter discussed the fundamentals of ML. It discussed different ways of ca
 
 *Source code [here](https://github.com/ageron/handson-ml).*
 
-#
+---
 
 ### Good enough practices in scientific computing
+
 > (Wilson et al., 2017)
 
 This article presents a set of computing tools and techniques that researchers are recommended to adopt. In particular, it is aimed at people who are new to research computing so some fundamental basics have been omitted from this summary.  
@@ -116,23 +118,6 @@ This article presents a set of computing tools and techniques that researchers a
 
 - Put raw data in a `data` directory and cleaned/processed files in `results`.
 - Put source code in `src`.
-- 
-      .
-      |--CITATION
-      |--README
-      |--LICENSE
-      |--requirements.txt
-      |--data
-      |   |--birds_count_table.csv
-      |--doc
-      |   |--notebook.md
-      |   |--manuscript.md
-      |   |--changelog.txt
-      |--results
-      |   |--summarised_results.csv
-      |--src
-      |   |--sightings_analysis.py
-      |   |--runall.py
 
 #### Tracking changes <!-- omit in toc -->
 
@@ -143,9 +128,10 @@ This article presents a set of computing tools and techniques that researchers a
 - Write manuscripts in plain text format that permits version control.
 - Use a bibliography manager.
 
-#
+---
 
 ### Best Practices for Scientific Computing
+
 > (Wilson et al., 2014)
 
 This article is a condensed version of *Good enough practices ... (Wilson et al., 2017)*. The core info has been stripped away and only notes of interest are mentioned.
@@ -159,16 +145,18 @@ This article is a condensed version of *Good enough practices ... (Wilson et al.
 - Document interfaces and reasons, not implementations. Inline documentation that recapitulates code is not useful.
 - Rather than write a paragraph to explain a complex piece of code, reorganise the code itself so that it doesn't need such an explanation (sometimes not possible).
 
-#
+---
 
 ### Improving the Traditional Information Management in Natural Sciences
+
 > (Kühne and Liehr, 2009)
 
 The paper presents a method for sustatinable scientific work through the inclusion of time stamps and unique identifiers to link related information and allow backtracking of data. As the premise of our project resides in the post-collection of data, such form of information management is not required.
 
-#
+---
 
 ### On the Communication of Scientific Data: The Full-Metadata Format
+
 > (Riede et al., 2010)
 
 | $\text{; −∗− fmf−version: 1.0 −∗−}$ |
@@ -181,6 +169,53 @@ The paper presents a method for sustatinable scientific work through the inclusi
 - Section names starting with `*` are reserved; arbitrary sections can be defined otherwise
 - Each *key* can consist of any characters except `:` which is used to separate *key* and *value*; each *key* must be unique within its section
 
-## The Literature Review 
+---
+
+### Practical Time Series Analysis (Nielsen, 2018)
+
+#### Chapter 1 <!-- omit in toc -->
+
+Details the applications of time series analysis.  
+Statistical time series analysis is the standard approach, but recently machine learning has been applied.
+
+#### Chapter 8 <!-- omit in toc -->
+
+Machine learning methods were not designed to work with temporal data, but they can work with feature heneration. By describing a time series with a set of features instead of a series of numbers, we can access methods designed for cross-sectional data.
+
+examples of extractable features:
+- periodicity
+- trend
+- mean and variance
+- difference between first and last
+- number of local maxima and minima
+- maximum and minimum
+
+> **Weak Stationarity**: mean and variance are the same for all time points. The covariance between the values at any two time points depend only on the difference between the two times. <br><br>
+> **Strong Stationarity**: distribution remains the same for all time points.
+
+**Time Series feature generation libraries**  (PYHTON)  
+`tsfresh` implements a large and general set of features.
+- Augmented Dickey-Fuller test value
+- AR(k) coefficient
+- autocorrelation for a lag, $k$
+- Physics inspired: `c3()`, `cid_ce()`, `friedrich_coefficients()`
+
+**Feature selection**
+`tsfresh` usees the FRESH algorithm. Evaluates significance of each feature ($p$-value). Per-feature $p$-values are evaluated together via the *"Benjamin-Yekutieli"* procedure (limits no. of false positives during hypothesis testing).
+
+example code:
+
+```python
+from tsfresh import extract_features
+extracted_features = extract_features(timeseries,
+                                        column_id = "id",
+                                        column_sort = "time")
+```
+
+We can use recursive feature elimination (RFE) to complement the FRESH algorithm. RFE is a form of backward selection (narrows down features).
+
+---
+
+## The Literature Review  
 
 > By Dr Nigel Gearing & Sian Hodges found [here](https://canvas.auckland.ac.nz/courses/44443/files?preview=4030977)
