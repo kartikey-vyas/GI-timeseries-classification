@@ -11,6 +11,7 @@ This document will serve as a progress log, including lists of tasks, comments o
     - [Improving the Traditional Information Management in Natural Sciences](#improving-the-traditional-information-management-in-natural-sciences)
     - [On the Communication of Scientific Data: The Full-Metadata Format](#on-the-communication-of-scientific-data-the-full-metadata-format)
     - [Practical Time Series Analysis (Nielsen, 2018)](#practical-time-series-analysis-nielsen-2018)
+    - [Learning about tsfresh (Christ et al., 2016)](#learning-about-tsfresh-christ-et-al-2016)
   - [The Literature Review](#the-literature-review)
 
 ## To Read
@@ -24,8 +25,8 @@ This document will serve as a progress log, including lists of tasks, comments o
 |   ✔   |   ✔   | Pro Git                                                              |
 |   ✔   |   ✔   | Data Science Process, Ch 1 and 2 of Geron (2017)                     |
 |   ✔   |       | Time-series features, Ch 1 and 8 of Nielsen (2019)                   |
-|   ✔   |       | Time-series features, overview from Fulcher (2018)                   |
-|       |       | Learn about tsfresh, Christ et al. (2016, 2018)                      |
+|       |       | Time-series features, overview from Fulcher (2018)                   |
+|   ✔   |       | Learn about tsfresh, Christ et al. (2016, 2018)                      |
 |  ---  |  ---  | **Peng's Material**                                                  |
 |       |       | MEA 2019                                                             |
 |       |       | Gastric Model 2D                                                     |
@@ -111,7 +112,7 @@ This article presents a set of computing tools and techniques that researchers a
 - Optional:
   - `CONTRIBUTING.md` containing dependencies, installation tests, guidelines, and checklists for people looking to contribute to the project.
   - `TODO.md` list of items that newcomers can work on.
-  - `LICENSE.md` file that clearly states what license(s) apply to the project. 
+  - `LICENSE.md` file that clearly states what license(s) apply to the project.
   - `CITATION.md` describes how to cite the parts of the project or as a whole.
 
 #### Project Organisation <!-- omit in toc -->
@@ -193,7 +194,7 @@ examples of extractable features:
 > **Weak Stationarity**: mean and variance are the same for all time points. The covariance between the values at any two time points depend only on the difference between the two times. <br><br>
 > **Strong Stationarity**: distribution remains the same for all time points.
 
-**Time Series feature generation libraries**  (PYHTON)  
+**Time Series feature generation libraries**  (PYTHON)  
 `tsfresh` implements a large and general set of features.
 - Augmented Dickey-Fuller test value
 - AR(k) coefficient
@@ -201,7 +202,7 @@ examples of extractable features:
 - Physics inspired: `c3()`, `cid_ce()`, `friedrich_coefficients()`
 
 **Feature selection**
-`tsfresh` usees the FRESH algorithm. Evaluates significance of each feature ($p$-value). Per-feature $p$-values are evaluated together via the *"Benjamin-Yekutieli"* procedure (limits no. of false positives during hypothesis testing).
+`tsfresh` uses the FRESH algorithm. Evaluates significance of each feature ($p$-value). Per-feature $p$-values are evaluated together via the *"Benjamin-Yekutieli"* procedure (limits no. of false positives during hypothesis testing).
 
 example code:
 
@@ -215,6 +216,12 @@ extracted_features = extract_features(timeseries,
 We can use recursive feature elimination (RFE) to complement the FRESH algorithm. RFE is a form of backward selection (narrows down features).
 
 ---
+
+### Learning about tsfresh (Christ et al., 2016)
+
+*Distributed and Parallel Time Series Feature Extraction*
+
+
 
 ## The Literature Review  
 

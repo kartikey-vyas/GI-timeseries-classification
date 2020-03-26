@@ -80,7 +80,36 @@ This set up will be used going forward from 13/03.
 - starting time-series readings
   - read Nielsen chapter 1 and chapter 8
 
-#### Thursday 26<sup>th</sup> <!-- omit in toc -->
+#### Thursday 26<sup>th</sup> March<!-- omit in toc -->
 
 - completed ch8 nielsen
 - starting tsfresh readings
+
+**Ideas for progressing in the next two weeks**
+- Building my ML environment
+  - Where is data stored? s3/cloud somewhere? *google drive, consider transferring to s3*
+  - Where are am I running my code?
+    - VM? - *Ubuntu 18.04 on WSL 2 on windows 10*
+    - What code version? *Python 3.7*
+- How do I track my performance?
+  - What features being experimented?
+  - What accuracy measure?
+  - What algorithm?
+    - What algorihtm parameters?
+- How do i analyse my results?
+  - What do I need to interpret my results?
+  - What am I looking for?
+- Artifacts?
+  - What plots?
+
+Looking at the data, my understanding so far is this:
+- 0: baseline, 1: first drug, 2: second drug
+- 60 electrodes, 180s @ 1000Hz
+- Edges of the MEA are likely to have less reliable data
+
+**Write python scripts that can:**
+1. connect to google drive and download the raw data (run once)
+2. extract the `filt_data` 2d array from each file and label it.
+   1. find package to interact with .mat files
+   2. convert 2d array into appropriate object
+3. compute the *mean* of the 2d array to get an average time series signal for each subject, reducing filesize 60x.
