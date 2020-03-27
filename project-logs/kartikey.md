@@ -80,7 +80,7 @@ This set up will be used going forward from 13/03.
 - starting time-series readings
   - read Nielsen chapter 1 and chapter 8
 
-#### Thursday 26<sup>th</sup> March<!-- omit in toc -->
+#### Thursday 26<sup>th</sup> March <!-- omit in toc -->
 
 - completed ch8 nielsen
 - starting tsfresh readings
@@ -113,3 +113,19 @@ Looking at the data, my understanding so far is this:
    1. find package to interact with .mat files
    2. convert 2d array into appropriate object
 3. compute the *mean* of the 2d array to get an average time series signal for each subject, reducing filesize 60x.
+
+#### Friday 27<sup>th</sup> March <!-- omit in toc -->
+
+- downloaded the data to my computer today, stored in `data/raw`
+- testing how to interact with .mat files using `scipy.io`
+- working on a script that recursively loads all the files, extracts the time-series data and stores them in pandas data frames.
+  - question for andreas/peng: should I be taking the values from every electrode or using a mean?
+  - starting with mean for simplicity (reduces data size by 60x) - this can be used in my prototype
+
+- experimented with this in a notebook [`1.0-kv-loading-data.ipynb`](../1.0-kv-loading-data.ipynb)
+- put relevant applicable code into [`make_dataset.py`](../src/data/make_dataset.py)
+  - next steps: include an export to csv files, put in `data/interim`
+- recommended that we change our project structure in terms of github repos
+  1. **Data Science Repo**: The original repo, based on the cookie cutter data science strucutre. This will house all the python scripts, notebooks etc. used to develop the ML classifier. Managed by Kartikey.
+  2. **Mathematical Modelling Repo**: This will house the simulations and MATLAB files, as well as any python scripts to build the MM. Managed by Louis
+  3. **Documentation Repo**: This will contain project logs, meeting updates, references, resources and p4p admin stuff. Managed by both of us.

@@ -221,8 +221,6 @@ We can use recursive feature elimination (RFE) to complement the FRESH algorithm
 
 *Distributed and Parallel Time Series Feature Extraction*
 
-
-
 ## The Literature Review  
 
 > By Dr Nigel Gearing & Sian Hodges found [here](https://canvas.auckland.ac.nz/courses/44443/files?preview=4030977)
