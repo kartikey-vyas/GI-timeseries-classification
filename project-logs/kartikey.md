@@ -129,3 +129,10 @@ Looking at the data, my understanding so far is this:
   1. **Data Science Repo**: The original repo, based on the cookie cutter data science strucutre. This will house all the python scripts, notebooks etc. used to develop the ML classifier. Managed by Kartikey.
   2. **Mathematical Modelling Repo**: This will house the simulations and MATLAB files, as well as any python scripts to build the MM. Managed by Louis
   3. **Documentation Repo**: This will contain project logs, meeting updates, references, resources and p4p admin stuff. Managed by both of us.
+
+#### Monday 30<sup>th</sup> March <!-- omit in toc -->
+
+- rename ML repo, create documentation repo
+  - ML repo: [GI-timeseries-classification](https://github.com/kartikey-vyas/GI-timeseries-classification)
+  - MM repo: [GI-mathematical-modelling](https://github.com/louis-cf-lin/GI-mathematical-modelling)
+  - Doc repo: [p4p-documentation](https://github.com/kartikey-vyas/p4p-documentation)
