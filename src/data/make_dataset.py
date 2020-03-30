@@ -34,8 +34,15 @@ from scipy.io import loadmat
 # get a list of the file names
 
 
-def load_MEA_data():
-    """ Run
+def load_MEA_data(method = "means"):
+    """ This function loads the raw data from .mat files.
+        All raw data must be placed in data/raw
+
+        Arguments
+        ---------
+        method: specifies how to process the data before exporting it. 
+                default = "means" 
+                    only keeps the mean signal for each MEA
     """
     d = "data/raw/"
     filenames = []
@@ -61,17 +68,26 @@ def load_MEA_data():
     for file in filenames:
         matfile = loadmat(file)
         MEA_data = pd.DataFrame(matfile['filt_data'])
-        MEA_mean = pd.DataFrame(MEA_data.mean(axis=0))
-
-        # the name of the file will be the column header
-        colname = os.path.split(file)[1]
-        colname = colname[:-4]
-        MEA_mean.columns = [colname]
+        if method == "means":
+            MEA_data = pd.DataFrame(MEA_data.mean(axis=0))
+            # the name of the file will be the column header
+            colname = os.path.split(file)[1]
+            colname = colname[:-4]
+            MEA_data.columns = [colname]      
         
         # concatenate appropriate dataframe
         if colname.endswith("0"):
-            df_baseline = pd.concat([df_baseline, MEA_mean], axis=1)
+            df_baseline = pd.concat([df_baseline, MEA_data], axis=1)
         elif colname.endswith("1"):
-            df_first = pd.concat([df_first, MEA_mean], axis=1)
+            df_first = pd.concat([df_first, MEA_data], axis=1)
         else:
-            df_second = pd.concat([df_second, MEA_mean], axis=1)
+            df_second = pd.concat([df_second, MEA_data], axis=1)
+
+    # export to csv
+    export_path = "data/interim/"
+    if method == "means":
+        ext = "_means.csv"
+    
+    df_baseline.to_csv(export_path+"baseline"+ext)
+    df_first.to_csv(export_path+"first"+ext)
+    df_second.to_csv(export_path+"second"+ext)
