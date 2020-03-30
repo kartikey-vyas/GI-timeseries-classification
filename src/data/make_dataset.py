@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 from scipy.io import loadmat
 
+## THIS WAS IN HERE FROM THE COOKIECUTTER DATA SCIENCE TEMPLATE
 # @click.command()
 # @click.argument('input_filepath', type=click.Path(exists=True))
 # @click.argument('output_filepath', type=click.Path())
