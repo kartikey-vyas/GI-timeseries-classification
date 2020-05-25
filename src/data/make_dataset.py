@@ -35,17 +35,20 @@ from scipy.io import loadmat
 # get a list of the file names
 
 
-def load_MEA_data(method = "means"):
+def load_MEA_data(folder = "data/raw",method = "means"):
     """ This function loads the raw data from .mat files.
         All raw data must be placed in data/raw
 
         Arguments
         ---------
+        folder: specifies the root folder where the data to be loaded will be put
+                default = "data/raw"
+                
         method: specifies how to process the data before exporting it. 
                 default = "means" 
                     only keeps the mean signal for each MEA
     """
-    d = "data/raw/"
+    d = folder
     filenames = []
 
     # get all the paths of the files to be loaded in
@@ -74,7 +77,9 @@ def load_MEA_data(method = "means"):
             # the name of the file will be the column header
             colname = os.path.split(file)[1]
             colname = colname[:-4]
-            MEA_data.columns = [colname]      
+            MEA_data.columns = [colname]
+        elif method == "all":
+            pass
         
         # concatenate appropriate dataframe
         if colname.endswith("0"):

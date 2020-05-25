@@ -10,6 +10,14 @@ This is document will serve as a progress log for my part 4 project. It is writt
     - [Week 2](#week-2)
     - [Week 3](#week-3)
     - [Week 4 (Teaching-free week)](#week-4-teaching-free-week)
+    - [Week 5](#week-5)
+    - [Week 6](#week-6)
+    - [Midsemseter Break Week 1](#midsemseter-break-week-1)
+    - [Midsemester Break Week 2](#midsemester-break-week-2)
+    - [COVID-19 LEVEL 2](#covid-19-level-2)
+      - [Literature Review Feedback](#literature-review-feedback)
+      - [Vivek's initial advice](#viveks-initial-advice)
+    - [meeting with andreas](#meeting-with-andreas)
 
 ## Setting up a development environment
 
@@ -136,3 +144,79 @@ Looking at the data, my understanding so far is this:
   - ML repo: [GI-timeseries-classification](https://github.com/kartikey-vyas/GI-timeseries-classification)
   - MM repo: [GI-mathematical-modelling](https://github.com/louis-cf-lin/GI-mathematical-modelling)
   - Doc repo: [p4p-documentation](https://github.com/kartikey-vyas/p4p-documentation)
+
+
+### Week 5
+
+no progress
+
+### Week 6
+
+no progress
+
+### Midsemseter Break Week 1
+
+no progress
+
+### Midsemester Break Week 2
+
+#### Monday 20<sup>th</sup> April <!-- omit in toc -->
+
+Starting literature review this week.  
+Notes from Friday's meeting:
+- do not downsample the data
+- can chop up the 3 minute samples into 1-second windows or similar
+- need a full lit review draft by next meeting (Friday 24 Apr)
+
+#### Tuesday 21<sup>st</sup> April <!-- omit in toc -->
+
+no progress
+
+#### Wednesday 22<sup>nd</sup> April <!-- omit in toc -->
+
+Starting to write the literature review in markdown. Familiar enough with the workflow and dataset that starting the project won't be too much of an issue as soon as the lit review is done.
+
+Using **Zotero** to manage my references. Unsure if this is the best product but it has a useful chrome plugin and can export bibiliographies in a variety of formats including BibTeX.
+
+I intend to do the final copy of my lit review in LaTeX. Might just use overleaf at this point.
+
+### COVID-19 LEVEL 2
+
+#### Literature Review Feedback 
+Andreas's Feedback:
+  - fig. 1 needs axes descriptions for final report. Do this in photoshop/paint/word
+  - quote on pg 3 (ECG wave characteristics) should have an accompanying diagram. Peng said the diagram wasn't really necessary so maybe remove the description of the waveform entirely.
+  - *concerning ML*:  "For your final report, you could weave a brief discussion of feature engineering from time series into the introduction in order to pave the way for your project scope. Please use the papers from Ben Fulcher as well as the descriptions of tsfresh (see attached)."
+
+#### Vivek's initial advice
+
+*ASK PENG*:  
+- How frequently do we need to make a prediction?  
+- For the subjects we have, what is the typical value of cycles per minute for slow waves?
+
+*Initially Assume:*
+ - start with every 6s (10 per minute)
+ - 30 prediction windows over 3 mins
+ - discretised windows initially ; first 6k are window 1, next 6k are window 2...
+ - have them overlap a bit after you see the size of the data
+
+Target variable: 
+$$ y \in \{0,1,2\} $$ 
+- 0: Baseline Recording
+- 1: Ach Applied
+- 2: AT Applied (after Ach)
+
+Combine them into one big dataframe at the end
+
+1. create windows for means data (Ach-AT only)
+2. build training set with means data (Ach-AT only)
+3. create windows/build training set with full data
+
+
+### meeting with andreas
+
+get any classification result
+- use what data we have
+
+cross validation
+- leave one group (subject) out sci-kit learn CV
