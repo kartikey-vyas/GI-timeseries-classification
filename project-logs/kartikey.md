@@ -216,7 +216,7 @@ Combine them into one big dataframe at the end
 ### meeting with andreas
 
 get any classification result
-- use what data we have
+- use what data we have in raw format (60 cols, 180k rows)
 
 cross validation
 - leave one group (subject) out sci-kit learn CV
