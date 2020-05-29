@@ -220,3 +220,6 @@ get any classification result
 
 cross validation
 - leave one group (subject) out sci-kit learn CV
+
+
+uoa00488 ("Data Science for Engineering Applications")
