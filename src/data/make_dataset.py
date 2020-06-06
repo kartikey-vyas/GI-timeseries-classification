@@ -35,7 +35,7 @@ from scipy.io import loadmat
 # get a list of the file names
 
 
-def load_MEA_data(folder = "data/raw",method = "means"):
+def load_MEA_data_OLD(folder = "data/raw",method = "means"):
     """ This function loads the raw data from .mat files.
         All raw data must be placed in data/raw
 

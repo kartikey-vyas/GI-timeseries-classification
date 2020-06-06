@@ -64,7 +64,7 @@ def load_MEA_data(folder = "data/raw/Ach-AT"):
     return filenames
     
 
-def label_MEA_data(filenames, window_size = 6000, output):
+def label_MEA_data(filenames, output, window_size = 6000):
     """ This function creates a labelled dataset of MEA signals.
         The MEA data must be in .mat files. The dataset is discretised into time windows.
 
