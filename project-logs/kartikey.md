@@ -182,6 +182,8 @@ I intend to do the final copy of my lit review in LaTeX. Might just use overleaf
 
 ### COVID-19 LEVEL 2
 
+Covid really messed things up, trying to get back to normal now. CONSISTENT WORKFLOW.
+
 #### Literature Review Feedback 
 Andreas's Feedback:
   - fig. 1 needs axes descriptions for final report. Do this in photoshop/paint/word
@@ -213,7 +215,7 @@ Combine them into one big dataframe at the end
 3. create windows/build training set with full data
 
 
-### meeting with andreas
+#### ML Meeting with Andreas
 
 get any classification result
 - use what data we have in raw format (60 cols, 180k rows)
@@ -221,5 +223,15 @@ get any classification result
 cross validation
 - leave one group (subject) out sci-kit learn CV
 
+hpc access:
+>- uoa00488 ("Data Science for Engineering Applications")
 
-uoa00488 ("Data Science for Engineering Applications")
+#### Friday 12 June
+
+**Experiments to run**:
+1. Extract minimal features on full Ach-AT data set
+    - fit decision tree
+    - fit random forest
+    - cross validate with subjects 0-5
+    - test on subject 6
+2. Repeat 1 with efficient features
