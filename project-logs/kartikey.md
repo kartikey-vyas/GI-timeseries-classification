@@ -226,7 +226,7 @@ cross validation
 hpc access:
 >- uoa00488 ("Data Science for Engineering Applications")
 
-#### Friday 12 June
+#### Friday 12 June Meeting
 
 **Experiments to run**:
 1. Extract minimal features on full Ach-AT data set
@@ -235,3 +235,11 @@ hpc access:
     - cross validate with subjects 0-5
     - test on subject 6
 2. Repeat 1 with efficient features
+
+
+try this with a small selection of electrodes
+feature importance plots from tree
+- use seaborn to create histograms of feature distribution
+- distinct dists for each y = important
+- overlapping dists = insignificant
+try a random forest on X_min and X_eff
