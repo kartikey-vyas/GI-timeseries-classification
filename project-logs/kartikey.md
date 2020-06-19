@@ -243,3 +243,6 @@ feature importance plots from tree
 - distinct dists for each y = important
 - overlapping dists = insignificant
 try a random forest on X_min and X_eff
+
+read the link for NeSI access (Mahuika cluster)
+formulate python scripts that can do small parts of the feature extraction (ie can run it for a specific window ID)
