@@ -73,8 +73,14 @@ def label_MEA_data(filenames, output, window_size = 6000):
         filenames: list of strings, file paths of the MEA .mat files
         
         window_size: int number of rows per window
-                default = 6000
-                    6 second windows. Chosen based on average cpm of GI slow waves
+            default = 6000
+                6 second windows. Chosen based on average cpm of GI slow waves
+                    
+        cols: list of column names to include in the processed dataset
+            for the MEA problem, this refers to the electrode numbers to include 
+            time and window_id are always included
+            default = 'all'
+                includes every column
                     
         output: string name of .h5 file to save dataset as. Do not include file extension
             or root folder
@@ -108,7 +114,7 @@ def label_MEA_data(filenames, output, window_size = 6000):
         
         df = make_windows(matfile, window_size)
         
-        # figure out which label needs to be applied
+        # determine which label needs to be applied
         if f_name.endswith("0"):
             # baseline
             df['y'] = 0
@@ -122,10 +128,15 @@ def label_MEA_data(filenames, output, window_size = 6000):
             # Hex applied after Ach
             df['y'] = 3
         
-        # my anaconda dont want none unless u got buns hun
         dataset = dataset.append(df)
         
         # update previous name
         prev_name = f_name
+#     if cols == "all":
+#         pass
+#     else:
+#         columns = ['t','window_id']
+#         columns = columns+cols
+#         dataset = dataset[columns]
     
     dataset.to_hdf('data/processed/'+output+'.h5', key = 'data', complevel = 9)
