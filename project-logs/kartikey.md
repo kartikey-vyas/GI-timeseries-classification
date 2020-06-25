@@ -17,7 +17,9 @@ This is document will serve as a progress log for my part 4 project. It is writt
     - [COVID-19 LEVEL 2](#covid-19-level-2)
       - [Literature Review Feedback](#literature-review-feedback)
       - [Vivek's initial advice](#viveks-initial-advice)
-    - [meeting with andreas](#meeting-with-andreas)
+      - [ML Meeting with Andreas](#ml-meeting-with-andreas)
+      - [Friday 12 June Meeting](#friday-12-june-meeting)
+      - [Thursday 25 June](#thursday-25-june)
 
 ## Setting up a development environment
 
@@ -246,3 +248,17 @@ try a random forest on X_min and X_eff
 
 read the link for NeSI access (Mahuika cluster)
 formulate python scripts that can do small parts of the feature extraction (ie can run it for a specific window ID)
+
+#### Thursday 25 June
+produced some histograms of feature distributions for the 4 electrode dataset (subject 0, ach-at)
+- shows me that most of the features (after minimal feature extraction, imputation and selection) have a hard time distinguishing the three outcomes
+- dont know how to interpret them further or what to do after this
+
+tried using subject 2 with a couple of different configurations (minimal features, test size=0.4)
+- middle strip of electrodes: accuracy ~87%
+- all electrodes: accuracy ~87%
+
+next:
+- cross validation?
+- random forest
+- train on multiple subjects and test on a different one
