@@ -13,11 +13,11 @@ from tsfresh.utilities.dataframe_functions import impute
 
 # %%
 # load feature matrix
-X_min = pd.read_hdf('0_0315_4_electrodes_min.h5')
-X_eff = pd.read_hdf('0_0315_4_electrodes_eff.h5')
+X_min = pd.read_hdf('trial_data/0_0315_4_electrodes_min.h5')
+X_eff = pd.read_hdf('trial_data/0_0315_4_electrodes_eff.h5')
 
 # load target dataframe
-y = pd.read_hdf('0_0315_4_electrodes_y.h5')
+y = pd.read_hdf('trial_data/0_0315_4_electrodes_y.h5')
 y = y.drop_duplicates()
 y = y.set_index('window_id')
 y = y.T.squeeze()
