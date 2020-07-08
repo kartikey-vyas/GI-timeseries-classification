@@ -8,9 +8,10 @@ y = (df_ach_at[['window_id','y']]
      .drop_duplicates()
      .set_index('window_id')
      .T
-     .squeeze())
+     .squeeze()
+     .sort_index(0))
 
-df_ach_at.drop(columns = ['y'])
+df_ach_at = df_ach_at.drop(columns = ['y'])
 X = extract_features(df_ach_at, column_id='window_id', column_sort='t', default_fc_parameters=MinimalFCParameters(),
 impute_function=impute)
 X.to_hdf('data/features/achat_full_min.h5', key = 'data', complevel = 9)
