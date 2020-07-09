@@ -20,6 +20,8 @@ This is document will serve as a progress log for my part 4 project. It is writt
       - [ML Meeting with Andreas](#ml-meeting-with-andreas)
       - [Friday 12 June Meeting](#friday-12-june-meeting)
       - [Thursday 25 June](#thursday-25-june)
+    - [Intersem Break](#intersem-break)
+      - [Thursday 9 July](#thursday-9-july)
 
 ## Setting up a development environment
 
@@ -44,9 +46,9 @@ Since I am working from a Windows 10 PC, I decided to use a Linux distribution t
 
 ### Workflow
 
-1. Open windows terminal. This will automatically start Ubuntu 18.04 running on WSL 2. `win + 1`
-2. `cd engsci700-project37 && code .` to open project folder in VS Code.
-3. *insert jupyter notebook workflow here once figured out*
+1. Open windows terminal. This will automatically start Ubuntu 18.04 running on WSL 2.
+2. `cd code/p4p && code .` to open project folder in VS Code.
+3. open jupyter notebooks/scripts in VS Code.
 
 This set up will be used going forward from 13/03.
 
@@ -262,3 +264,29 @@ next:
 - cross validation?
 - random forest
 - train on multiple subjects and test on a different one
+
+### Intersem Break
+#### Thursday 9 July
+**pending: full dataset features**
+- split into train/test
+  - take one subject out to test on
+    - cross-val on training set to optimise params
+  - random split
+    - cross-val on training set
+- cross-val with whole dataset
+
+model(s) to fit -> random forest, max depth = 3, 200 trees [those were the best from experimenting on subject 2]
+
+
+**Questions to ask Andreas:**
+
+- how to interpret feature importance
+- what other model algorithms to test (SVM, xgboost, NN (MLP, CNN), LR)
+- tsfresh configuration options
+- how to set up parameter sweeps on HPC
+  - suggest ez-experimentr infrastructure (singularity containers)? Ask about auckland uni cloud services. Otherwise use my AWS credits.
+- what result metric should I use?
+  - my thoughts: precision, recall, accuracy, area under ROC
+- how should I document my progress so far
+- what am i doing well, what can i improve on
+- moving to the next part of the project - slow wave propagation directionality

@@ -61,7 +61,7 @@ def load_MEA_data(folder = "data/raw/Ach-AT"):
             if file.endswith(".mat"):
                 filenames.append(os.path.join(root, file))
     
-    return filenames
+    return sorted(filenames)
     
 
 def label_MEA_data(filenames, output, window_size = 6000):
