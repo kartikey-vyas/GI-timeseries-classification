@@ -5,4 +5,5 @@
 #SBATCH --mem=20G
 #SBATCH --cpus-per-task=2
 
+cd ..
 python full_feature_extraction.py
