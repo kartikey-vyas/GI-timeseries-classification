@@ -105,7 +105,7 @@ def label_MEA_data(filenames, output, window_size = 6000):
         f_name = f_name[:-4]
         
         # check if subject number has changed
-        if f_name[:-6] == prev_name[:-6]:
+        if f_name[:-6] != prev_name[:-6]:
             subject += 1
         
         # increment time by a fixed amount per subject, that exceeds
