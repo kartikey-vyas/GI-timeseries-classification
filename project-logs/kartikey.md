@@ -290,3 +290,24 @@ model(s) to fit -> random forest, max depth = 3, 200 trees [those were the best 
 - how should I document my progress so far
 - what am i doing well, what can i improve on
 - moving to the next part of the project - slow wave propagation directionality
+
+gridsearchCV
+sys library
+job array ${} - this argument can be passed to python script - use it to specify sensor subset
+set up python script to accept different arguments
+library argparse
+sns function: violinplot
+time()
+
+one hot encode the target col
+
+look into:
+  feature selection code
+  p-values
+  take ones that appear 3 times
+
+accuracy measures:
+  matthews correlation coefficient
+  AUC sklearn metrics
+
+feature importance - link this back to the physiology
