@@ -1,10 +1,21 @@
 # TODO MODIFY THIS TO TAKE COMMAND LINE ARG (sys library)
 # arg: specify what kinds of features to extract, ie minimal, efficient, full etc.
 
+import argparse
 import pandas as pd
 from tsfresh import extract_features, select_features
 from tsfresh.feature_extraction import MinimalFCParameters
 from tsfresh.utilities.dataframe_functions import impute
+
+# TODO fix this to apply to our function
+# # COMMAND LINE ARGUMENT PARSING -------------------------------------------
+# parser = argparse.ArgumentParser(description='This script runs automated feature extraction on processed MEA data')
+# parser.add_argument('integers', metavar='N', type=int, nargs='+',
+#                    help='an integer for the accumulator')
+# parser.add_argument('--sum', dest='accumulate', action='store_const',
+#                    const=sum, default=max,
+#                    help='sum the integers (default: find the max)')
+# # -------------------------------------------------------------------------
 
 # Load processed dataframe
 df_ach_at = pd.read_hdf("data/processed/ach_at_full.h5")
