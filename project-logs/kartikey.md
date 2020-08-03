@@ -7,13 +7,14 @@ This is document will serve as a progress log for my part 4 project. It is writt
     - [Technologies Used](#technologies-used)
     - [Workflow](#workflow)
   - [Progress Log](#progress-log)
-    - [Week 2](#week-2)
-    - [Week 3](#week-3)
-    - [Week 4 (Teaching-free week)](#week-4-teaching-free-week)
-    - [Week 5](#week-5)
-    - [Week 6](#week-6)
-    - [Midsemseter Break Week 1](#midsemseter-break-week-1)
-    - [Midsemester Break Week 2](#midsemester-break-week-2)
+    - [Semester 1](#semester-1)
+      - [Week 2](#week-2)
+      - [Week 3](#week-3)
+      - [Week 4 (Teaching-free week)](#week-4-teaching-free-week)
+      - [Week 5](#week-5)
+      - [Week 6](#week-6)
+      - [Midsemseter Break Week 1](#midsemseter-break-week-1)
+      - [Midsemester Break Week 2](#midsemester-break-week-2)
     - [COVID-19 LEVEL 2](#covid-19-level-2)
       - [Literature Review Feedback](#literature-review-feedback)
       - [Vivek's initial advice](#viveks-initial-advice)
@@ -22,6 +23,9 @@ This is document will serve as a progress log for my part 4 project. It is writt
       - [Thursday 25 June](#thursday-25-june)
     - [Intersem Break](#intersem-break)
       - [Thursday 9 July](#thursday-9-july)
+    - [Semester 2](#semester-2)
+      - [Week 1 Meeting](#week-1-meeting)
+  - [*script descriptions*](#script-descriptions)
 
 ## Setting up a development environment
 
@@ -54,45 +58,46 @@ This set up will be used going forward from 13/03.
 
 ## Progress Log
 
-### Week 2
+### Semester 1
+#### Week 2
 
-#### Friday 13<sup>th</sup> March <!-- omit in toc -->
+##### Friday 13<sup>th</sup> March <!-- omit in toc -->
 
 - Meeting with Peng (see meeting minutes)
 - Organise time to see Andreas after reading time-series docs and getting started with `tsfresh`
 - Continue literature review, start with the MEA documents sent by Peng.
 
-### Week 3
+#### Week 3
 
-#### Monday 16<sup>th</sup> March <!-- omit in toc -->
+##### Monday 16<sup>th</sup> March <!-- omit in toc -->
 
 - adapted [progress.md](progress.md) to contain summaries of all of the readings that we complete.
 - read Geron (2017) chapters 1 and 2, completed summary.
 
-#### Tuesday 17<sup>th</sup> March <!-- omit in toc -->
+##### Tuesday 17<sup>th</sup> March <!-- omit in toc -->
 
 - Downloaded and installed Python KOANS
 - going to commit some time everyday to work through KOANS and improve python skills
 
-#### Thursday 18<sup>th</sup> March <!-- omit in toc -->
+##### Thursday 18<sup>th</sup> March <!-- omit in toc -->
 
 - fixed some of the markdown linting issues by creating [.markdownlint.json](.markdownlint.json) in the project-logs directory.
   - if theres an annoying rule that keeps causing unnecessary warnings in your markdown file, add the rule name followed by false to the json file. e.g. `MD032 = false`
 
-#### Friday 19<sup>th</sup> March <!-- omit in toc -->
+##### Friday 19<sup>th</sup> March <!-- omit in toc -->
 
 - Meeting with Peng and Andreas
 - continued python koans
 
-### Week 4 (Teaching-free week)
+#### Week 4 (Teaching-free week)
 
-#### Wednesday 25<sup>th</sup> <!-- omit in toc -->
+##### Wednesday 25<sup>th</sup> <!-- omit in toc -->
 
 - Watched literature review workshop video
 - starting time-series readings
   - read Nielsen chapter 1 and chapter 8
 
-#### Thursday 26<sup>th</sup> March <!-- omit in toc -->
+##### Thursday 26<sup>th</sup> March <!-- omit in toc -->
 
 - completed ch8 nielsen
 - starting tsfresh readings
@@ -126,7 +131,7 @@ Looking at the data, my understanding so far is this:
    2. convert 2d array into appropriate object
 3. compute the *mean* of the 2d array to get an average time series signal for each subject, reducing filesize 60x.
 
-#### Friday 27<sup>th</sup> March <!-- omit in toc -->
+##### Friday 27<sup>th</sup> March <!-- omit in toc -->
 
 - downloaded the data to my computer today, stored in `data/raw`
 - testing how to interact with .mat files using `scipy.io`
@@ -142,7 +147,7 @@ Looking at the data, my understanding so far is this:
   2. **Mathematical Modelling Repo**: This will house the simulations and MATLAB files, as well as any python scripts to build the MM. Managed by Louis
   3. **Documentation Repo**: This will contain project logs, meeting updates, references, resources and p4p admin stuff. Managed by both of us.
 
-#### Monday 30<sup>th</sup> March <!-- omit in toc -->
+##### Monday 30<sup>th</sup> March <!-- omit in toc -->
 
 - rename ML repo, create documentation repo
   - ML repo: [GI-timeseries-classification](https://github.com/kartikey-vyas/GI-timeseries-classification)
@@ -150,21 +155,21 @@ Looking at the data, my understanding so far is this:
   - Doc repo: [p4p-documentation](https://github.com/kartikey-vyas/p4p-documentation)
 
 
-### Week 5
+#### Week 5
 
 no progress
 
-### Week 6
+#### Week 6
 
 no progress
 
-### Midsemseter Break Week 1
+#### Midsemseter Break Week 1
 
 no progress
 
-### Midsemester Break Week 2
+#### Midsemester Break Week 2
 
-#### Monday 20<sup>th</sup> April <!-- omit in toc -->
+##### Monday 20<sup>th</sup> April <!-- omit in toc -->
 
 Starting literature review this week.  
 Notes from Friday's meeting:
@@ -172,11 +177,7 @@ Notes from Friday's meeting:
 - can chop up the 3 minute samples into 1-second windows or similar
 - need a full lit review draft by next meeting (Friday 24 Apr)
 
-#### Tuesday 21<sup>st</sup> April <!-- omit in toc -->
-
-no progress
-
-#### Wednesday 22<sup>nd</sup> April <!-- omit in toc -->
+##### Wednesday 22<sup>nd</sup> April <!-- omit in toc -->
 
 Starting to write the literature review in markdown. Familiar enough with the workflow and dataset that starting the project won't be too much of an issue as soon as the lit review is done.
 
@@ -311,3 +312,38 @@ accuracy measures:
   AUC sklearn metrics
 
 feature importance - link this back to the physiology
+
+be aware of any inconsistencies in processed data when splitting up feature extraction tasks
+
+### Semester 2
+#### Week 1 Meeting
+**Monday 3/8**
+
+Make sure to include logging messages as scripts progress 
+Split dataframe into 60 features so that each script doesnt have to hold full set in memory? -> maybe just split into rows or cols of the MEA
+
+
+
+*script descriptions*  
+---
+**extract_features.py**  
+purpose: run *efficient* feature extraction on entire dataset  
+method:
+1. do each feature + differences with neighbours separately
+2. specify with job array {1:60} parameter
+3. script args
+    - signal_num: integer, 1-60, specifies which electrode to do feature extraction for
+4. file to read from: ach_at_full.h5 (6 second intervals)
+5. file to write to: `fname = "electrode_{}_efficient_features.h5".format(signal_num)`
+6. put them in folder data/features/unfiltered
+
+---
+**select_features.py**  
+purpose: conduct hypothesis testing on each feature with respect to target variable y.  
+method:
+1. do each extracted h5 file separately as it is produced
+2. script args
+    - signal_num: integer, 1-60, specifies which electrode to filter features for
+3. run the `target_binary_feature_real_test()` function on each feature for each target var. Target vars should be binary (0/1 baseline, 0/1 Ach, 0/1 AT). Use mann test.
+4. save features with p-value <0.05 for **all 3** target vars.
+5. file to write to: `fname = "electrode_{}_efficient_features_filtered.h5".format(signal_num)`
