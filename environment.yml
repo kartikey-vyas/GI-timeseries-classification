@@ -166,6 +166,7 @@ dependencies:
   - zlib=1.2.11=h7b6447c_3
   - zstd=1.4.4=h0b5b093_3
   - pip:
+    - argparse==1.4.0
     - locket==0.2.0
     - numexpr==2.7.1
     - pyyaml==5.3.1
