@@ -3,7 +3,7 @@ from src.data.load_data import load_MEA_data, label_MEA_data
 
 # load from the Ach-AT folder
 ach_at = load_MEA_data(folder = "data/raw/Ach-AT")
-label_MEA_data(ach_at, 'ach_at_full')
+label_MEA_data(ach_at, 'ach_at_full_6000', window_size=6000)
 
 # TODO include a 'subject' column either here or in the feature matrix. This will be used to build the grouped CV iterator.
 
