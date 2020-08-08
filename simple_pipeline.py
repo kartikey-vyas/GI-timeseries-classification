@@ -1,52 +1,49 @@
-# To add a new cell, type '# %%'
-# To add a new markdown cell, type '# %% [markdown]'
-# %%
+import argparse
+import logging
+from datetime import datetime
 import pandas as pd
+# from numpy import load
 
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
+## PARSE COMMAND LINE ARGS ---------------------------------------------------------------------------------
+parser = argparse.ArgumentParser(description='This script runs automated feature extraction on processed MEA data')
+parser.add_argument('filename')
+parser.add_argument('electrode')
+args = parser.parse_args()
 
-from tsfresh import select_features
-from tsfresh.utilities.dataframe_functions import impute
+## INITIALISE LOGGING --------------------------------------------------------------------------------------
+# use current time as a unique identifier
+now = datetime.now()
+job_id = now.strftime("%d%m%y_%H%M%S")
+# create logfile
+logging.basicConfig(filename='logs/feature_extraction_'+args.electrode+'_'+job_id,level=logging.DEBUG)
 
+if args.electrode not in range(1,60):
+    logging.error("Invalid electrode selected - terminating script")
+    exit()
 
-# %%
-# load feature matrix
-X_min = pd.read_hdf('trial_data/0_0315_4_electrodes_min.h5')
-X_eff = pd.read_hdf('trial_data/0_0315_4_electrodes_eff.h5')
+## for now, load the full data frame, retrieve the relevant columns and then delete the full df from memory
+## it would probably be faster to generate 60 dataframes and access the desired one...
+# access complete dataset hdf file
+fpath = "data/processed/" + args.filename
+df_ach_at = pd.read_hdf(fpath)
 
-# load target dataframe
-y = pd.read_hdf('trial_data/0_0315_4_electrodes_y.h5')
-y = y.drop_duplicates()
-y = y.set_index('window_id')
-y = y.T.squeeze()
-y = y.sort_index(0)
+logging.info("loaded dataframe")
 
+# config = load('data/config.npy')
 
-# %%
-impute(X_min)
-impute(X_eff)
-X_min_filt = select_features(X_min, y)
-X_eff_filt = select_features(X_eff, y)
+# select relevant columns
+col = int(args.electrode)
+df = df_ach_at[['t', 'window_id', col]]
 
+# remove full dataset from memory
+df_ach_at = None
+del df_ach_at
 
-# %%
-X_eff_train, X_eff_test, y_train, y_test = train_test_split(X_eff_filt, y, test_size=.4)
-X_min_train, X_min_test, y_train, y_test = train_test_split(X_min_filt, y, test_size=.4)
+logging.info("beginning feature extraction")
+# begin feature extraction
+X = df.iloc[0:4000,:]
+logging.info("feature extraction complete, "+str(X.shape[1])+" features extracted")
 
-
-# %%
-tree_eff = DecisionTreeClassifier()
-tree_eff.fit(X_eff_train, y_train)
-print(classification_report(y_test, tree_eff.predict(X_eff_test)))
-
-
-# %%
-tree_min = DecisionTreeClassifier()
-tree_min.fit(X_min_train, y_train)
-print(classification_report(y_test, tree_min.predict(X_min_test)))
-
-
-# %%
-X_min_filt.head()
+# save design matrix
+X.to_hdf('data/features/achat_'+args.electrode+'_eff.h5', key = 'data', complevel = 9)
+logging.info("features saved to 'data/features/achat_"+args.electrode+"_eff.h5'")

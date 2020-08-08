@@ -25,7 +25,6 @@ This is document will serve as a progress log for my part 4 project. It is writt
       - [Thursday 9 July](#thursday-9-july)
     - [Semester 2](#semester-2)
       - [Week 1 Meeting](#week-1-meeting)
-  - [*script descriptions*](#script-descriptions)
 
 ## Setting up a development environment
 
@@ -322,10 +321,8 @@ be aware of any inconsistencies in processed data when splitting up feature extr
 Make sure to include logging messages as scripts progress 
 Split dataframe into 60 features so that each script doesnt have to hold full set in memory? -> maybe just split into rows or cols of the MEA
 
-
-
 *script descriptions*  
----
+
 **extract_features.py**  
 purpose: run *efficient* feature extraction on entire dataset  
 method:

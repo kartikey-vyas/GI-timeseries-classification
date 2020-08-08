@@ -108,11 +108,15 @@ def label_MEA_data(filenames, output, window_size = 6000):
         if f_name[:-6] != prev_name[:-6]:
             subject += 1
         
+        # df['subject'] = subject
+        # df['subject'] = df['subject'].astype('category')
+        
         # increment time by a fixed amount per subject, that exceeds
         # the max time value for a single subject
         matfile['filt_t'] += 900000*subject
         
         df = make_windows(matfile, window_size)
+        df['subject'] = f_name
         
         # determine which label needs to be applied
         if f_name.endswith("0"):
@@ -132,6 +136,7 @@ def label_MEA_data(filenames, output, window_size = 6000):
         
         # update previous name
         prev_name = f_name
+
 #     if cols == "all":
 #         pass
 #     else:
