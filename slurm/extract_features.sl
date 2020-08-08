@@ -5,4 +5,4 @@
 #SBATCH --array=1-60                         # Array jobs
 
 cd ..
-python extract_features.py data/processed/ach_at_full_6000.h5 $SLURM_ARRAY_TASK_ID
+python extract_features.py ach_at_full_6000.h5 $SLURM_ARRAY_TASK_ID
