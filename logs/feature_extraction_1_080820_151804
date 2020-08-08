@@ -1,5 +1,0 @@
-INFO:numexpr.utils:NumExpr defaulting to 8 threads.
-INFO:root:loaded dataframe
-INFO:root:beginning feature extraction
-INFO:root:feature extraction complete, 3 features extracted
-INFO:root:features saved to 'data/features/achat_1_eff.h5'
