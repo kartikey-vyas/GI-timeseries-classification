@@ -5,4 +5,4 @@
 #SBATCH --array=1-10                         # Array jobs
 
 cd ..
-python simple_pipeline.py data/processed/ach_at_full_6000.h5 {$SLURM_ARRAY_TASK_ID}
+python simple_pipeline.py data/processed/ach_at_full_6000.h5 $SLURM_ARRAY_TASK_ID
