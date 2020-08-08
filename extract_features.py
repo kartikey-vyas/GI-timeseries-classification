@@ -17,7 +17,7 @@ args = parser.parse_args()
 now = datetime.now()
 job_id = now.strftime("%d%m%y_%H%M%S")
 # create logfile
-logging.basicConfig(filename='feature_extraction_'+args.electrode+'_'+job_id,level=logging.DEBUG)
+logging.basicConfig(filename='logs/feature_extraction/feature_extraction_'+args.electrode+'_'+job_id,level=logging.DEBUG)
 
 if int(args.electrode) not in range(1,60):
     logging.error("Invalid electrode selected - terminating script")
