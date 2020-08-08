@@ -19,7 +19,7 @@ job_id = now.strftime("%d%m%y_%H%M%S")
 # create logfile
 logging.basicConfig(filename='feature_extraction_'+args.electrode+'_'+job_id,level=logging.DEBUG)
 
-if args.electrode not in range(1,60):
+if int(args.electrode) not in range(1,60):
     logging.error("Invalid electrode selected - terminating script")
     exit()
 
