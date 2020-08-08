@@ -41,7 +41,7 @@ del df_ach_at
 
 logging.info("beginning feature extraction")
 # begin feature extraction
-X = extract_features(df_ach_at, column_id='window_id', column_sort='t', default_fc_parameters=EfficientFCParameters(),
+X = extract_features(df, column_id='window_id', column_sort='t', default_fc_parameters=EfficientFCParameters(),
 impute_function=impute)
 logging.info("feature extraction complete, ")
 
