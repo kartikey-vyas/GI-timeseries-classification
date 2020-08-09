@@ -15,14 +15,15 @@
         -------
         Generates a design matrix with the extracted features for the specified signal.
         Saves as an hdf (.h5) file in data/features/
-         
-    """
+"""
 # IMPORTS
+import os.path
 import argparse
 import logging
 import time
 from datetime import datetime
 import pandas as pd
+import numpy as np
 from tsfresh import extract_features
 from tsfresh.feature_extraction import EfficientFCParameters
 from tsfresh.utilities.dataframe_functions import impute
@@ -30,7 +31,8 @@ from tsfresh.utilities.dataframe_functions import impute
 ## PARSE COMMAND LINE ARGS ---------------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description='This script runs automated feature extraction on processed MEA data')
 parser.add_argument('filename')
-parser.add_argument('electrode')
+parser.add_argument('electrode', type=int)
+parser.add_argument()
 args = parser.parse_args()
 
 ## INITIALISE LOGGING --------------------------------------------------------------------------------------
@@ -40,7 +42,11 @@ job_id = now.strftime("%d%m%y_%H%M%S")
 # create logfile
 logging.basicConfig(filename='logs/feature_extraction/feature_extraction_'+args.electrode+'_'+job_id, level=logging.DEBUG)
 
-if int(args.electrode) not in range(1,60):
+if os.path.isfile('data/processed/'+args.filename) == False:
+    logging.error("Specified file not found - terminating script")
+    exit()
+
+if int(args.electrode) not in range(1,61):
     logging.error("Invalid electrode selected - terminating script")
     exit()
 
@@ -54,6 +60,11 @@ fpath = "data/processed/"+args.filename
 df = pd.read_hdf(fpath)
 
 logging.info("loaded dataframe")
+
+config = np.load('data/config.npy')
+
+#neighbours =
+
 
 # select relevant columns
 col = int(args.electrode)
