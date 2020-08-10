@@ -24,7 +24,8 @@ This is document will serve as a progress log for my part 4 project. It is writt
     - [Intersem Break](#intersem-break)
       - [Thursday 9 July](#thursday-9-july)
     - [Semester 2](#semester-2)
-      - [Week 1 Meeting](#week-1-meeting)
+      - [Week 2 Meeting](#week-2-meeting)
+      - [Week 3 meeting](#week-3-meeting)
 
 ## Setting up a development environment
 
@@ -315,7 +316,7 @@ feature importance - link this back to the physiology
 be aware of any inconsistencies in processed data when splitting up feature extraction tasks
 
 ### Semester 2
-#### Week 1 Meeting
+#### Week 2 Meeting
 **Monday 3/8**
 
 Make sure to include logging messages as scripts progress 
@@ -344,3 +345,14 @@ method:
 3. run the `target_binary_feature_real_test()` function on each feature for each target var. Target vars should be binary (0/1 baseline, 0/1 Ach, 0/1 AT). Use mann test.
 4. save features with p-value <0.05 for **all 3** target vars.
 5. file to write to: `fname = "electrode_{}_efficient_features_filtered.h5".format(signal_num)`
+
+#### Week 3 meeting
+
+units -> microvolts
+
+**Presentation Feedback**
+- make a stronger point of what exactly we're looking at ie. using an MEA to identify drugs
+- reference the MEA study and use figures from there
+- get some figures on compute hours used, data points created, memory...
+- public private keypair for ssh mahuika
+- 
