@@ -72,7 +72,6 @@ col = args.electrode
 if args.diffs:
     # find the neighbouring electrode numbers
     config = np.load('config.npy')
-    config -= 1
     pos = np.where(config == col)
     neighbours = []
 
@@ -119,7 +118,7 @@ impute_function=impute)
 logging.info("feature extraction complete, ")
 
 # save design matrix
-X.to_hdf('data/features/achat_'+str(args.electrode)+'_eff.h5', key='data', complevel=9)
+X.to_hdf('data/features/achat_'+electrode+'_eff.h5', key='data', complevel=9)
 logging.info("features saved to 'data/features/achat_"+str(args.electrode)+"_eff.h5'")
 
 logging.info("time taken = "+str(time.process_time() - start))
