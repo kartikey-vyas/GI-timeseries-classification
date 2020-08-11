@@ -44,7 +44,7 @@ now = datetime.now()
 job_id = now.strftime("%d%m%y_%H%M%S")
 electrode = str(args.electrode)
 if args.diffs:
-    electrode += 'diffs'
+    electrode += '_diffs'
 
 # create log file
 logging.basicConfig(filename='logs/feature_extraction/feature_extraction_'+electrode+'_'+job_id+'.txt', level=logging.DEBUG)
@@ -67,12 +67,12 @@ fpath = "data/processed/"+args.filename
 df = pd.read_hdf(fpath)
 
 logging.info("loaded dataframe")
+col = args.electrode
 
 if args.diffs:
     # find the neighbouring electrode numbers
-    config = np.load('data/config.npy')
+    config = np.load('config.npy')
     config -= 1
-    col = args.electrode
     pos = np.where(config == col)
     neighbours = []
 
