@@ -42,14 +42,18 @@ args = parser.parse_args()
 # use current time as a unique identifier
 now = datetime.now()
 job_id = now.strftime("%d%m%y_%H%M%S")
-# create logfile
-logging.basicConfig(filename='logs/feature_extraction/feature_extraction_'+args.electrode+'_'+job_id, level=logging.DEBUG)
+electrode = str(args.electrode)
+if args.diffs:
+    electrode += 'diffs'
+
+# create log file
+logging.basicConfig(filename='logs/feature_extraction/feature_extraction_'+electrode+'_'+job_id+'.txt', level=logging.DEBUG)
 
 if os.path.isfile('data/processed/'+args.filename) == False:
     logging.error("Specified file not found - terminating script")
     exit()
 
-if int(args.electrode) not in range(1,61):
+if args.electrode not in range(0,60):
     logging.error("Invalid electrode selected - terminating script")
     exit()
 
@@ -67,31 +71,46 @@ logging.info("loaded dataframe")
 if args.diffs:
     # find the neighbouring electrode numbers
     config = np.load('data/config.npy')
-    col = int(args.electrode)
+    config -= 1
+    col = args.electrode
     pos = np.where(config == col)
-
     neighbours = []
+
     # corners are invalid
-    if pos[0][0] != 7:
+    if pos[0][0] != 7: # NOT bottom edge
         neighbours.append(config[pos[0][0]+1, pos[1][0]])
-        if pos[1][0] != 7:
+        if pos[1][0] != 7: # NOT right edge
             neighbours.append(config[pos[0][0], pos[1][0]+1])
             neighbours.append(config[pos[0][0]+1, pos[1][0]+1])
-        if pos[1][0] != 0:
+        if pos[1][0] != 0: # NOT left edge
             neighbours.append(config[pos[0][0]+1, pos[1][0]-1]) 
-            neighbours.append(config[pos[0][0], pos[1][0]-1]) 
-    if pos[0][0] != 0:
+            neighbours.append(config[pos[0][0], pos[1][0]-1])
+    else: # bottom edge
+        neighbours.append(config[pos[0][0], pos[1][0]+1])
+        neighbours.append(config[pos[0][0], pos[1][0]-1])
+    if pos[0][0] != 0: # NOT top edge
         neighbours.append(config[pos[0][0]-1, pos[1][0]])
-        if pos[1][0] != 7:
+        if pos[1][0] != 7: # NOT right edge
             neighbours.append(config[pos[0][0]-1, pos[1][0]+1])
-        if pos[1][0] != 0:  
+        if pos[1][0] != 0: # NOT left edge
             neighbours.append(config[pos[0][0]-1, pos[1][0]-1])
+            
+    # remove any occurences of the corner eletrodes (they are labelled 255)        
+    neighbours = [i for i in neighbours if i != 255]
+    logging.info("neighbours found")
     
-    print(neighbours)
-
-
-# select relevant columns
-df = df[['t', 'window_id', col]]
+    # create new signal using differences
+    df_diffs = (df[neighbours]
+           .sub(df[col], axis=0)
+           .add_suffix('_'+str(col)+'_diff'))
+    df = pd.concat([df[['t','window_id']], df_diffs], axis=1)
+    logging.info("differences computed")
+    
+    # free up some memory
+    del df_diffs
+else: 
+    # select relevant columns, ignore neighbours
+    df = df[['t', 'window_id', col]]
 
 ## FEATURE EXTRACTION ----------------------------------------------------------------------------------------
 logging.info("beginning feature extraction")
@@ -100,8 +119,8 @@ impute_function=impute)
 logging.info("feature extraction complete, ")
 
 # save design matrix
-X.to_hdf('data/features/achat_'+args.electrode+'_eff.h5', key='data', complevel=9)
-logging.info("features saved to 'data/features/achat_"+args.electrode+"_eff.h5'")
+X.to_hdf('data/features/achat_'+str(args.electrode)+'_eff.h5', key='data', complevel=9)
+logging.info("features saved to 'data/features/achat_"+str(args.electrode)+"_eff.h5'")
 
 logging.info("time taken = "+str(time.process_time() - start))
 
