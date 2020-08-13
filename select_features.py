@@ -15,6 +15,7 @@ import logging
 import time
 from datetime import datetime
 import os
+import glob
 import subprocess
 import pandas as pd
 from tsfresh.feature_selection.significance_tests import target_binary_feature_real_test
@@ -52,30 +53,29 @@ logging.info("Loaded target variable")
 
 ## FEATURE SELECTION ------------------------------------------------------------------------------------
 # get all the paths of the files to be loaded in
-for root, dirs, files in os.walk('data/features/'):
-    for file in files:
-        if file.endswith("_eff.h5"):
-            # load feature dataframe
-            X = pd.read_hdf(os.path.join(root, file))
-            X_filt = pd.DataFrame()
-            logging.info("Loaded Features from: "+file)
 
-            # test each feature with Mann-Whitney U Test
-            logging.info("Selecting Features...")
-            for feature in X:
-                p = []
-                try:
-                    p.append(target_binary_feature_real_test(X[feature],y_bin[0],'mann'))
-                    p.append(target_binary_feature_real_test(X[feature],y_bin[1],'mann'))
-                    p.append(target_binary_feature_real_test(X[feature],y_bin[2],'mann'))
-                except ValueError:
-                    p.append(1000)
-            if all(x <= 0.05 for x in p):
-                X_filt = pd.concat([X_filt, X[feature]], axis=1)
+for file in glob.glob("data/features/*_eff.h5"):
+    # load feature dataframe
+    X = pd.read_hdf(file)
+    X_filt = pd.DataFrame()
+    logging.info("Loaded Features from: "+file)
 
-            # Save selected features
-            logging.info(msg = str(X_filt.shape[1])+" features selected")
-            X_filt.to_hdf('data/features/filtered/'+'filt_'+file, key='features', complevel=9)
-            logging.info('Features saved to filt_'+file)
+    # test each feature with Mann-Whitney U Test
+    logging.info("Selecting Features...")
+    for feature in X:
+        p = []
+        try:
+            p.append(target_binary_feature_real_test(X[feature],y_bin[0],'mann'))
+            p.append(target_binary_feature_real_test(X[feature],y_bin[1],'mann'))
+            p.append(target_binary_feature_real_test(X[feature],y_bin[2],'mann'))
+        except ValueError:
+            p.append(1000)
+        if all(x <= 0.05 for x in p):
+            X_filt = pd.concat([X_filt, X[feature]], axis=1)
+
+    # Save selected features
+    logging.info(msg = str(X_filt.shape[1])+" features selected")
+    X_filt.to_hdf('data/features/filtered/'+'filt_'+os.path.split(file)[1], key='features', complevel=9)
+    logging.info('Features saved to filt_'+os.path.split(file)[1])
 
 logging.info('time taken = '+str(time.process_time() - start))            
