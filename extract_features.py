@@ -16,9 +16,11 @@ electrode: Number that represents the electrode number of the signal to use.
 Output
 -------
 Generates a design matrix with the extracted features for the specified signal.
-Saves as an hdf (.h5) file in data/features/"""
+Saves as an hdf (.h5) file in data/features/
 
-# IMPORTS
+Author: Kartikey Vyas"""
+
+## IMPORTS ----------------------------------------------------------------------------------------------
 import os.path
 import argparse
 import logging
