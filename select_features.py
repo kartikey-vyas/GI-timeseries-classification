@@ -15,6 +15,7 @@ import logging
 import time
 from datetime import datetime
 import os
+import subprocess
 import pandas as pd
 from tsfresh.feature_selection.significance_tests import target_binary_feature_real_test
 
@@ -26,6 +27,15 @@ args = parser.parse_args()
 # use current time as a unique identifier
 now = datetime.now()
 job_id = now.strftime("%d%m%y_%H%M%S")
+
+# create directories if not already there
+if not os.path.isdir('logs/feature_selection/'):
+    subprocess.run(['mkdir', 'logs/feature_selection'],
+    check=True, text=True)
+
+if not os.path.isdir('data/features/filtered/'):
+    subprocess.run(['mkdir', 'data/features/filtered'],
+    check=True, text=True)
 
 # create log file
 logging.basicConfig(filename='logs/feature_selection/feature_selection_'\
