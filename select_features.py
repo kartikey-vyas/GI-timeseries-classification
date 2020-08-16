@@ -53,8 +53,11 @@ y_bin = pd.get_dummies(y_bin)
 logging.info("Loaded target variable")
 
 ## FEATURE SELECTION ------------------------------------------------------------------------------------
-# get all the paths of the files to be loaded in
+loop = 0
 
+p_vector = []
+
+# get all the paths of the files to be loaded in
 for file in glob.glob("data/features/*_eff.h5"):
     # load feature dataframe
     X = pd.read_hdf(file)
@@ -67,8 +70,9 @@ for file in glob.glob("data/features/*_eff.h5"):
     length = X.columns[X.columns.str.endswith('_length')][0]
     idx_to_remove = list(X[X[length] == 1].index)
     X = X.drop(idx_to_remove)
-    # y = y.drop(idx_to_remove)
-
+    if loop == 0:
+        y = y.drop(idx_to_remove)
+    loop = 1
     # test each feature with Mann-Whitney U Test
     logging.info("Selecting Features...")
     for feature in X:
@@ -81,10 +85,16 @@ for file in glob.glob("data/features/*_eff.h5"):
             p.append(1000)
         if all(x <= 0.05 for x in p):
             X_filt = pd.concat([X_filt, X[feature]], axis=1)
+            p.append(feature)
+            p_vector.append(p)
 
     # Save selected features
     logging.info(msg = str(X_filt.shape[1])+" features selected")
     X_filt.to_hdf('data/features/filtered/'+'filt_'+os.path.split(file)[1], key='features', complevel=9)
     logging.info('Features saved to filt_'+os.path.split(file)[1])
+
+    # Save vector of p-values
+    df_p = pd.DataFrame(p_vector, columns = ['baseline', 'ach', 'at', 'feature'])
+    df_p.to_hdf('data/features/filtered/p_values.h5', key='p_vals', complevel=9)
 
 logging.info('time taken = '+str(time.process_time() - start))
