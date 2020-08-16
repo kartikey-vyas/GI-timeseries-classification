@@ -93,8 +93,13 @@ for file in glob.glob("data/features/*_eff.h5"):
     X_filt.to_hdf('data/features/filtered/'+'filt_'+os.path.split(file)[1], key='features', complevel=9)
     logging.info('Features saved to filt_'+os.path.split(file)[1])
 
+    # Save target variable
+    y.to_hdf('data/achat_y.h5', key='y', complevel=9)
+    logging.info('target variable saved to data/achat_y.h5')
+
     # Save vector of p-values
     df_p = pd.DataFrame(p_vector, columns = ['baseline', 'ach', 'at', 'feature'])
     df_p.to_hdf('data/features/filtered/p_values.h5', key='p_vals', complevel=9)
+    logging.info('vector of p-values saved to data/features/filtered/p_values.h5')
 
 logging.info('time taken = '+str(time.process_time() - start))
