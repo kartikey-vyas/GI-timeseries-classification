@@ -13,6 +13,7 @@ Author: Kartikey Vyas"""
 import argparse
 import logging
 import time
+import re
 from datetime import datetime
 import os
 import glob
@@ -60,6 +61,14 @@ for file in glob.glob("data/features/*_eff.h5"):
     X_filt = pd.DataFrame()
     logging.info("Loaded Features from: "+file)
 
+    # look for rows in X where len == 1
+    # this is needed due to a quirk in the data processing functions - 
+    # some of the time windows end up only including 1 step (1ms)
+    length = X.columns[X.columns.str.endswith('_length')][0]
+    idx_to_remove = list(X[X[length] == 1].index)
+    X = X.drop(idx_to_remove)
+    # y = y.drop(idx_to_remove)
+
     # test each feature with Mann-Whitney U Test
     logging.info("Selecting Features...")
     for feature in X:
@@ -78,4 +87,4 @@ for file in glob.glob("data/features/*_eff.h5"):
     X_filt.to_hdf('data/features/filtered/'+'filt_'+os.path.split(file)[1], key='features', complevel=9)
     logging.info('Features saved to filt_'+os.path.split(file)[1])
 
-logging.info('time taken = '+str(time.process_time() - start))            
+logging.info('time taken = '+str(time.process_time() - start))

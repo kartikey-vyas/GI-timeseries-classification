@@ -124,10 +124,3 @@ X.to_hdf('data/features/achat_'+electrode+'_eff.h5', key='data', complevel=9)
 logging.info("features saved to 'data/features/achat_"+str(args.electrode)+"_eff.h5'")
 
 logging.info("time taken = "+str(time.process_time() - start))
-
-# saving potentially useful code here
-# # look for rows in X where len == 1
-# # this is needed due to a quirk in the data processing functions - some of the time windows end up only including 1 step (1ms)
-# idx_to_remove = list(X[X['0__length'] == 1].index)
-# X = X.drop(idx_to_remove)
-# y = y.drop(idx_to_remove)
