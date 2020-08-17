@@ -56,12 +56,13 @@ logging.info("Loaded target variable")
 loop = 0
 
 p_vector = []
+X_filt = pd.DataFrame()
 
 # get all the paths of the files to be loaded in
 for file in glob.glob("data/features/*_eff.h5"):
     # load feature dataframe
     X = pd.read_hdf(file)
-    X_filt = pd.DataFrame()
+    # X_filt = pd.DataFrame()
     logging.info("Loaded Features from: "+file)
 
     # look for rows in X where len == 1
@@ -83,23 +84,26 @@ for file in glob.glob("data/features/*_eff.h5"):
             p.append(target_binary_feature_real_test(X[feature],y_bin[2],'mann'))
         except ValueError:
             p.append(1000)
-        if all(x <= 0.05 for x in p):
-            X_filt = pd.concat([X_filt, X[feature]], axis=1)
-            p.append(feature)
-            p_vector.append(p)
+        # if all(x <= 0.05 for x in p):
+        #     X_filt = pd.concat([X_filt, X[feature]], axis=1)
+        #     p.append(feature)
+        #     p_vector.append(p)
+        X_filt = pd.concat([X_filt, X[feature]], axis=1)
+        p.append(feature)
+        p_vector.append(p)
 
-    # Save selected features
-    logging.info(msg = str(X_filt.shape[1])+" features selected")
-    X_filt.to_hdf('data/features/filtered/'+'filt_'+os.path.split(file)[1], key='features', complevel=9)
-    logging.info('Features saved to filt_'+os.path.split(file)[1])
+# Save selected features
+# logging.info(msg = str(X_filt.shape[1])+" features selected")
+X_filt.to_hdf('data/features/achat_eff.h5', key='features', complevel=9)
+# logging.info('Features saved to filt_'+os.path.split(file)[1])
 
-    # Save target variable
-    y.to_hdf('data/achat_y.h5', key='y', complevel=9)
-    logging.info('target variable saved to data/achat_y.h5')
+# Save target variable
+y.to_hdf('data/achat_y.h5', key='y', complevel=9)
+logging.info('target variable saved to data/achat_y.h5')
 
     # Save vector of p-values
-    df_p = pd.DataFrame(p_vector, columns = ['baseline', 'ach', 'at', 'feature'])
-    df_p.to_hdf('data/features/filtered/p_values.h5', key='p_vals', complevel=9)
-    logging.info('vector of p-values saved to data/features/filtered/p_values.h5')
+df_p = pd.DataFrame(p_vector, columns = ['baseline', 'ach', 'at', 'feature'])
+df_p.to_hdf('data/features/filtered/p_values.h5', key='p_vals', complevel=9)
+logging.info('vector of p-values saved to data/features/filtered/p_values.h5')
 
 logging.info('time taken = '+str(time.process_time() - start))

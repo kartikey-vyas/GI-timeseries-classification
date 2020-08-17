@@ -355,4 +355,9 @@ units -> microvolts
 - reference the MEA study and use figures from there
 - get some figures on compute hours used, data points created, memory...
 - public private keypair for ssh mahuika
-- 
+
+get full vector of p-values
+feed into benjamini-yekuteli...
+keep features that appear 3 times
+
+statsmodel b-y test
