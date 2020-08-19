@@ -11,7 +11,7 @@ alpha: False Discovery Rate (FDR) level.
 Output
 -------
 Generates a design matrix with the selected features for each set of extracted features in data/features/.
-Saves as an hdf (.h5) file in data/features/filtered/
+Saves as an hdf (.h5) file in data/
 
 Author: Kartikey Vyas"""
 
@@ -26,7 +26,6 @@ from datetime import datetime
 import glob
 import pandas as pd
 from statsmodels.stats.multitest import multipletests
-
 
 ## INITIALISE ARGPARSER ---------------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
@@ -88,6 +87,6 @@ accept_all = accept_0[0]*accept_1[0]*accept_2[0]
 relevant = df[accept_all]
 
 # save relevant features
-relevant.to_hdf('data/relevant_features.h5', key='data', complevel=9)
+relevant.to_hdf('data/relevant_features_alpha_'+str(alpha)+'_.h5', key='data', complevel=9)
 
 print(str(time.process_time() - start))
