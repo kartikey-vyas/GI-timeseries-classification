@@ -1,6 +1,12 @@
-"""This script runs feature selection on extracted features from the MEA data.
-The Mann-Whitney U test is used to determine whethere a feature provides good separation between
-all 3 categories of target variable.
+"""This script runs feature selection on extracted features from the MEA data, after p-values generated.
+The Benjamini-Yekutieli procedure is used to adjust p-values, accounting for accumulated statistical 
+error.
+
+Command Line Arguments
+----------------------
+
+alpha: False Discovery Rate (FDR) level.
+        This should be a float between 0 and 1
 
 Output
 -------
@@ -11,18 +17,20 @@ Author: Kartikey Vyas"""
 
 ## IMPORTS ----------------------------------------------------------------------------------------------
 import argparse
+import datetime
+import subprocess
+import os
 import logging
 import time
-import re
 from datetime import datetime
-import os
 import glob
-import subprocess
 import pandas as pd
-from tsfresh.feature_selection.significance_tests import target_binary_feature_real_test
+from statsmodels.stats.multitest import multipletests
 
-## INITIALISE ARGPARSER FOR COMMAND LINE HELP -----------------------------------------------------------
+
+## INITIALISE ARGPARSER ---------------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
+parser.add_argument('alpha', type=float)
 args = parser.parse_args()
 
 ## INITIALISE LOGGING -----------------------------------------------------------------------------------
@@ -43,67 +51,43 @@ if not os.path.isdir('data/features/filtered/'):
 logging.basicConfig(filename='logs/feature_selection/feature_selection_'\
     +'_'+job_id+'.txt', level=logging.DEBUG)
 
-## LOADING DATA -----------------------------------------------------------------------------------------
+
+## LOAD DATA --------------------------------------------------------------------------------------------
 start = time.process_time()
 
-y = pd.read_hdf('data/features/achat_y.h5')
-y_bin = y.astype('category')
-y_bin = pd.get_dummies(y_bin)
+logging.info("loading vector of p-values")
+df = pd.read_hdf('data/p_values.h5')
 
-logging.info("Loaded target variable")
+# clean up any rows which don't have numeric values
+df = df.drop(df[df['ach'].apply(lambda x: isinstance(x, str))].index)
+alpha = args.alpha
 
-## FEATURE SELECTION ------------------------------------------------------------------------------------
-loop = 0
+## BENJAMINI-YEKUTIELI PROCEDURE ------------------------------------------------------------------------
+logging.info("running b-y tests with FWER = "+str(alpha))
 
-p_vector = []
-X_filt = pd.DataFrame()
+# run the benjamini-yekutieli procedure on each column
+accept_0 = multipletests(df.iloc[:,0], method='fdr_by', alpha=alpha)
+accept_1 = multipletests(df.iloc[:,1], method='fdr_by', alpha=alpha)
+accept_2 = multipletests(df.iloc[:,2], method='fdr_by', alpha=alpha)
 
-# get all the paths of the files to be loaded in
-for file in glob.glob("data/features/*_eff.h5"):
-    # load feature dataframe
-    X = pd.read_hdf(file)
-    # X_filt = pd.DataFrame()
-    logging.info("Loaded Features from: "+file)
+logging.info("saving adjusted p-values")
+# save each vector in case we want to use them individually
+baseline = pd.DataFrame([accept_0[0],accept_0[1]])
+ach = pd.DataFrame([accept_1[0],accept_1[1]])
+at = pd.DataFrame([accept_2[0],accept_2[1]])
 
-    # look for rows in X where len == 1
-    # this is needed due to a quirk in the data processing functions - 
-    # some of the time windows end up only including 1 step (1ms)
-    length = X.columns[X.columns.str.endswith('_length')][0]
-    idx_to_remove = list(X[X[length] == 1].index)
-    X = X.drop(idx_to_remove)
-    if loop == 0:
-        y = y.drop(idx_to_remove)
-    loop = 1
-    # test each feature with Mann-Whitney U Test
-    logging.info("Selecting Features...")
-    for feature in X:
-        p = []
-        try:
-            p.append(target_binary_feature_real_test(X[feature],y_bin[0],'mann'))
-            p.append(target_binary_feature_real_test(X[feature],y_bin[1],'mann'))
-            p.append(target_binary_feature_real_test(X[feature],y_bin[2],'mann'))
-        except ValueError:
-            p.append(1000)
-        # if all(x <= 0.05 for x in p):
-        #     X_filt = pd.concat([X_filt, X[feature]], axis=1)
-        #     p.append(feature)
-        #     p_vector.append(p)
-        X_filt = pd.concat([X_filt, X[feature]], axis=1)
-        p.append(feature)
-        p_vector.append(p)
+baseline.T.to_hdf('data/baseline_adj_p_values.h5', key='data', complevel=9)
+ach.T.to_hdf('data/ach_adj_p_values.h5', key='data', complevel=9)
+at.T.to_hdf('data/at_adj_p_values.h5', key='data', complevel=9)
 
-# Save selected features
-# logging.info(msg = str(X_filt.shape[1])+" features selected")
-X_filt.to_hdf('data/features/achat_eff.h5', key='features', complevel=9)
-# logging.info('Features saved to filt_'+os.path.split(file)[1])
+## SELECT FEATURES --------------------------------------------------------------------------------------
+logging.info("selecting relevant features")
 
-# Save target variable
-y.to_hdf('data/achat_y.h5', key='y', complevel=9)
-logging.info('target variable saved to data/achat_y.h5')
+# accept features that are accepted for all 3 target vars
+accept_all = accept_0[0]*accept_1[0]*accept_2[0]
+relevant = df[accept_all]
 
-    # Save vector of p-values
-df_p = pd.DataFrame(p_vector, columns = ['baseline', 'ach', 'at', 'feature'])
-df_p.to_hdf('data/features/filtered/p_values.h5', key='p_vals', complevel=9)
-logging.info('vector of p-values saved to data/features/filtered/p_values.h5')
+# save relevant features
+relevant.to_hdf('data/relevant_features.h5', key='data', complevel=9)
 
-logging.info('time taken = '+str(time.process_time() - start))
+print(str(time.process_time() - start))
