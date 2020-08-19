@@ -61,6 +61,8 @@ def load_MEA_data(folder = "data/raw/Ach-AT"):
             if file.endswith(".mat"):
                 filenames.append(os.path.join(root, file))
     
+    del dirs
+    
     return sorted(filenames)
     
 
@@ -168,6 +170,7 @@ def OLD_load_MEA_data(folder = "data/raw",method = "means"):
             if file.endswith(".mat"):
                 filenames.append(os.path.join(root, file))
 
+    del dirs
     # initialise time vectors
     t0 = {'time': np.arange(60001, 240001, 1)}
     t1 = {'time': np.arange(420001, 600001, 1)}

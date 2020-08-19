@@ -26,6 +26,7 @@ This is document will serve as a progress log for my part 4 project. It is writt
     - [Semester 2](#semester-2)
       - [Week 2 Meeting](#week-2-meeting)
       - [Week 3 meeting](#week-3-meeting)
+      - [Wednesday 19 August](#wednesday-19-august)
 
 ## Setting up a development environment
 
@@ -361,3 +362,14 @@ feed into benjamini-yekuteli...
 keep features that appear 3 times
 
 statsmodel b-y test
+
+#### Wednesday 19 August
+Got all p-values. I have one vector for each binary target (baseline, ach, at). I fed these vectors into the `statsmodel.stats.multitest.multipletests()` function, with the following parameters:
+- alpha = 0.05  /  Family-Wise Error Rate (FWER)
+- method = `fdr_by`  /  Benjamini/Yekutieli Test
+
+Number of relevant features varied as alpha was varied.  ![Tuning FWER](../reports/figures/benjamini.png)
+
+for now I'll use the default setting of 0.05
+
+go through all the extracted features and save the ones that are relevant after the benjamini-yekutieli procedure
