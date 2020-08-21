@@ -6,3 +6,5 @@
 source activate /home/kvya817/.conda/envs/ts
 cd ..
 python make_dataset.py data/raw/Ach-Hex ach_hex_full 6000
+python make_dataset.py data/raw/Ach-AT ach_at_full 6000
+python combine_datasets.py
