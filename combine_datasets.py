@@ -8,4 +8,4 @@ achhex['window_id'] += 1000
 
 df = pd.concat([achat,achhex])
 
-df.to_hdf('data/processed/ach_at_combined_6000.h5')
+df.to_hdf('data/processed/ach_at_combined_6000.h5', key='data', complevel=9)
