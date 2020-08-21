@@ -66,7 +66,7 @@ def load_MEA_data(folder = "data/raw/Ach-AT"):
     return sorted(filenames)
     
 
-def label_MEA_data(filenames, output, window_size = 6000):
+def label_MEA_data(filenames, window_size = 6000):
     """ This function creates a labelled dataset of MEA signals.
         The MEA data must be in .mat files. The dataset is discretised into time windows.
 
@@ -83,9 +83,6 @@ def label_MEA_data(filenames, output, window_size = 6000):
             time and window_id are always included
             default = 'all'
                 includes every column
-                    
-        output: string name of .h5 file to save dataset as. Do not include file extension
-            or root folder
                     
         Returns
         -------
@@ -146,7 +143,7 @@ def label_MEA_data(filenames, output, window_size = 6000):
 #         columns = columns+cols
 #         dataset = dataset[columns]
     
-    dataset.to_hdf('data/processed/'+output+'.h5', key = 'data', complevel = 9)
+    return dataset
 
 def OLD_load_MEA_data(folder = "data/raw",method = "means"):
     """ This function loads the raw data from .mat files.
