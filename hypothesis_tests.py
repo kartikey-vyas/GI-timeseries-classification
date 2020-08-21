@@ -19,6 +19,7 @@ import os
 import glob
 import subprocess
 import pandas as pd
+import numpy as np
 from tsfresh.feature_selection.significance_tests import target_binary_feature_real_test
 
 ## INITIALISE ARGPARSER FOR COMMAND LINE HELP -----------------------------------------------------------
@@ -42,13 +43,13 @@ logging.basicConfig(filename='logs/feature_selection/hyp_test_'\
 ## LOADING DATA -----------------------------------------------------------------------------------------
 start = time.process_time()
 
-y = pd.read_hdf('data/features/achat_y.h5')
+y = pd.read_hdf('data/ach_at_combined_y.h5')
 y_bin = y.astype('category')
 y_bin = pd.get_dummies(y_bin)
 
 logging.info("Loaded target variable")
 
-## FEATURE SELECTION ------------------------------------------------------------------------------------
+## FEATURE SELECTION -------------------------------------------------------------------------------------
 loop = 0
 
 p_vector = []
@@ -64,10 +65,8 @@ for file in glob.glob("data/features/*_eff.h5"):
     # look for rows in X where len == 1
     # this is needed due to a quirk in the data processing functions - 
     # some of the time windows end up only including 1 step (1ms)
-    length = X.columns[X.columns.str.endswith('_length')][0]
-    idx_to_remove = list(X[X[length] == 1].index)
-    X = X.drop(idx_to_remove)
     if loop == 0:
+        idx_to_remove = np.setdiff1d(y.index,X.index)
         y = y.drop(idx_to_remove)
     loop = 1
     # test each feature with Mann-Whitney U Test
@@ -87,7 +86,8 @@ for file in glob.glob("data/features/*_eff.h5"):
         p_vector.append(p)
 
 # Save target variable
-y.to_hdf('data/achat_y.h5', key='y', complevel=9)
+y = y.reset_index(0, drop=True)
+y.to_hdf('data/ach_at_combined_y.h5', key='y', complevel=9)
 logging.info('target variable saved to data/achat_y.h5')
 
 # Save vector of p-values

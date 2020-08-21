@@ -35,21 +35,3 @@ files = load_MEA_data(folder = args.dir)
 df = label_MEA_data(files, window_size=args.window)
 
 df.to_hdf('data/processed/'+args.fname+'_'+str(args.window)+'.h5', key='data', complevel=9)
-
-y = (df[['window_id','y']]
-     .drop_duplicates('window_id')
-     .set_index('window_id')
-     .T
-     .squeeze()
-     .sort_index(0))
-
-y.to_hdf('data/'+args.fname+'_y.h5', key='data', complevel=9)
-
-subject = (df[['window_id','subject']]
-     .drop_duplicates('window_id')
-     .set_index('window_id')
-     .T
-     .squeeze()
-     .sort_index(0))
-
-subject.to_hdf('data/'+args.fname+'_subject.h5', key='data', complevel=9)

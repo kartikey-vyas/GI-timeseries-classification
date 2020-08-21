@@ -1,2 +1,2 @@
 #!/bin/bash
-scp mahuika:project/p4p/data/features/filtered/* data/features/filtered/
+scp mahuika:project/p4p/data/features/ach_hex* data/features/

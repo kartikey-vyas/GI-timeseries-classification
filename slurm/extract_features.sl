@@ -6,4 +6,4 @@
 
 source activate /home/kvya817/.conda/envs/ts
 cd ..
-python extract_features.py ach_hex_full_6000.h5 $SLURM_ARRAY_TASK_ID
+python extract_features.py ach_at_combined_6000.h5 $SLURM_ARRAY_TASK_ID

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #SBATCH --job-name=FeatureSelection  # job name (shows up in the queue)
-#SBATCH --time=00:30:00              # Walltime (HH:MM:SS)
-#SBATCH --mem=4000MB                 # Memory
+#SBATCH --time=01:00:00              # Walltime (HH:MM:SS)
+#SBATCH --mem=8000MB                 # Memory
 
 cd ..
 source activate /home/kvya817/.conda/envs/ts

@@ -366,10 +366,14 @@ statsmodel b-y test
 #### Wednesday 19 August
 Got all p-values. I have one vector for each binary target (baseline, ach, at). I fed these vectors into the `statsmodel.stats.multitest.multipletests()` function, with the following parameters:
 - alpha = 0.05  /  Family-Wise Error Rate (FWER)
-- method = `fdr_by`  /  Benjamini/Yekutieli Test
+- method = `fdr_by`  /  Benjamini-Yekutieli Test
 
 Number of relevant features varied as alpha was varied.  ![Tuning FWER](../reports/figures/benjamini.png)
 
-for now I'll use the default setting of 0.05
+Saved a set of features for different levels of alpha.
 
-go through all the extracted features and save the ones that are relevant after the benjamini-yekutieli procedure
+Next step is to use logistic regression with L1 norm to find most relevant features.
+
+> **START WRITING REPORT!!!!!**
+
+Set up grouped CV iterator and use with gridsearchCV+random forest. Let this run while writing out the feature extraction and filtering process.
