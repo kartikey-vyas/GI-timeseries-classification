@@ -50,6 +50,10 @@ def load_MEA_data(folder = "data/raw/Ach-AT"):
         ---------
         folder: specifies the root folder from where to load the data
                 default = "data/raw/Ach-AT"
+        
+        Returns
+        -------
+        list of files in specified folder
 
     """
     d = folder
@@ -121,7 +125,7 @@ def label_MEA_data(filenames, window_size = 6000):
         if f_name.endswith("0"):
             # baseline
             df['y'] = 0
-        elif f_name.endswith("at_1"):
+        elif f_name.endswith("1"):
             # Ach applied
             df['y'] = 1
         elif f_name.endswith("at_2"):
@@ -135,76 +139,70 @@ def label_MEA_data(filenames, window_size = 6000):
         
         # update previous name
         prev_name = f_name
-
-#     if cols == "all":
-#         pass
-#     else:
-#         columns = ['t','window_id']
-#         columns = columns+cols
-#         dataset = dataset[columns]
     
     return dataset
 
-def OLD_load_MEA_data(folder = "data/raw",method = "means"):
-    """ This function loads the raw data from .mat files.
-        All raw data must be placed in data/raw
+## UNUSED CODE BELOW
+# def OLD_load_MEA_data(folder = "data/raw",method = "means"):
+#     """ This function loads the raw data from .mat files.
+#         All raw data must be placed in data/raw
 
-        Arguments
-        ---------
-        folder: specifies the root folder where the data to be loaded will be put
-                default = "data/raw"
+#         Arguments
+#         ---------
+#         folder: specifies the root folder where the data to be loaded will be put
+#                 default = "data/raw"
                 
-        method: specifies how to process the data before exporting it. 
-                default = "means" 
-                    only keeps the mean signal for each MEA
-    """
-    d = folder
-    filenames = []
+#         method: specifies how to process the data before exporting it. 
+#                 default = "means" 
+#                     only keeps the mean signal for each MEA
+#     """
+#     d = folder
+#     filenames = []
 
-    # get all the paths of the files to be loaded in
-    for root, dirs, files in os.walk(d):
-        for file in files:
-            if file.endswith(".mat"):
-                filenames.append(os.path.join(root, file))
+#     # get all the paths of the files to be loaded in
+#     for root, dirs, files in os.walk(d):
+#         for file in files:
+#             if file.endswith(".mat"):
+#                 filenames.append(os.path.join(root, file))
 
-    del dirs
-    # initialise time vectors
-    t0 = {'time': np.arange(60001, 240001, 1)}
-    t1 = {'time': np.arange(420001, 600001, 1)}
-    t2 = {'time': np.arange(780001, 960001, 1)}
+#     del dirs
+#     # initialise time vectors
+#     t0 = {'time': np.arange(60001, 240001, 1)}
+#     t1 = {'time': np.arange(420001, 600001, 1)}
+#     t2 = {'time': np.arange(780001, 960001, 1)}
 
-    # set up dataframes to add the values into
-    # baseline (0), first drug administered (1), second drug administered (2)
+#     # set up dataframes to add the values into
+#     # baseline (0), first drug administered (1), second drug administered (2)
 
-    df_baseline = pd.DataFrame(t0)
-    df_first = pd.DataFrame(t1)
-    df_second = pd.DataFrame(t2)
+#     df_baseline = pd.DataFrame(t0)
+#     df_first = pd.DataFrame(t1)
+#     df_second = pd.DataFrame(t2)
 
-    for file in filenames:
-        matfile = loadmat(file)
-        MEA_data = pd.DataFrame(matfile['filt_data'])
-        if method == "means":
-            MEA_data = pd.DataFrame(MEA_data.mean(axis=0))
-            # the name of the file will be the column header
-            colname = os.path.split(file)[1]
-            colname = colname[:-4]
-            MEA_data.columns = [colname]
-        elif method == "all":
-            pass
+#     for file in filenames:
+#         matfile = loadmat(file)
+#         MEA_data = pd.DataFrame(matfile['filt_data'])
+#         if method == "means":
+#             MEA_data = pd.DataFrame(MEA_data.mean(axis=0))
+#             # the name of the file will be the column header
+#             colname = os.path.split(file)[1]
+#             colname = colname[:-4]
+#             MEA_data.columns = [colname]
+#         elif method == "all":
+#             pass
         
-        # concatenate appropriate dataframe
-        if colname.endswith("0"):
-            df_baseline = pd.concat([df_baseline, MEA_data], axis=1)
-        elif colname.endswith("1"):
-            df_first = pd.concat([df_first, MEA_data], axis=1)
-        else:
-            df_second = pd.concat([df_second, MEA_data], axis=1)
+#         # concatenate appropriate dataframe
+#         if colname.endswith("0"):
+#             df_baseline = pd.concat([df_baseline, MEA_data], axis=1)
+#         elif colname.endswith("1"):
+#             df_first = pd.concat([df_first, MEA_data], axis=1)
+#         else:
+#             df_second = pd.concat([df_second, MEA_data], axis=1)
 
-    # export to csv
-    export_path = "data/interim/"
-    if method == "means":
-        ext = "_means.csv"
+#     # export to csv
+#     export_path = "data/interim/"
+#     if method == "means":
+#         ext = "_means.csv"
     
-    df_baseline.to_csv(export_path+"baseline"+ext)
-    df_first.to_csv(export_path+"first"+ext)
-    df_second.to_csv(export_path+"second"+ext)
+#     df_baseline.to_csv(export_path+"baseline"+ext)
+#     df_first.to_csv(export_path+"first"+ext)
+#     df_second.to_csv(export_path+"second"+ext)
