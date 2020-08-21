@@ -28,7 +28,7 @@ parser.add_argument('dir')
 parser.add_argument('fname')
 parser.add_argument('window', type=int)
 args = parser.parse_args()
-# Generate full data set for Ach-AT (all subjects)
+
 
 ## LOAD AND PROCESS DATA --------------------------------------------------------------------------------
 files = load_MEA_data(folder = args.dir)
