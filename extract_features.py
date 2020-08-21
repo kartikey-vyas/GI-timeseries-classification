@@ -120,7 +120,11 @@ impute_function=impute)
 logging.info("feature extraction complete, ")
 
 # save design matrix
-X.to_hdf('data/features/achat_'+electrode+'_eff.h5', key='data', complevel=9)
-logging.info("features saved to 'data/features/achat_"+str(args.electrode)+"_eff.h5'")
+length = X.columns[X.columns.str.endswith('_length')][0]
+idx_to_remove = list(X[X[length] == 1].index)
+X = X.drop(idx_to_remove)
+prefix = args.filename[:7]
+X.to_hdf('data/features/'+prefix+'_'+electrode+'_eff.h5', key='data', complevel=9)
+logging.info("features saved to 'data/features/"+prefix+"_"+str(args.electrode)+"_eff.h5'")
 
 logging.info("time taken = "+str(time.process_time() - start))
