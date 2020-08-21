@@ -52,4 +52,4 @@ subject = (df[['window_id','subject']]
      .squeeze()
      .sort_index(0))
 
-y.to_hdf('data/'+args.fname+'_y.h5', key='data', complevel=9)
+subject.to_hdf('data/'+args.fname+'_subject.h5', key='data', complevel=9)
