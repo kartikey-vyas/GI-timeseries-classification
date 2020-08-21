@@ -4,5 +4,6 @@
 #SBATCH --mem=16000MB                         # Memory
 #SBATCH --array=21,30,38,13,56,46,8,59,51    # Array jobs
 
+source activate /home/kvya817/.conda/envs/ts
 cd ..
 python extract_features.py ach_at_full_6000.h5 $SLURM_ARRAY_TASK_ID -diffs
