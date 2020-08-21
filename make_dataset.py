@@ -34,7 +34,7 @@ args = parser.parse_args()
 files = load_MEA_data(folder = args.dir)
 df = label_MEA_data(files, window_size=args.window)
 
-df.to_hdf('data/processed/'+args.fname+'_'+str(args.window)+'_'+'.h5', key='data', complevel=9)
+df.to_hdf('data/processed/'+args.fname+'_'+str(args.window)+'.h5', key='data', complevel=9)
 
 y = (df[['window_id','y']]
      .drop_duplicates()
