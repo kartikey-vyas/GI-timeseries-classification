@@ -14,24 +14,28 @@ import argparse
 import glob
 import pandas as pd
 
-## INITIALISE ARGPARSER ---------------------------------------------------------------------------------
+## INITIALISE ARGPARSER ----------------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('alpha', type=float)
 args = parser.parse_args()
 
-X = pd.DataFrame()
+## LOAD DATA ---------------------------------------------------------------------------------------------
+X_filt = pd.DataFrame()
 
 for file in glob.glob("data/features/*_eff.h5"):
-    df_features = pd.read_hdf(file)
-    df_features.reset_index(inplace=True, drop=True)
-    X = pd.concat([X, df_features], axis=1)
+    X = pd.read_hdf(file)
+    X.reset_index(inplace=True, drop=True)
+    length = X.columns[X.columns.str.endswith('_length')][0]
+    idx_to_remove = list(X[X[length] == 1].index)
+    X = X.drop(idx_to_remove)
+    X_filt = pd.concat([X_filt, X], axis=1)
 
 # retrieve the relevant features
 relevant = pd.read_hdf('data/relevant_features_alpha_'+str(args.alpha)+'_.h5')
 relevant = relevant.sort_values(by=['at'])
 
-# select relevant features
-X_filt = X[relevant['feature'].values]
+# SELECT FEATURES ----------------------------------------------------------------------------------------
+X_filt = X_filt[relevant['feature'].values]
 
 # add subject column to use in grouped CV iterator
 subject = 0
