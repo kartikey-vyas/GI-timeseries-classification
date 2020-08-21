@@ -44,4 +44,4 @@ for i in range(1,6):
     subject += 1
 X_filt.reset_index(inplace=True, drop=True)
 
-X_filt.to_hdf("data/features/filtered/achat_filtered_"+str(args.alpha)+"_.h5", key="features", complevel=9)
+X_filt.to_hdf("data/features/filtered/filtered_"+str(args.alpha)+"_.h5", key="features", complevel=9)
