@@ -60,7 +60,7 @@ scoring = 'roc_auc_ovr_weighted'
 rf = RandomForestClassifier()
 # replace rf with a pipeline ( quantile transform, classifier )
 rf_random = GridSearchCV(estimator=rf,
-param_distributions=param_grid,
+param_grid=param_grid,
 cv=gkf,
 verbose=2,
 n_jobs=-1)
