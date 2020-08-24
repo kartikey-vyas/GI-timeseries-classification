@@ -12,8 +12,8 @@ from joblib import dump
 from sklearn.model_selection import GridSearchCV, GroupKFold, RandomizedSearchCV
 from sklearn.ensemble import RandomForestClassifier
 
-X = pd.read_hdf('/data/features/filtered/filtered_0.05_.h5')
-y = pd.read_hdf('/data/ach_at_combined_y.h5', key='y')
+X = pd.read_hdf('data/features/filtered/filtered_0.05_.h5')
+y = pd.read_hdf('data/ach_at_combined_y.h5', key='y')
 # y_bin = y.astype('category')
 # y_bin = pd.get_dummies(y_bin)
 
@@ -45,6 +45,8 @@ max_features = ['sqrt', 'log2', None]
 bootstrap = [True, False]
 
 # parameter grid
+# prepend params with clf
+# clf__n_estimators ... etc
 param_grid = {'n_estimators': n_estimators,
                'max_features': max_features,
                'max_depth': max_depth,
@@ -56,9 +58,9 @@ param_grid = {'n_estimators': n_estimators,
 scoring = 'roc_auc_ovr_weighted'
 
 rf = RandomForestClassifier()
-rf_random = RandomizedSearchCV(estimator=rf,
+# replace rf with a pipeline ( quantile transform, classifier )
+rf_random = GridSearchCV(estimator=rf,
 param_distributions=param_grid,
-n_iter=50,
 cv=gkf,
 verbose=2,
 n_jobs=-1)
