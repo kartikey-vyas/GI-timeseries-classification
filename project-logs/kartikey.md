@@ -374,6 +374,41 @@ Saved a set of features for different levels of alpha.
 
 Next step is to use logistic regression with L1 norm to find most relevant features.
 
-> **START WRITING REPORT!!!!!**
-
 Set up grouped CV iterator and use with gridsearchCV+random forest. Let this run while writing out the feature extraction and filtering process.
+
+Brought in the data from Ach-Hex
+Tried a logistic regression model
+
+![Tuning C](../reports/figures/logregtuning.png)
+
+**Using maximmum penalty for Ach classifier**:  
+![feature](../reports/figures/feature7.png)
+![feature2](../reports/figures/feature8.png)
+![feature2](../reports/figures/feature9.png)
+![feature2](../reports/figures/feature10.png)
+
+discard ach data which increases the frequency from baseline
+ach behaviour is unexpected due to concentration being too high
+
+drop rows from subjects where frequency went up
+
+log transform some of the features which have a massive range in magnitude
+
+standardise some of the features
+- standard scalar transformer
+- - mean / std
+
+gaussian feature transformation
+uniform transformation
+quantile transformer
+- should be robust against large outliers
+- casts outliers to 0 or 1
+- can skip log transform
+
+set up a pipeline - incorporate
+1. quantile transformation
+2. logsitic regression
+
+the pipeline replaces the classifier in the gridsearch.
+
+use smaller grid of features and use naive approach

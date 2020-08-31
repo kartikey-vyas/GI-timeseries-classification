@@ -20,7 +20,6 @@ import pandas as pd
 
 ## INITIALISE ARGPARSER ----------------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('prefix')
 parser.add_argument('alpha', type=float)
 args = parser.parse_args()
 
@@ -34,7 +33,7 @@ for file in glob.glob("data/features/*_eff.h5"):
 
 # retrieve the relevant features
 relevant = pd.read_hdf('data/relevant_features_alpha_'+str(args.alpha)+'_.h5')
-relevant = relevant.sort_values(by=['at'])
+relevant = relevant.sort_values(by=['ach'])
 
 # SELECT FEATURES ----------------------------------------------------------------------------------------
 X_filt = X_filt[relevant['feature'].values]
