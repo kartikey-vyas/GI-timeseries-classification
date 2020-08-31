@@ -55,13 +55,13 @@ param_grid = {'n_estimators': n_estimators,
                'bootstrap': bootstrap}
 
 # one vs. rest scoring
-scoring = 'roc_auc_ovr_weighted'
+scoring = 'roc_auc_ovr'
 
 rf = RandomForestClassifier()
 # replace rf with a pipeline ( quantile transform, classifier )
 rf_random = RandomizedSearchCV(estimator=rf,
 param_distributions=param_grid,
-n_iter=50,
+n_iter=100,
 cv=gkf,
 verbose=2,
 n_jobs=-1)
@@ -70,6 +70,6 @@ search = rf_random.fit(X_train, y_train)
 
 dump(rf_random, 'models/rf_random_search_50_model.joblib')
 
-results = pd.DataFrame(search)
+results = pd.DataFrame.from_dict(search)
 
 results.to_hdf('models/rf_random_search_50_results.h5', key='data', complevel=9)

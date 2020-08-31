@@ -90,6 +90,12 @@ y = y.reset_index(0, drop=True)
 y.to_hdf('data/ach_at_combined_y.h5', key='y', complevel=9)
 logging.info('target variable saved to data/achat_y.h5')
 
+# Load and save subject
+subject = pd.read_hdf('data/ach_at_combined_subject.h5')
+subject = subject.drop(idx_to_remove)
+subject = subject.reset_index(0, drop=True)
+subject.to_hdf('data/ach_at_combined_subject.h5', key='data', complevel=9)
+
 # Save vector of p-values
 df_p = pd.DataFrame(p_vector, columns = ['baseline', 'ach', 'at', 'feature'])
 df_p.to_hdf('data/p_values.h5', key='p_vals', complevel=9)
