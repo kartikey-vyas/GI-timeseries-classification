@@ -52,9 +52,9 @@ C = np.logspace(-5,5,40)
 param_grid = {'qt__n_quantiles': n_quantiles, 
               'qt__output_distribution': output_distribution,
               'clf__penalty' : penalty,
-              'clf__solver' : 'saga',
+              'clf__solver' : ['saga'],
               'clf__C': C,
-              'clf__max_iter': 1000}
+              'clf__max_iter': [1000]}
 
 # replace rf with a pipeline ( quantile transform, classifier )
 clf_grid = GridSearchCV(pipeline,
