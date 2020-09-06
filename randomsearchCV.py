@@ -70,6 +70,6 @@ search = rf_random.fit(X_train, y_train)
 
 dump(rf_random, 'models/rf_random_search_50_model.joblib')
 
-results = pd.DataFrame.from_dict(search)
+results = pd.DataFrame.from_dict(search.cv_results_)
 
 results.to_hdf('models/rf_random_search_50_results.h5', key='data', complevel=9)

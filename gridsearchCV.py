@@ -59,16 +59,16 @@ scoring = 'roc_auc_ovr_weighted'
 
 rf = RandomForestClassifier()
 # replace rf with a pipeline ( quantile transform, classifier )
-rf_random = GridSearchCV(estimator=rf,
+rf_grid = GridSearchCV(estimator=rf,
 param_grid=param_grid,
 cv=gkf,
 verbose=2,
 n_jobs=-1)
 
-search = rf_random.fit(X_train, y_train)
+search = rf_grid.fit(X_train, y_train)
 
-dump(rf_random, 'models/rf_gridsearch_model.joblib')
+dump(rf_grid, 'models/rf_gridsearch_model.joblib')
 
-results = pd.DataFrame(search)
+results = pd.DataFrame(search.cv_results_)
 
 results.to_hdf('models/rf_gridsearch_results.h5', key='data', complevel=9)

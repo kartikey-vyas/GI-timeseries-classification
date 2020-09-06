@@ -6,4 +6,4 @@
 
 source activate /home/kvya817/.conda/envs/ts
 cd ..
-python gridsearchCV.py
+python logreg_grid.py
