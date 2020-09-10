@@ -23,16 +23,16 @@ for i in range(1,7):
     s+=1
 assert not any(pd.isna(X['subject']))
 
-train = X[X['subject'] != 4].index
-test = X[X['subject'] == 4].index
+train = X[X['subject'] != 3 and X['subject'] < 6].index
+test = X[X['subject'] == 3].index
 
 X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y.iloc[train], y.iloc[test]
 
-# # cross-validation iterator
-# gkf = GroupKFold(n_splits=10)
-# gkf = list(gkf.split(X_train, y_train, X_train['subject']))
+# cross-validation iterator
+gkf = GroupKFold(n_splits=10)
+gkf = list(gkf.split(X_train, y_train, X_train['subject']))
 
-skf = StratifiedKFold(n_splits=10, shuffle=True)
+# skf = StratifiedKFold(n_splits=10, shuffle=True)
 
 # one vs. rest scoring
 scoring = {'AUC': 'roc_auc_ovo',
@@ -65,7 +65,7 @@ param_grid = {'qt__n_quantiles': n_quantiles,
 # replace rf with a pipeline ( quantile transform, classifier )
 clf_grid = GridSearchCV(pipeline,
                         param_grid=param_grid,
-                        cv=skf,
+                        cv=gkf,
                         scoring=scoring,
                         refit=False,
                         verbose=2,
