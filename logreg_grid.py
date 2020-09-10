@@ -76,8 +76,8 @@ search = clf_grid.fit(X_train, y_train)
 # Remove the cache directory
 rmtree(cachedir)
 
-dump(search, 'models/logreg_gridsearch_model_v2.joblib')
+dump(search, 'models/logreg_gridsearch_model_AT_gkf.joblib')
 
 results = pd.DataFrame(search.cv_results_)
 
-results.to_hdf('models/logreg_gridsearch_results_v2.h5', key='data', complevel=9)
+results.to_hdf('models/logreg_gridsearch_results_AT_gkf.h5', key='data', complevel=9)
