@@ -4,7 +4,7 @@ from joblib import dump
 from tempfile import mkdtemp
 from shutil import rmtree
 from sklearn.pipeline import Pipeline
-from sklearn.model_selection import GridSearchCV, GroupKFold
+from sklearn.model_selection import GridSearchCV, GroupKFold, StratifiedKFold
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import QuantileTransformer
 
@@ -28,9 +28,11 @@ test = X[X['subject'] == 4].index
 
 X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y.iloc[train], y.iloc[test]
 
-# cross-validation iterator
-gkf = GroupKFold(n_splits=10)
-gkf = list(gkf.split(X_train, y_train, X_train['subject']))
+# # cross-validation iterator
+# gkf = GroupKFold(n_splits=10)
+# gkf = list(gkf.split(X_train, y_train, X_train['subject']))
+
+skf = StratifiedKFold(n_splits=10, shuffle=True)
 
 # one vs. rest scoring
 scoring = {'AUC': 'roc_auc_ovo',
@@ -63,7 +65,7 @@ param_grid = {'qt__n_quantiles': n_quantiles,
 # replace rf with a pipeline ( quantile transform, classifier )
 clf_grid = GridSearchCV(pipeline,
                         param_grid=param_grid,
-                        cv=gkf,
+                        cv=skf,
                         scoring=scoring,
                         refit=False,
                         verbose=2,
