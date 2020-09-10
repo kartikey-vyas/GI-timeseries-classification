@@ -29,7 +29,7 @@ test = X[X['subject'] == 3].index
 X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y.iloc[train], y.iloc[test]
 
 # cross-validation iterator
-gkf = GroupKFold(n_splits=10)
+gkf = GroupKFold(n_splits=4)
 gkf = list(gkf.split(X_train, y_train, X_train['subject']))
 
 # skf = StratifiedKFold(n_splits=10, shuffle=True)
