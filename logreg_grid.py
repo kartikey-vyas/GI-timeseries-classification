@@ -23,7 +23,7 @@ for i in range(1,7):
     s+=1
 assert not any(pd.isna(X['subject']))
 
-train = X[X['subject'] != 3 and X['subject'] < 6].index
+train = X[(X['subject'] != 3) and (X['subject'] < 6)].index
 test = X[X['subject'] == 3].index
 
 X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y.iloc[train], y.iloc[test]
