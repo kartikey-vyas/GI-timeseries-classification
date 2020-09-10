@@ -5,7 +5,6 @@ from tempfile import mkdtemp
 from shutil import rmtree
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV, GroupKFold
-from sklearn.metrics import roc_auc_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import QuantileTransformer
 
@@ -34,8 +33,14 @@ gkf = GroupKFold(n_splits=10)
 gkf = list(gkf.split(X_train, y_train, X_train['subject']))
 
 # one vs. rest scoring
-scoring = 'roc_auc_ovo'
-
+scoring = {'AUC': 'roc_auc_ovo',
+           'Accuracy': 'accuracy', 
+           'Average_Precision': 'average_precision',
+           'F1-score': 'f1_weighted',
+           'Precision': 'precision_weighted',
+           'Recall': 'recall_weighted',
+           }
+ 
 # define the pipeline
 qt = QuantileTransformer()
 clf = LogisticRegression()
@@ -43,10 +48,10 @@ cachedir = mkdtemp()
 pipeline = Pipeline(steps=[('qt', qt), ('clf', clf)], memory=cachedir)
 
 # hyperparameters
-n_quantiles = [10,50,100,500,1000]
-output_distribution = ['uniform', 'normal']
+n_quantiles = [10]
+output_distribution = ['normal']
 penalty = ['l1', 'l2']
-C = np.logspace(-5,5,40)
+C = np.logspace(-4,4,20)
 
 # parameter grid
 param_grid = {'qt__n_quantiles': n_quantiles, 
@@ -60,6 +65,7 @@ param_grid = {'qt__n_quantiles': n_quantiles,
 clf_grid = GridSearchCV(pipeline,
                         param_grid=param_grid,
                         cv=gkf,
+                        scoring=scoring,
                         verbose=2,
                         n_jobs=-1)
 
@@ -68,8 +74,8 @@ search = clf_grid.fit(X_train, y_train)
 # Remove the cache directory
 rmtree(cachedir)
 
-dump(clf_grid, 'models/logreg_gridsearch_model.joblib')
+dump(search, 'models/logreg_gridsearch_model_v2.joblib')
 
 results = pd.DataFrame(search.cv_results_)
 
-results.to_hdf('models/logreg_gridsearch_results.h5', key='data', complevel=9)
+results.to_hdf('models/logreg_gridsearch_results_v2.h5', key='data', complevel=9)
