@@ -27,6 +27,8 @@ This is document will serve as a progress log for my part 4 project. It is writt
       - [Week 2 Meeting](#week-2-meeting)
       - [Week 3 meeting](#week-3-meeting)
       - [Wednesday 19 August](#wednesday-19-august)
+    - [QUANTILE TRANSFORMED](#quantile-transformed)
+    - [7 SEPT MEETING](#7-sept-meeting)
 
 ## Setting up a development environment
 
@@ -379,7 +381,7 @@ Set up grouped CV iterator and use with gridsearchCV+random forest. Let this run
 Brought in the data from Ach-Hex
 Tried a logistic regression model
 
-![Tuning C](../reports/figures/logregtuning.png)
+![Tuning C](../reports/figures/logregtuning1.png)
 
 **Using maximmum penalty for Ach classifier**:  
 ![feature](../reports/figures/feature7.png)
@@ -412,3 +414,13 @@ set up a pipeline - incorporate
 the pipeline replaces the classifier in the gridsearch.
 
 use smaller grid of features and use naive approach
+
+### QUANTILE TRANSFORMED
+![Tuning C](../reports/figures/logregtuning.png)
+
+### 7 SEPT MEETING
+ML sections:
+- justify why certain models were chosen
+- start the background sections of the report
+
+Use these next to weeks to actually try as many methods as possible, but towards the end of the month, focus on reporting what we've tried, look at what worked best, what didnt work etc.
