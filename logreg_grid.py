@@ -66,6 +66,7 @@ clf_grid = GridSearchCV(pipeline,
                         param_grid=param_grid,
                         cv=gkf,
                         scoring=scoring,
+                        refit=False,
                         verbose=2,
                         n_jobs=-1)
 
