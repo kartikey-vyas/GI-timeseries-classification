@@ -34,8 +34,7 @@ gkf = list(gkf.split(X_train, y_train, X_train['subject']))
 
 # one vs. rest scoring
 scoring = {'AUC': 'roc_auc_ovo',
-           'Accuracy': 'accuracy', 
-           'Average_Precision': 'average_precision',
+           'Accuracy': 'accuracy',
            'F1-score': 'f1_weighted',
            'Precision': 'precision_weighted',
            'Recall': 'recall_weighted',
