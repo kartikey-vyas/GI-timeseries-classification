@@ -6,7 +6,7 @@ from shutil import rmtree
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import GridSearchCV, GroupKFold, StratifiedKFold
 from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import QuantileTransformer
+from sklearn.preprocessing import StandardScaler, QuantileTransformer
 
 X = pd.read_hdf('data/features/filtered/filtered_0.05_.h5')
 y = pd.read_hdf('data/ach_at_combined_y.h5', key='y')
@@ -44,9 +44,11 @@ scoring = {'AUC': 'roc_auc_ovo',
  
 # define the pipeline
 qt = QuantileTransformer()
+ss = StandardScaler()
 clf = LogisticRegression()
 cachedir = mkdtemp()
-pipeline = Pipeline(steps=[('qt', qt), ('clf', clf)], memory=cachedir)
+# pipeline = Pipeline(steps=[('qt', qt), ('clf', clf)], memory=cachedir)
+pipeline = Pipeline(steps=[('ss', ss), ('clf', clf)], memory=cachedir)
 
 # hyperparameters
 n_quantiles = [10]
@@ -55,9 +57,14 @@ penalty = ['l1', 'l2']
 C = np.logspace(-4,4,20)
 
 # parameter grid
-param_grid = {'qt__n_quantiles': n_quantiles, 
-              'qt__output_distribution': output_distribution,
-              'clf__penalty' : penalty,
+# param_grid = {'qt__n_quantiles': n_quantiles, 
+#               'qt__output_distribution': output_distribution,
+#               'clf__penalty' : penalty,
+#               'clf__solver' : ['saga'],
+#               'clf__C': C,
+#               'clf__max_iter': [1000]}
+
+param_grid = {'clf__penalty' : penalty,
               'clf__solver' : ['saga'],
               'clf__C': C,
               'clf__max_iter': [1000]}
@@ -67,7 +74,7 @@ clf_grid = GridSearchCV(pipeline,
                         param_grid=param_grid,
                         cv=gkf,
                         scoring=scoring,
-                        refit=False,
+                        refit='AUC',
                         verbose=2,
                         n_jobs=-1)
 
@@ -76,8 +83,8 @@ search = clf_grid.fit(X_train, y_train)
 # Remove the cache directory
 rmtree(cachedir)
 
-dump(search, 'models/logreg_gridsearch_model_AT_gkf.joblib')
+dump(search, 'models/logreg_gridsearch_model_AT_gkf_ss.joblib')
 
 results = pd.DataFrame(search.cv_results_)
 
-results.to_hdf('models/logreg_gridsearch_results_AT_gkf.h5', key='data', complevel=9)
+results.to_hdf('models/logreg_gridsearch_results_AT_gkf_ss.h5', key='data', complevel=9)
