@@ -59,7 +59,7 @@ param_grid = {'qt__n_quantiles': n_quantiles,
               'clf__penalty' : penalty,
               'clf__solver' : ['saga'],
               'clf__C': C,
-              'clf__max_iter': [1000]}
+              'clf__max_iter': [10000]}
 
 # replace rf with a pipeline ( quantile transform, classifier )
 clf_grid = GridSearchCV(pipeline,
@@ -75,8 +75,8 @@ search = clf_grid.fit(X, y)
 # Remove the cache directory
 rmtree(cachedir)
 
-dump(search, 'models/logreg_gridsearch_model_full.joblib')
+dump(search, 'models/logreg_gridsearch_model_11splits.joblib')
 
 results = pd.DataFrame(search.cv_results_)
 
-results.to_hdf('models/logreg_gridsearch_results_full.h5', key='data', complevel=9)
+results.to_hdf('models/logreg_gridsearch_results_11splits.h5', key='data', complevel=9)
