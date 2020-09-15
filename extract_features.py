@@ -28,7 +28,8 @@ import time
 from datetime import datetime
 import pandas as pd
 import numpy as np
-from tsfresh import extract_features, EfficientFCParameters
+from tsfresh import extract_features
+from tsfresh.feature_extraction import EfficientFCParameters
 from tsfresh.utilities.dataframe_functions import impute
 
 ## PARSE COMMAND LINE ARGS ---------------------------------------------------------------------------------
