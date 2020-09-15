@@ -78,13 +78,7 @@ def label_MEA_data(filenames, window_size = 6000):
         window_size: int number of rows per window
             default = 6000
                 6 second windows. Chosen based on average cpm of GI slow waves
-                    
-        cols: list of column names to include in the processed dataset
-            for the MEA problem, this refers to the electrode numbers to include 
-            time and window_id are always included
-            default = 'all'
-                includes every column
-                    
+                
         Returns
         -------
         dataset: DataFrame containing 'time', 'window_id', electrode readings
@@ -127,6 +121,45 @@ def label_MEA_data(filenames, window_size = 6000):
     return dataset.reset_index(drop=True)
 
 def generate_dataset(name, folder, window_size):
+    """ This function creates a labelled dataset of MEA signals and 3 different target vectors.
+        The MEA data must be in .mat files. The dataset is discretised into time windows.
+        The dataset is saved as an HDF file. The target vectors are saved as separate HDF files.
+
+        Arguments
+        ---------
+        name: name of file to save data set in
+        
+        folder: folder where .mat files are located
+        
+        window_size: int number of time steps (ms) per window
+            default = 6000
+                6 second windows. Chosen based on average cpm of GI slow waves
+                    
+        Returns
+        -------
+        dataset: DataFrame containing 'time', 'window_id', electrode readings
+            numbered 0-59 and target variable 'y'
+        y4: target vector with 4 classes. 0: baseline, 1: ach, 2: at, 3: hex
+        y3: target vector with 3 classes. 0: baseline, 1: ach, 2: at or hex
+        y2: binary target vector. 0: baseline, 1: drug (ach, at or hex)
+    """
     files = load_MEA_data(folder=folder)
     dataset = label_MEA_data(files, window_size=window_size)
+    
+    y4 = (dataset[['id','y']]
+     .drop_duplicates('id')
+     .set_index('id')
+     .T
+     .squeeze()
+     .sort_index(0))
+
+    y3 = y4
+    y3[y3 > 2] = 2
+    
+    y2 = y3
+    y2[y2 > 1] = 1
+
+    y4.to_hdf('data/processed/y_4_class_'+str(window_size)+'.h5', key='data', complevel=9)
+    y3.to_hdf('data/processed/y_3_class_'+str(window_size)+'.h5', key='data', complevel=9)
+    y2.to_hdf('data/processed/y_2_class_'+str(window_size)+'.h5', key='data', complevel=9)
     dataset.to_hdf('data/processed/'+str(name)+'_'+str(window_size)+'.h5', key='data', complevel=9)
