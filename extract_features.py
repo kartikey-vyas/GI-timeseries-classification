@@ -103,18 +103,18 @@ if args.diffs:
     df_diffs = (df[neighbours]
            .sub(df[col], axis=0)
            .add_suffix('_'+str(col)+'_diff'))
-    df = pd.concat([df[['t','window_id']], df_diffs], axis=1)
+    df = pd.concat([df[['id']], df_diffs], axis=1)
     logging.info("differences computed")
     
     # free up some memory
     del df_diffs
 else: 
     # select relevant columns, ignore neighbours
-    df = df[['t', 'window_id', col]]
+    df = df[['id', col]]
 
 ## FEATURE EXTRACTION ----------------------------------------------------------------------------------------
 logging.info("beginning feature extraction")
-X = extract_features(df, column_id='window_id', column_sort='t', impute_function=impute)
+X = extract_features(df, column_id='id', impute_function=impute)
 logging.info("feature extraction complete, ")
 
 prefix = args.filename[:-3]
