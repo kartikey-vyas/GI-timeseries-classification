@@ -1,10 +1,13 @@
 #!/bin/bash -e
-#SBATCH --job-name=MakeDataset       # job name (shows up in the queue)
-#SBATCH --time=00:30:00              # Walltime (HH:MM:SS)
-#SBATCH --mem=16000MB                 # Memory
+#SBATCH --job-name=MakeDatasets    # job name (shows up in the queue)
+#SBATCH --time=00:30:00            # Walltime (HH:MM:SS)
+#SBATCH --mem=16000MB              # Memory
+#SBATCH --array=4000,6000          # Array jobs
+#SBATCH --output=R-%x.%j.out
+#SBATCH --error=R-%x.%j.err
+#SBATCH --mail-user=kvya817@aucklanduni.ac.nz
+#SBATCH --mail-type=END,FAIL,TIME_LIMIT_80
 
 source activate /home/kvya817/.conda/envs/ts
 cd ..
-python make_dataset.py data/raw/Ach-Hex ach_hex_full 6000
-python make_dataset.py data/raw/Ach-AT ach_at_full 6000
-python combine_datasets.py
+python make_dataset.py data/raw/Ach-AT-Hex ach-at-hex $SLURM_ARRAY_TASK_ID

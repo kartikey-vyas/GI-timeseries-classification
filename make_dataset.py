@@ -20,7 +20,7 @@ Author: Kartikey Vyas"""
 import argparse
 import pandas as pd
 import numpy as np
-from src.data.load_data import load_MEA_data, label_MEA_data
+from src.data.load_data import generate_dataset
 
 ## PARSE COMMAND LINE ARGS ------------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
@@ -31,7 +31,4 @@ args = parser.parse_args()
 
 
 ## LOAD AND PROCESS DATA --------------------------------------------------------------------------------
-files = load_MEA_data(folder = args.dir)
-df = label_MEA_data(files, window_size=args.window)
-
-df.to_hdf('data/processed/'+args.fname+'_'+str(args.window)+'.h5', key='data', complevel=9)
+generate_dataset(args.fname, args.dir, args.window)
