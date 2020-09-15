@@ -29,6 +29,9 @@ This is document will serve as a progress log for my part 4 project. It is writt
       - [Wednesday 19 August](#wednesday-19-august)
     - [QUANTILE TRANSFORMED](#quantile-transformed)
     - [7 SEPT MEETING](#7-sept-meeting)
+    - [11 SEPT MEETING w/ Andreas](#11-sept-meeting-w-andreas)
+    - [14 SEPT MEETING](#14-sept-meeting)
+    - [15 Sept](#15-sept)
 
 ## Setting up a development environment
 
@@ -424,3 +427,59 @@ ML sections:
 - start the background sections of the report
 
 Use these next to weeks to actually try as many methods as possible, but towards the end of the month, focus on reporting what we've tried, look at what worked best, what didnt work etc.
+
+### 11 SEPT MEETING w/ Andreas
+incorporate tsfresh into pipeline
+
+feature importance
+
+- plot distributions for top features
+  - randomforest best fearures
+  - logreg highest abs value coeff
+
+find out if subject 4 is special somehow
+
+leave one out CV with all subjects
+
+identify important features and try to describe them
+
+https://bitbucket.org/kempaliehr/dslab/src/master/
+
+### 14 SEPT MEETING
+Things to do:
+1. Incorporate feature selection into pipeline
+   1. generalise hypothesis testing code
+   2. generalise benjamini-yekutieli procedure code
+   3. combine into one tsfresh transformer
+   4. write code that fits into tsfresh
+   5. get andreas to review code
+   6. submit pull request to tsfresh repo
+
+2. Take different approaches for classification
+   1. Baseline, Ach, (AT OR HEX) ... 3 classes
+      1. Extract features
+      2. Run through pipeline
+         1. Logistic Regression
+            1. Try dropping certain subjects
+            2. Compare most impt. features
+         2. Random Forest
+            1. Try dropping certain subjects
+            2. Compare most impt. features
+   2. Baseline, Ach ... 2 Classes
+      1. Extract features
+      2. Run through pipeline
+         1. Logistic Regression
+            1. Try dropping certain subjects
+            2. compare most impt. features
+         2. Random Forest
+            1. Try dropping certain subjects
+            2. compare most impt. features
+
+3. Start doing important visualisations
+   1. Important features and outlier subjects
+      1. DSLab dist plots
+      2. Copula plots
+   
+### 15 Sept
+TASK FOR TODAY: multi-class feature selection code
+I have the code that is specific to my problem ready. I need to generalise this code and make it work as a tsfresh transformer.

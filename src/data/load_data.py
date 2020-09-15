@@ -27,23 +27,22 @@ def make_windows(matfile, window_size = 6000):
          
     """
     # retrieve the relevant data from the dictionaries
-    df = pd.DataFrame(matfile['filt_data'].copy())
-    df = df.T
-    time = pd.DataFrame(matfile['filt_t'].copy())
-    time = time.T
+    # combine the MEA data into one data frame
+    data = pd.DataFrame(matfile['filt_data'])
+    df_ts = data.T
+    
+    # create id for each discrete window
+    win = 1
+    ids = pd.DataFrame(index=df_ts.index)
+    for i in range(0,len(df_ts),window_size):
+        ids.loc[i:i+window_size,'id'] = win
+        win += 1
+    
+    df_ts.insert(0, 'id', ids)
 
-    # set up the time column
-    time.columns = ['t']
-    time['t'] = time['t'] - 60000 # make time start at 0
-    time['window_id'] = time['t'] / window_size # n second windows
-    time['window_id'] = time['window_id'].astype(int)
+    return df_ts
 
-    # join the electrode signals with time
-    df = pd.concat([time, df], axis=1)
-
-    return df
-
-def load_MEA_data(folder = "data/raw/Ach-AT"):
+def load_MEA_data(folder = "data/raw/Ach-AT-Hex"):
     """ This function retrieves a list of file paths of MEA data
 
         Arguments
@@ -58,15 +57,13 @@ def load_MEA_data(folder = "data/raw/Ach-AT"):
     """
     d = folder
     filenames = []
-
+    
     # get all the paths of the files to be loaded in
-    for root, dirs, files in os.walk(d):
+    for root, _unused, files in os.walk(d):
         for file in files:
             if file.endswith(".mat"):
                 filenames.append(os.path.join(root, file))
-    
-    del dirs
-    
+
     return sorted(filenames)
     
 
@@ -93,116 +90,43 @@ def label_MEA_data(filenames, window_size = 6000):
         dataset: DataFrame containing 'time', 'window_id', electrode readings
             numbered 0-59 and target variable 'y'
     """
-    # initialise name of previous file accessed
-    prev_name = filenames[0]
-    prev_name = os.path.split(prev_name)[1]
-    prev_name = prev_name[:-4]
-    
-    subject = 0
-    
+    last_win = 0
     dataset = pd.DataFrame()
+    
+    print('Creating data set with discrete time windows of size: '+str(window_size))
     
     for file in filenames:
         matfile = loadmat(file)
         f_name = os.path.split(file)[1]
         f_name = f_name[:-4]
         
-        # check if subject number has changed
-        if f_name[:-6] != prev_name[:-6]:
-            subject += 1
+        df_subject = make_windows(matfile, window_size)
+        df_subject['id'] += last_win
+        df_subject['subject'] = f_name
         
-        # df['subject'] = subject
-        # df['subject'] = df['subject'].astype('category')
-        
-        # increment time by a fixed amount per subject, that exceeds
-        # the max time value for a single subject
-        matfile['filt_t'] += 900000*subject
-        
-        df = make_windows(matfile, window_size)
-        df['subject'] = f_name
+        last_win = df_subject['id'].tail(1).values[0]
+        print('Total Distinct Samples: '+str(last_win))
         
         # determine which label needs to be applied
         if f_name.endswith("0"):
             # baseline
-            df['y'] = 0
+            df_subject['y'] = 0
         elif f_name.endswith("1"):
             # Ach applied
-            df['y'] = 1
+            df_subject['y'] = 1
         elif f_name.endswith("at_2"):
             # AT applied after Ach
-            df['y'] = 2
+            df_subject['y'] = 2
         elif f_name.endswith("hex_2"):
             # Hex applied after Ach
-            df['y'] = 3
+            df_subject['y'] = 3
         
-        dataset = dataset.append(df)
-        
-        # update previous name
-        prev_name = f_name
-    
-    return dataset
+        dataset = dataset.append(df_subject)
+        print('Subject Added: '+f_name)
+            
+    return dataset.reset_index(drop=True)
 
-## UNUSED CODE BELOW
-# def OLD_load_MEA_data(folder = "data/raw",method = "means"):
-#     """ This function loads the raw data from .mat files.
-#         All raw data must be placed in data/raw
-
-#         Arguments
-#         ---------
-#         folder: specifies the root folder where the data to be loaded will be put
-#                 default = "data/raw"
-                
-#         method: specifies how to process the data before exporting it. 
-#                 default = "means" 
-#                     only keeps the mean signal for each MEA
-#     """
-#     d = folder
-#     filenames = []
-
-#     # get all the paths of the files to be loaded in
-#     for root, dirs, files in os.walk(d):
-#         for file in files:
-#             if file.endswith(".mat"):
-#                 filenames.append(os.path.join(root, file))
-
-#     del dirs
-#     # initialise time vectors
-#     t0 = {'time': np.arange(60001, 240001, 1)}
-#     t1 = {'time': np.arange(420001, 600001, 1)}
-#     t2 = {'time': np.arange(780001, 960001, 1)}
-
-#     # set up dataframes to add the values into
-#     # baseline (0), first drug administered (1), second drug administered (2)
-
-#     df_baseline = pd.DataFrame(t0)
-#     df_first = pd.DataFrame(t1)
-#     df_second = pd.DataFrame(t2)
-
-#     for file in filenames:
-#         matfile = loadmat(file)
-#         MEA_data = pd.DataFrame(matfile['filt_data'])
-#         if method == "means":
-#             MEA_data = pd.DataFrame(MEA_data.mean(axis=0))
-#             # the name of the file will be the column header
-#             colname = os.path.split(file)[1]
-#             colname = colname[:-4]
-#             MEA_data.columns = [colname]
-#         elif method == "all":
-#             pass
-        
-#         # concatenate appropriate dataframe
-#         if colname.endswith("0"):
-#             df_baseline = pd.concat([df_baseline, MEA_data], axis=1)
-#         elif colname.endswith("1"):
-#             df_first = pd.concat([df_first, MEA_data], axis=1)
-#         else:
-#             df_second = pd.concat([df_second, MEA_data], axis=1)
-
-#     # export to csv
-#     export_path = "data/interim/"
-#     if method == "means":
-#         ext = "_means.csv"
-    
-#     df_baseline.to_csv(export_path+"baseline"+ext)
-#     df_first.to_csv(export_path+"first"+ext)
-#     df_second.to_csv(export_path+"second"+ext)
+def generate_dataset(name, folder, window_size):
+    files = load_MEA_data(folder=folder)
+    dataset = label_MEA_data(files, window_size=window_size)
+    dataset.to_hdf('data/processed/'+str(name)+'_'+str(window_size)+'.h5', key='data', complevel=9)
