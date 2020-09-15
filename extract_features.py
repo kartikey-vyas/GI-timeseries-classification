@@ -114,7 +114,7 @@ else:
 
 ## FEATURE EXTRACTION ----------------------------------------------------------------------------------------
 logging.info("beginning feature extraction")
-X = extract_features(df, column_id='id', default_fc_parameters=EfficientFCParameters(), impute_function=impute)
+X = extract_features(df, column_id='id', default_fc_parameters=EfficientFCParameters(), impute_function=impute, n_jobs=16)
 logging.info("feature extraction complete, ")
 
 prefix = args.filename[:-3]

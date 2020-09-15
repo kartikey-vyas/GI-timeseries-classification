@@ -3,6 +3,7 @@
 #SBATCH --time=06:00:00                      # Walltime (HH:MM:SS)
 #SBATCH --mem=16000MB                         # Memory
 #SBATCH --array=0-59                         # Array jobs
+#SBATCH --cpus-per-task=16
 #SBATCH --output=R-%x.%j.out
 #SBATCH --error=R-%x.%j.err
 #SBATCH --mail-user=kvya817@aucklanduni.ac.nz
