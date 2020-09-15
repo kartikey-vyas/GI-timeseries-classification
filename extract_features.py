@@ -28,7 +28,7 @@ import time
 from datetime import datetime
 import pandas as pd
 import numpy as np
-from tsfresh import extract_features
+from tsfresh import extract_features, EfficientFCParameters
 from tsfresh.utilities.dataframe_functions import impute
 
 ## PARSE COMMAND LINE ARGS ---------------------------------------------------------------------------------
@@ -114,7 +114,7 @@ else:
 
 ## FEATURE EXTRACTION ----------------------------------------------------------------------------------------
 logging.info("beginning feature extraction")
-X = extract_features(df, column_id='id', impute_function=impute)
+X = extract_features(df, column_id='id', default_fc_parameters=EfficientFCParameters(), impute_function=impute)
 logging.info("feature extraction complete, ")
 
 prefix = args.filename[:-3]
