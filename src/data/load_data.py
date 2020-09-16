@@ -153,12 +153,21 @@ def generate_dataset(name, folder, window_size):
      .squeeze()
      .sort_index(0))
 
-    y3 = y4
+    y3 = y4.copy()
     y3[y3 > 2] = 2
     
-    y2 = y3
+    y2 = y3.copy()
     y2[y2 > 1] = 1
-
+    
+    subject = (df[['id','subject']]
+           .drop_duplicates('id')
+           .set_index('id')
+           .T
+           .squeeze()
+           .sort_index(0))
+    subject = subject.str.slice(stop=-2)
+    
+    subject.to_hdf('data/processed/subject_'+str(window_size)+'.h5', key='data', complevel=9)
     y4.to_hdf('data/processed/y_4_class_'+str(window_size)+'.h5', key='data', complevel=9)
     y3.to_hdf('data/processed/y_3_class_'+str(window_size)+'.h5', key='data', complevel=9)
     y2.to_hdf('data/processed/y_2_class_'+str(window_size)+'.h5', key='data', complevel=9)
