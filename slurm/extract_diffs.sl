@@ -11,4 +11,4 @@
 
 source activate /home/kvya817/.conda/envs/ts
 cd ..
-python extract_features.py ach-at-hex_6000.h5 $SLURM_ARRAY_TASK_ID -diffs
+python extract_features.py ach-at-hex_10000.h5 $SLURM_ARRAY_TASK_ID -diffs
