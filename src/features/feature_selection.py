@@ -18,19 +18,19 @@ from multiprocessing import Pool
 
 from tsfresh.feature_selection.significance_tests import target_binary_feature_real_test, \
     target_real_feature_binary_test, target_real_feature_real_test, target_binary_feature_binary_test
-from tsfresh.feature_selection.relevance import calculate_relevance_table, get_feature_type, _calculate_relevance_table_for_implicit_target
+from tsfresh.feature_selection.relevance import get_feature_type, _calculate_relevance_table_for_implicit_target
 from tsfresh.utilities.distribution import initialize_warnings_in_workers
 from tsfresh.feature_selection import select_features
 
 from sklearn.base import BaseEstimator, TransformerMixin
 
-def multiclass_relevance_table(X, y, test_for_binary_target_binary_feature='fisher', 
+def calculate_relevance_table(X, y, test_for_binary_target_binary_feature='fisher', 
                                test_for_binary_target_real_feature='mann', 
                                test_for_real_target_binary_feature='mann',
                                test_for_real_target_real_feature='kendall', fdr_level=0.05, 
                                hypotheses_independent=False, n_jobs=1, show_warnings=False, 
                                chunksize=None,
-                               ml_task='classification'):
+                               ml_task='classification',):
     """
     Extends the FRESH Algorithm to a multiclass classification problem. Keeps the features which 
     are relevant

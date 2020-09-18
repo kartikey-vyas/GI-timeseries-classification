@@ -483,3 +483,47 @@ Things to do:
 ### 15 Sept
 TASK FOR TODAY: multi-class feature selection code
 I have the code that is specific to my problem ready. I need to generalise this code and make it work as a tsfresh transformer.
+
+
+### 17/09/20
+
+clone tsfresh
+run tests without any mods
+
+create local branch
+implem changes
+implem unit tests
+check all tests pass (old and new)
+
+old should behave as expected
+
+create clones of the p value tests for multiclass testing
+
+
+Baseline
+Ach
+AT
+
+5 - ach,at
+6 - ach,hex
+
+another binary problem: at, hex
+
+@ peng about the diff between drugs
+
+
+tsfresh integration
+unit tests
+
+CV on the original problem
+binary problems
+
+@ peng about importance of interpretability
+
+store the feature importances from the cval of each fold
+look at stats - which features have been picked the most, avg of importance over folds
+look at highest ranked features - inspect these
+
+run with different random seeds for the classifier
+
+10x repeated 10 fold cval - wouldnt work
