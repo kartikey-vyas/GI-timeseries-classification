@@ -159,7 +159,7 @@ def generate_dataset(name, folder, window_size):
     y2 = y3.copy()
     y2[y2 > 1] = 1
     
-    subject = (df[['id','subject']]
+    subject = (dataset[['id','subject']]
            .drop_duplicates('id')
            .set_index('id')
            .T

@@ -26,17 +26,17 @@ args = parser.parse_args()
 ## LOAD DATA ---------------------------------------------------------------------------------------------
 X_filt = pd.DataFrame()
 
-for file in glob.glob("data/features/*_eff.h5"):
+for file in glob.glob("data/features/6000/*_eff.h5"):
     X = pd.read_hdf(file)
     X.reset_index(0, inplace=True, drop=True)
     X_filt = pd.concat([X_filt, X], axis=1)
 
-# retrieve the relevant features
-relevant = pd.read_hdf('data/relevant_features_alpha_'+str(args.alpha)+'_.h5')
-relevant = relevant.sort_values(by=['ach'])
+# # retrieve the relevant features
+# relevant = pd.read_hdf('data/relevant_features_alpha_'+str(args.alpha)+'_.h5')
+# relevant = relevant.sort_values(by=['ach'])
 
-# SELECT FEATURES ----------------------------------------------------------------------------------------
-X_filt = X_filt[relevant['feature'].values]
-X_filt.reset_index(inplace=True, drop=True)
+# # SELECT FEATURES ----------------------------------------------------------------------------------------
+# X_filt = X_filt[relevant['feature'].values]
+# X_filt.reset_index(inplace=True, drop=True)
 
 X_filt.to_hdf("data/features/filtered/filtered_"+str(args.alpha)+"_.h5", key="features", complevel=9)

@@ -5,6 +5,7 @@
 Contains a feature selection method that evaluates the importance of the different extracted features. To do so,
 for every feature the influence on the target is evaluated by an univariate tests and the p-Value is calculated.
 The methods that calculate the p-values are called feature selectors.
+
 Afterwards the Benjamini Hochberg procedure which is a multiple testing procedure decides which features to keep and
 which to cut off (solely based on the p-values).
 """
@@ -33,66 +34,93 @@ def calculate_relevance_table(X, y, ml_task='auto', multiclass=False, n_signific
     """
     Calculate the relevance table for the features contained in feature matrix `X` with respect to target vector `y`.
     The relevance table is calculated for the intended machine learning task `ml_task`.
+
     To accomplish this for each feature from the input pandas.DataFrame an univariate feature significance test
     is conducted. Those tests generate p values that are then evaluated by the Benjamini Hochberg procedure to
     decide which features to keep and which to delete.
+
     We are testing
+
         :math:`H_0` = the Feature is not relevant and should not be added
+
     against
+
         :math:`H_1` = the Feature is relevant and should be kept
+
     or in other words
+
         :math:`H_0` = Target and Feature are independent / the Feature has no influence on the target
+
         :math:`H_1` = Target and Feature are associated / dependent
+
     When the target is binary this becomes
+
         :math:`H_0 = \\left( F_{\\text{target}=1} = F_{\\text{target}=0} \\right)`
+
         :math:`H_1 = \\left( F_{\\text{target}=1} \\neq F_{\\text{target}=0} \\right)`
+
     Where :math:`F` is the distribution of the target.
+
     In the same way we can state the hypothesis when the feature is binary
+
         :math:`H_0 =  \\left( T_{\\text{feature}=1} = T_{\\text{feature}=0} \\right)`
+
         :math:`H_1 = \\left( T_{\\text{feature}=1} \\neq T_{\\text{feature}=0} \\right)`
+
     Here :math:`T` is the distribution of the target.
+
     TODO: And for real valued?
+
     :param X: Feature matrix in the format mentioned before which will be reduced to only the relevant features.
               It can contain both binary or real-valued features at the same time.
     :type X: pandas.DataFrame
+
     :param y: Target vector which is needed to test which features are relevant. Can be binary or real-valued.
     :type y: pandas.Series or numpy.ndarray
+
     :param ml_task: The intended machine learning task. Either `'classification'`, `'regression'` or `'auto'`.
                     Defaults to `'auto'`, meaning the intended task is inferred from `y`.
                     If `y` has a boolean, integer or object dtype, the task is assumend to be classification,
                     else regression.
     :type ml_task: str
     
-    ############################################################################################################
     :param multiclass: Whether the problem is multiclass classification. This modifies the way in which features
                        are selected. Multiclass requires the features to be statistically significant for 
                        predicting n_significant features.
     :type multiclass: bool
     
     :param n_significant: The number of classes for which features should be statistically significant predictors
+                          to be regarded as 'relevant'
     :type n_significant: int
-    ############################################################################################################
-    
+
     :param test_for_binary_target_binary_feature: Which test to be used for binary target, binary feature
                                                   (currently unused)
     :type test_for_binary_target_binary_feature: str
+
     :param test_for_binary_target_real_feature: Which test to be used for binary target, real feature
     :type test_for_binary_target_real_feature: str
+
     :param test_for_real_target_binary_feature: Which test to be used for real target, binary feature (currently unused)
     :type test_for_real_target_binary_feature: str
+
     :param test_for_real_target_real_feature: Which test to be used for real target, real feature (currently unused)
     :type test_for_real_target_real_feature: str
+
     :param fdr_level: The FDR level that should be respected, this is the theoretical expected percentage of irrelevant
                       features among all created features.
     :type fdr_level: float
+
     :param hypotheses_independent: Can the significance of the features be assumed to be independent?
                                    Normally, this should be set to False as the features are never
                                    independent (e.g. mean and median)
     :type hypotheses_independent: bool
+
     :param n_jobs: Number of processes to use during the p-value calculation
     :type n_jobs: int
+
     :param show_warnings: Show warnings during the p-value calculation (needed for debugging of calculators).
     :type show_warnings: bool
+
     :param chunksize: The size of one chunk that is submitted to the worker
         process for the parallelisation.  Where one chunk is defined as
         the data for one feature. If you set the chunksize
@@ -102,6 +130,7 @@ def calculate_relevance_table(X, y, ml_task='auto', multiclass=False, n_signific
         memory exceptions, you can try it with the dask distributor and a
         smaller chunksize.
     :type chunksize: None or int
+
     :return: A pandas.DataFrame with each column of the input DataFrame X as index with information on the significance
              of this particular feature. The DataFrame has the columns
              "Feature",
@@ -122,12 +151,10 @@ def calculate_relevance_table(X, y, ml_task='auto', multiclass=False, n_signific
         raise ValueError('ml_task must be one of: \'auto\', \'classification\', \'regression\'')
     elif ml_task == 'auto':
         ml_task = infer_ml_task(y)
-    
-    ############################################################################################################
+        
     if multiclass:
         assert ml_task == 'classification', 'ml_task must be classification for multiclass problem'
         assert len(y.unique()) >= n_significant, 'n_significant must not exceed the total number of classes'
-    ############################################################################################################
 
     with warnings.catch_warnings():
         if not show_warnings:
@@ -175,7 +202,6 @@ def calculate_relevance_table(X, y, ml_task='auto', multiclass=False, n_signific
                     table_real, table_binary, X, _test_real_feature, _test_binary_feature, hypotheses_independent,
                     fdr_level, map_function
                 )
-                ############################################################################################################
                 if multiclass:
                     tmp = tmp.reset_index(drop=True)
                     tmp.columns = tmp.columns.map(lambda x : x+'_'+str(label) if x !='feature'\
@@ -190,9 +216,8 @@ def calculate_relevance_table(X, y, ml_task='auto', multiclass=False, n_signific
                                                        True, False)
                 relevance_table.index = relevance_table['feature']
             else:
-                ############################################################################################################
                 relevance_table = combine_relevance_tables(tables)
-
+                
         elif ml_task == 'regression':
             _test_real_feature = partial(target_real_feature_real_test, y=y)
             _test_binary_feature = partial(target_real_feature_binary_test, y=y)
@@ -239,6 +264,7 @@ def infer_ml_task(y):
     The result will be either `'regression'` or `'classification'`.
     If the target vector only consists of integer typed values or objects, we assume the task is `'classification'`.
     Else `'regression'`.
+
     :param y: The target vector y.
     :type y: pandas.Series
     :return: 'classification' or 'regression'
@@ -256,6 +282,7 @@ def combine_relevance_tables(relevance_tables):
     """
     Create a combined relevance table out of a list of relevance tables,
     aggregating the p-values and the relevances.
+
     :param relevance_tables: A list of relevance tables
     :type relevance_tables: List[pd.DataFrame]
     :return: The combined relevance table
@@ -273,6 +300,7 @@ def get_feature_type(feature_column):
     """
     For a given feature, determine if it is real, binary or constant.
     Here binary means that only two unique values occur in the feature.
+
     :param feature_column: The feature column
     :type feature_column: pandas.Series
     :return: 'constant', 'binary' or 'real'

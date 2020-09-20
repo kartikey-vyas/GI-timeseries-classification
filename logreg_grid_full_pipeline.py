@@ -2,10 +2,13 @@
     1. Feature Selection
     2. Quantile Transform
     3. Grid Search: Group k-fold Cross Validation with Logistic Regression
+
 Feature selection is done through a local branch of tsfresh, which has been modified to handle multiclass
 classification problems. The filtering process uses the Mann-Whitney U test to determine statistical significance
 for predicting the target. The Benjamini-Yekutieli procedure is used to account for family-wise error rate and
 select only the relevant features.
+
+In this script, we conduct cross-validation on ALL of the subjects to identify outliers.
 
 Command line arguments 
 ----------
@@ -27,7 +30,7 @@ n_classes: Number of classes in the target variable.
 
 Output
 -------
-grid: GridSearchCV object, stored as HDF file
+grid: GridSearchCV object, stored as joblib file
 
 Author: Kartikey Vyas"""
 
@@ -74,19 +77,19 @@ X = pd.read_hdf('data/features/ach-at-hex_'+args.window_size+'_eff_combined.h5')
 y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'.h5')
 subject = pd.read_hdf('data/processed/subject_'+args.window_size+'.h5')
 
-test_subjects = ['02_0315_ach-at', '06_0201_ach-hex']
+# test_subjects = ['02_0315_ach-at', '06_0201_ach-hex']
 
 # add subject column to X
 X['subject'] = subject
 
-train = X[X['subject'] not in test_subjects].index
-test = X[X['subject'] in test_subjects].index
+# train = X[X['subject'] not in test_subjects].index
+# test = X[X['subject'] in test_subjects].index
 
-X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y.iloc[train], y.iloc[test]
+# X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y.iloc[train], y.iloc[test]
 
 # cross-validation iterator
-gkf = GroupKFold(n_splits = len(X_train['subject'].unique))
-gkf = list(gkf.split(X_train, y_train, X_train['subject']))
+gkf = GroupKFold(n_splits = len(X['subject'].unique))
+gkf = list(gkf.split(X, y, X['subject']))
 
 # scoring
 scoring = {'AUC': 'roc_auc_ovo',
@@ -97,16 +100,11 @@ scoring = {'AUC': 'roc_auc_ovo',
            }
  
 # define the pipeline
-
-# DO FEATURE SELECTION ON ALL TRAINING DATA FOR NOW
 fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes))
-fs.fit(X_train,y_train)
-X_train_filtered = fs.transform(X_train)
-
 qt = QuantileTransformer()
 clf = LogisticRegression()
 cachedir = mkdtemp()
-pipeline = Pipeline(steps=[('qt', qt), ('clf', clf)], memory=cachedir)
+pipeline = Pipeline(steps=[('fs', fs), ('qt', qt), ('clf', clf)], memory=cachedir)
 
 # hyperparameters
 n_quantiles = [10]
@@ -130,14 +128,9 @@ clf_grid = GridSearchCV(pipeline,
                         verbose=2,
                         n_jobs=-1)
 
-search = clf_grid.fit(X_train_filtered, y_train)
+search = clf_grid.fit(X, y)
 
 # Remove the cache directory
 rmtree(cachedir)
 
-dump(search, 'models/logreg_gridsearch_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
-
-# TEST
-X_test_filtered = fs.transform(X_test)
-
-dump(search.best_estimator_.predict(X_test_filtered), 'models/logreg_predicted_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
+dump(search, 'models/logreg_gridsearch_pipeline_ALL_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
