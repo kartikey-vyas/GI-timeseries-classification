@@ -4,6 +4,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
 parser.add_argument('window_size', help='Number of time steps in each observation. Choose 4000, 6000 or 10000.')
+args = parser.parse_args()
 assert int(args.window_size) in [4000, 6000, 10000], 'window_size must be one of 4000, 6000 or 10000'
 
 X = pd.DataFrame()
