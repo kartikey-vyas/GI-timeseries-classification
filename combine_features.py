@@ -1,42 +1,16 @@
-"""This script combines, filters and saves the relevant extracted features. Requires completion of 
-the hypothesis testing and feature selection scripts. 
-
-The features are sorted by their p-values for distinguishing AT.
-
-Command line arguments 
-----------
-alpha: the FWER used to generate relevant features
-
-Output
--------
-Generates a design matrix with the relevant features.
-Saves as an hdf (.h5) file in data/features/filtered/
-
-Author: Kartikey Vyas"""
-
-import argparse
-import glob
 import pandas as pd
+import glob
+import argparse
 
-## INITIALISE ARGPARSER ----------------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('alpha', type=float)
-args = parser.parse_args()
+parser.add_argument('window_size', help='Number of time steps in each observation. Choose 4000, 6000 or 10000.')
+assert int(args.window_size) in [4000, 6000, 10000], 'window_size must be one of 4000, 6000 or 10000'
 
-## LOAD DATA ---------------------------------------------------------------------------------------------
-X_filt = pd.DataFrame()
+X = pd.DataFrame()
 
-for file in glob.glob("data/features/6000/*_eff.h5"):
-    X = pd.read_hdf(file)
-    X.reset_index(0, inplace=True, drop=True)
-    X_filt = pd.concat([X_filt, X], axis=1)
-
-# # retrieve the relevant features
-# relevant = pd.read_hdf('data/relevant_features_alpha_'+str(args.alpha)+'_.h5')
-# relevant = relevant.sort_values(by=['ach'])
-
-# # SELECT FEATURES ----------------------------------------------------------------------------------------
-# X_filt = X_filt[relevant['feature'].values]
-# X_filt.reset_index(inplace=True, drop=True)
-
-X_filt.to_hdf("data/features/filtered/filtered_"+str(args.alpha)+"_.h5", key="features", complevel=9)
+for file in glob.glob('data/features/'+args.window_size+'/*'):
+    X_n = pd.read_hdf(file)
+    X_n.reset_index(0, inplace=True, drop=True)
+    X = pd.concat([X, X_n], axis=1)
+    
+X.to_hdf('data/features/ach-at-hex_'+args.window_size+'_eff_combined.h5', key='data', complevel=9)
