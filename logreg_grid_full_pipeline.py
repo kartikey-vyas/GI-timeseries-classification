@@ -77,15 +77,8 @@ X = pd.read_hdf('data/features/ach-at-hex_'+args.window_size+'_eff_combined.h5')
 y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'.h5')
 subject = pd.read_hdf('data/processed/subject_'+args.window_size+'.h5')
 
-# test_subjects = ['02_0315_ach-at', '06_0201_ach-hex']
-
 # add subject column to X
 X['subject'] = subject
-
-# train = X[X['subject'] not in test_subjects].index
-# test = X[X['subject'] in test_subjects].index
-
-# X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y.iloc[train], y.iloc[test]
 
 # cross-validation iterator
 gkf = GroupKFold(n_splits = len(X['subject'].unique))
