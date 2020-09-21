@@ -83,7 +83,7 @@ test = X[(X['subject'] == '02_0315_ach-at') | (X['subject'] == '06_0201_ach-hex'
 X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y.iloc[train], y.iloc[test]
 
 # cross-validation iterator
-gkf = GroupKFold(n_splits = len(X_train['subject'].unique))
+gkf = GroupKFold(n_splits = len(X_train['subject'].unique()))
 gkf = list(gkf.split(X_train, y_train, X_train['subject']))
 
 # scoring

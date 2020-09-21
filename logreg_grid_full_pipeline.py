@@ -81,7 +81,7 @@ subject = pd.read_hdf('data/processed/subject_'+args.window_size+'.h5')
 X['subject'] = subject
 
 # cross-validation iterator
-gkf = GroupKFold(n_splits = len(X['subject'].unique))
+gkf = GroupKFold(n_splits = len(X['subject'].unique()))
 gkf = list(gkf.split(X, y, X['subject']))
 
 # scoring
