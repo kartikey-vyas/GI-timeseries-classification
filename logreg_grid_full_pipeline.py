@@ -75,16 +75,13 @@ logging.basicConfig(filename='logs/logreg_pipeline_'+args.window_size+'_'+args.n
 ## LOAD DATA --------------------------------------------------------------------------------------------
 X = pd.read_hdf('data/features/ach-at-hex_'+args.window_size+'_eff_combined.h5')
 y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'.h5')
-subject = pd.read_hdf('data/processed/subject_'+args.window_size+'.h5')
-subject = subject.reset_index(drop=True)
+sub = pd.read_hdf('data/processed/subject_'+args.window_size+'.h5')
+sub = sub.reset_index(drop=True)
 y = y.reset_index(drop=True)
 
-# add subject column to X
-X['subject'] = subject
-
 # cross-validation iterator
-gkf = GroupKFold(n_splits = len(X['subject'].unique()))
-gkf = list(gkf.split(X, y, X['subject']))
+gkf = GroupKFold(n_splits = len(sub.unique()))
+gkf = list(gkf.split(X, y, sub))
 
 # scoring
 scoring = {'AUC': 'roc_auc_ovo',
