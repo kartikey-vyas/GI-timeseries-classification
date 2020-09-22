@@ -117,6 +117,7 @@ rf = RandomForestClassifier()
 rf_grid = GridSearchCV(estimator=rf,
                        param_grid=param_grid,
                        cv=gkf,
+                       refit='AUC'
                        scoring=scoring,
                        verbose=2,
                        n_jobs=-1)

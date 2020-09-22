@@ -2,7 +2,7 @@
 #SBATCH --job-name=MakeDatasets    # job name (shows up in the queue)
 #SBATCH --time=00:30:00            # Walltime (HH:MM:SS)
 #SBATCH --mem=16000MB              # Memory
-#SBATCH --array=10000         # Array jobs
+#SBATCH --array=4000         # Array jobs
 #SBATCH --output=R-%x.%j.out
 #SBATCH --error=R-%x.%j.err
 #SBATCH --mail-user=kvya817@aucklanduni.ac.nz
