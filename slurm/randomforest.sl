@@ -11,4 +11,4 @@
 
 source activate /home/kvya817/.conda/envs/ts
 cd ..
-python randomforest_grid.py $SLURM_ARRAY_TASK_ID 4 4
+python randomforest_grid.py $SLURM_ARRAY_TASK_ID 3 4
