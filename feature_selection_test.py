@@ -45,7 +45,7 @@ assert int(args.window_size) in [4000, 6000, 10000], 'window_size must be one of
 
 ## LOAD DATA --------------------------------------------------------------------------------------------
 X = pd.read_hdf('data/features/ach-at-hex_'+args.window_size+'_eff_combined.h5')
-print('Extracted Features: ' + str(X.shape))
+print('Extracted Features, Window Size '+args.window_size+': ' + str(X.shape))
 y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'.h5')
 sub = pd.read_hdf('data/processed/subject_'+args.window_size+'.h5')
 sub = sub.reset_index(drop=True)
@@ -58,7 +58,7 @@ X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y[train], y[
 
 # DO FEATURE SELECTION ON ALL TRAINING DATA FOR NOW
 for i in range(int(args.n_classes), 0, -1):
-    fs = FeatureSelector(multiclass=True, n_significant=i)
+    fs = FeatureSelector(multiclass=True, n_significant=i, n_jobs=18)
     fs.fit(X_train,y_train)
     X_train_filtered = fs.transform(X_train)
-    print('Filtered, Features Significant for '+args.n_classes+' Classes: ' + str(X_train.shape))
+    print('Filtered, Features Significant for '+str(i)+' Classes: ' + str(X_train_filtered.shape))
