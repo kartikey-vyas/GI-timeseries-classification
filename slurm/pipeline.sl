@@ -10,4 +10,4 @@
 
 source activate /home/kvya817/.conda/envs/ts
 cd ..
-python logreg_grid_2.py
+python logreg_grid_full_pipeline.py 6000 3 3
