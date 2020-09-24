@@ -131,9 +131,9 @@ search = clf_grid.fit(X_train_filtered, y_train)
 # Remove the cache directory
 rmtree(cachedir)
 
-dump(search, 'models/logreg_gridsearch_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
+dump(search, 'models/logreg_gridsearch_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'.joblib')
 
 # TEST
 X_test_filtered = fs.transform(X_test)
 
-dump(search.best_estimator_.predict(X_test_filtered), 'models/logreg_predicted_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
+dump(search.best_estimator_.predict(X_test_filtered), 'models/logreg_predicted_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'.joblib')

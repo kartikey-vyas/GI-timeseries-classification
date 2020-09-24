@@ -3,6 +3,7 @@
 #SBATCH --time=60:00:00             # Walltime (HH:MM:SS)
 #SBATCH --mem=16000MB               # Memory
 #SBATCH --cpus-per-task=18
+#SBATCH --array=4000,6000,10000       # Array jobs
 #SBATCH --output=R-%x.%j.out
 #SBATCH --error=R-%x.%j.err
 #SBATCH --mail-user=kvya817@aucklanduni.ac.nz
@@ -10,4 +11,5 @@
 
 source activate /home/kvya817/.conda/envs/ts
 cd ..
-python logreg_grid.py 6000 3 3
+python logreg_grid.py $SLURM_ARRAY_TASK_ID 4 4
+

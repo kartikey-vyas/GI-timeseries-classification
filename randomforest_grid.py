@@ -85,8 +85,7 @@ gkf = GroupKFold(n_splits = len(sub[train].unique()))
 gkf = list(gkf.split(X_train, y_train, sub[train]))
 
 # scoring
-scoring = {'AUC': 'roc_auc_ovo',
-           'Accuracy': 'accuracy',
+scoring = {'Accuracy': 'accuracy',
            'F1-score': 'f1_weighted',
            'Precision': 'precision_weighted',
            'Recall': 'recall_weighted',
@@ -117,7 +116,7 @@ rf = RandomForestClassifier()
 rf_grid = GridSearchCV(estimator=rf,
                        param_grid=param_grid,
                        cv=gkf,
-                       refit='AUC',
+                       refit='F1-score',
                        scoring=scoring,
                        verbose=2,
                        n_jobs=-1)
