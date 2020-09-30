@@ -69,9 +69,9 @@ logging.basicConfig(filename='logs/logreg_pipeline_'+args.window_size+'_'+args.n
      level=logging.DEBUG)
 
 ## LOAD DATA --------------------------------------------------------------------------------------------
-X = pd.read_hdf('data/features/ach-at-hex_'+args.window_size+'_eff_combined.h5')
-y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'.h5')
-sub = pd.read_hdf('data/processed/subject_'+args.window_size+'.h5')
+X = pd.read_hdf('data/features/ach-at_'+args.window_size+'_eff_combined.h5')
+y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'_AT.h5')
+sub = pd.read_hdf('data/processed/subject_'+args.window_size+'_AT.h5')
 sub = sub.reset_index(drop=True)
 y = y.reset_index(drop=True)
 

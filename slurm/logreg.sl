@@ -11,5 +11,5 @@
 
 source activate /home/kvya817/.conda/envs/ts
 cd ..
-python logreg_grid.py $SLURM_ARRAY_TASK_ID 3 4
+python logreg_grid.py $SLURM_ARRAY_TASK_ID 3 3
 
