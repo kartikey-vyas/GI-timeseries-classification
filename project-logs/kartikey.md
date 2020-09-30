@@ -32,6 +32,11 @@ This is document will serve as a progress log for my part 4 project. It is writt
     - [11 SEPT MEETING w/ Andreas](#11-sept-meeting-w-andreas)
     - [14 SEPT MEETING](#14-sept-meeting)
     - [15 Sept](#15-sept)
+    - [17/09/20](#170920)
+    - [Thursday 24 September](#thursday-24-september)
+      - [RESULTS FROM NEW CLASSES](#results-from-new-classes)
+    - [Monday 28 September](#monday-28-september)
+    - [Wednesday 30 September](#wednesday-30-september)
 
 ## Setting up a development environment
 
@@ -527,3 +532,48 @@ look at highest ranked features - inspect these
 run with different random seeds for the classifier
 
 10x repeated 10 fold cval - wouldnt work
+
+
+steps attribute
+logreg coeff
+after qt, we end up with feature numbers (indices)
+pass as index into feature selector relevant features
+
+### Thursday 24 September
+
+#### RESULTS FROM NEW CLASSES
+| model        | window_size | n_classes | n_sig | mean_test_accuracy |
+| ------------ | ----------- | --------- | ----- | ------------------ |
+| logreg       | 6000        | 3         | 3     | 0.488              |
+| logreg       | 6000        | 3         | 2     | 0.488              |
+| logreg       | 4000        | 3         | 3     | 0.502              |
+| logreg       | 4000        | 3         | 2     | 0.502              |
+| logreg       | 10000       | 3         | 3     | 0.537              |
+| logreg       | 10000       | 2         | 3     | 0.537              |
+| logreg       | 10000       | 2         | 3     | 0.537              |
+| randomforest | 6000        | 3         | 3     | 0.520              |
+| logreg       | 6000        | 4         | 4     | 0.547              |
+| logreg       | 4000        | 4         | 4     | 0.514              |
+| logreg       | 1000        | 4         | 4     | 0.502              |
+| logreg       | 1000        | 4         | 3     | 0.502              |
+| logreg       | 1000        | 4         | 3     | 0.504              |
+| randomforest | 10000       | 4         | 3     | 0.504              |
+| randomforest | 10000       | 4         | 4     | 0.512              |
+| randomforest | 10000       | 4         | 4     | 0.512              |
+| randomforest | 6000        | 4         | 4     | 0.535              |
+| randomforest | 6000        | 4         | 3     | 0.537              |
+| randomforest | 4000        | 4         | 4     | 0.523              |
+| randomforest | 4000        | 4         | 4     | 0.523              |
+
+
+
+This doesn't looks like its worked at all. Should probably go back to the original way (leave out hex recordings). Waiting on some results using 4 classes but only 3 significant.
+
+### Monday 28 September
+
+Meeting w andreas regarding unit testing for tsfresh pull request
+Need to write unit tests ASAP and submit the pull request
+
+
+
+### Wednesday 30 September
