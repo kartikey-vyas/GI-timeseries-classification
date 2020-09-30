@@ -40,8 +40,6 @@ import os
 import time
 from datetime import datetime
 from joblib import dump
-from tempfile import mkdtemp
-from shutil import rmtree
 
 import pandas as pd
 import numpy as np
@@ -73,9 +71,9 @@ logging.basicConfig(filename='logs/logreg_pipeline_'+args.window_size+'_'+args.n
      level=logging.DEBUG)
 
 ## LOAD DATA --------------------------------------------------------------------------------------------
-X = pd.read_hdf('data/features/ach-at-hex_'+args.window_size+'_eff_combined.h5')
-y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'.h5')
-sub = pd.read_hdf('data/processed/subject_'+args.window_size+'.h5')
+X = pd.read_hdf('data/features/ach-at_'+args.window_size+'_eff_combined.h5')
+y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'_AT.h5')
+sub = pd.read_hdf('data/processed/subject_'+args.window_size+'_AT.h5')
 sub = sub.reset_index(drop=True)
 y = y.reset_index(drop=True)
 
@@ -84,8 +82,7 @@ gkf = GroupKFold(n_splits = len(sub.unique()))
 gkf = list(gkf.split(X, y, sub))
 
 # scoring
-scoring = {'AUC': 'roc_auc_ovo',
-           'Accuracy': 'accuracy',
+scoring = {'Accuracy': 'accuracy',
            'F1-score': 'f1_weighted',
            'Precision': 'precision_weighted',
            'Recall': 'recall_weighted',
@@ -95,8 +92,7 @@ scoring = {'AUC': 'roc_auc_ovo',
 fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes))
 qt = QuantileTransformer()
 clf = LogisticRegression()
-cachedir = mkdtemp()
-pipeline = Pipeline(steps=[('fs', fs), ('qt', qt), ('clf', clf)], memory=cachedir)
+pipeline = Pipeline(steps=[('fs', fs), ('qt', qt), ('clf', clf)])
 
 # hyperparameters
 n_quantiles = [10]
@@ -116,13 +112,10 @@ clf_grid = GridSearchCV(pipeline,
                         param_grid=param_grid,
                         cv=gkf,
                         scoring=scoring,
-                        refit='AUC',
+                        refit=False,
                         verbose=2,
                         n_jobs=-1)
 
 search = clf_grid.fit(X, y)
-
-# Remove the cache directory
-rmtree(cachedir)
 
 dump(search, 'models/logreg_gridsearch_pipeline_ALL_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
