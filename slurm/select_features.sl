@@ -11,4 +11,4 @@
 
 cd ..
 source activate /home/kvya817/.conda/envs/ts
-python feature_selection_test.py $SLURM_ARRAY_TASK_ID 4
+python select_features_transformer.py $SLURM_ARRAY_TASK_ID 3 3

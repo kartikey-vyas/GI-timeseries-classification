@@ -21,7 +21,7 @@ sub = sub.reset_index(drop=True)
 y = y.reset_index(drop=True)
 
 # DO FEATURE SELECTION ON ALL TRAINING DATA FOR NOW
-fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes))
+fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes), n_jobs=18)
 fs.fit(X,y)
 X_filt = fs.transform(X)
 
