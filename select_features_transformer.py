@@ -26,4 +26,4 @@ fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes), n_jobs=
 fs.fit(X,y)
 X_filt = fs.transform(X)
 
-X_filt.to_hdf('data/features/filtered/ach-at_6000_eff'+'_'+args.n_significant+'_'+str(args.n_classes)+'_filtered.h5')
+X_filt.to_hdf('data/features/filtered/ach-at_6000_eff'+'_'+args.n_significant+'_'+str(args.n_classes)+'_filtered.h5', key='data', complevel=9)
