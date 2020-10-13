@@ -17,6 +17,7 @@ X = pd.read_hdf('data/features/ach-at_'+args.window_size+'_eff_combined.h5')
 y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'_AT.h5')
 
 sub = pd.read_hdf('data/processed/subject_'+args.window_size+'_AT.h5')
+X = X.reset_index(drop=True)
 sub = sub.reset_index(drop=True)
 y = y.reset_index(drop=True)
 
