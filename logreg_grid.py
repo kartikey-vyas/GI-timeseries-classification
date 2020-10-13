@@ -73,34 +73,33 @@ logging.basicConfig(filename='logs/logreg_pipeline_'+args.window_size+'_'+args.n
 X = pd.read_hdf('data/features/ach-at_'+args.window_size+'_eff_combined.h5')
 y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'_AT.h5')
 sub = pd.read_hdf('data/processed/subject_'+args.window_size+'_AT.h5')
+X = X.reset_index(drop=True)
 sub = sub.reset_index(drop=True)
 y = y.reset_index(drop=True)
 
-train = sub[(sub != '02_0315_ach-at') & (sub != '06_0201_ach-hex')].index
-test = sub[(sub == '02_0315_ach-at') | (sub == '06_0201_ach-hex')].index
+# train = sub[(sub != '02_0315_ach-at') & (sub != '06_0201_ach-hex')].index
+# test = sub[(sub == '02_0315_ach-at') | (sub == '06_0201_ach-hex')].index
 
-X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y[train], y[test]
+# X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y[train], y[test]
 
 # cross-validation iterator
-gkf = GroupKFold(n_splits = len(sub[train].unique()))
-gkf = list(gkf.split(X_train, y_train, sub[train]))
+gkf = GroupKFold(n_splits = len(sub.unique()))
+gkf = list(gkf.split(X, y, sub))
 
 # scoring
 scoring = {'Accuracy': 'accuracy',
-           'F1-score': 'f1_weighted',
-           'Precision': 'precision_weighted',
-           'Recall': 'recall_weighted',
+           'F1-score': 'f1_weighted'
            }
  
 # define the pipeline
 
 # DO FEATURE SELECTION ON ALL TRAINING DATA FOR NOW
-fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes))
-fs.fit(X_train,y_train)
-X_train_filtered = fs.transform(X_train)
+fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes), n_jobs=18)
+fs.fit(X,y)
+X_filtered = fs.transform(X)
 
 qt = QuantileTransformer()
-clf = LogisticRegression()
+clf = LogisticRegression(multi_class='multinomial')
 cachedir = mkdtemp()
 pipeline = Pipeline(steps=[('qt', qt), ('clf', clf)], memory=cachedir)
 
@@ -116,7 +115,7 @@ param_grid = {'qt__n_quantiles': n_quantiles,
               'clf__penalty' : penalty,
               'clf__solver' : ['saga'],
               'clf__C': C,
-              'clf__max_iter': [1000]}
+              'clf__max_iter': [5000]}
 
 clf_grid = GridSearchCV(pipeline,
                         param_grid=param_grid,
@@ -124,16 +123,16 @@ clf_grid = GridSearchCV(pipeline,
                         scoring=scoring,
                         refit='F1-score',
                         verbose=2,
-                        n_jobs=-1)
+                        n_jobs=18)
 
-search = clf_grid.fit(X_train_filtered, y_train)
+search = clf_grid.fit(X_filtered, y)
 
 # Remove the cache directory
 rmtree(cachedir)
 
-dump(search, 'models/logreg_gridsearch_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'.joblib')
+dump(search, 'models/logreg_gridsearch_CV_ach-at_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'.joblib')
 
-# TEST
-X_test_filtered = fs.transform(X_test)
+# # TEST
+# X_test_filtered = fs.transform(X_test)
 
-dump(search.best_estimator_.predict(X_test_filtered), 'models/logreg_predicted_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'.joblib')
+# dump(search.best_estimator_.predict(X_test_filtered), 'models/logreg_predicted_ach-at_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'.joblib')

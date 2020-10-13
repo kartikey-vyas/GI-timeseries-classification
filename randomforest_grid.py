@@ -72,45 +72,42 @@ logging.basicConfig(filename='logs/logreg_pipeline_'+args.window_size+'_'+args.n
 X = pd.read_hdf('data/features/ach-at_'+args.window_size+'_eff_combined.h5')
 y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'_AT.h5')
 sub = pd.read_hdf('data/processed/subject_'+args.window_size+'_AT.h5')
+X = X.reset_index(drop=True)
 sub = sub.reset_index(drop=True)
 y = y.reset_index(drop=True)
 
-train = sub[(sub != '02_0315_ach-at') & (sub != '06_0201_ach-hex')].index
-test = sub[(sub == '02_0315_ach-at') | (sub == '06_0201_ach-hex')].index
+# train = sub[(sub != '02_0315_ach-at') & (sub != '06_0201_ach-hex')].index
+# test = sub[(sub == '02_0315_ach-at') | (sub == '06_0201_ach-hex')].index
 
-X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y[train], y[test]
+# X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y[train], y[test]
 
 # cross-validation iterator
-gkf = GroupKFold(n_splits = len(sub[train].unique()))
-gkf = list(gkf.split(X_train, y_train, sub[train]))
+gkf = GroupKFold(n_splits = len(sub.unique()))
+gkf = list(gkf.split(X, y, sub))
 
 # scoring
 scoring = {'Accuracy': 'accuracy',
-           'F1-score': 'f1_weighted',
-           'Precision': 'precision_weighted',
-           'Recall': 'recall_weighted',
+           'F1-score': 'f1_weighted'
            }
+ 
+# define the pipeline
 
 # DO FEATURE SELECTION ON ALL TRAINING DATA FOR NOW
-fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes))
-fs.fit(X_train,y_train)
-X_train_filtered = fs.transform(X_train)
+fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes), n_jobs=18)
+fs.fit(X,y)
+X_filtered = fs.transform(X)
 
 # hyperparameters
-n_estimators = [200, 600, 1000, 1500, 2000]
-max_depth = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, None]
-min_samples_split = [2, 5, 10]
-min_samples_leaf = [1, 2, 4]
+n_estimators = [50, 100, 250, 500, 750, 1000]
+max_depth = [10, None]
+# min_samples_split = [2, 5, 10]
+# min_samples_leaf = [1, 2, 4]
 max_features = ['auto', 'sqrt']
-bootstrap = [True, False]
+# bootstrap = [True, False]
 
 # parameter grid
 param_grid = {'n_estimators': n_estimators,
-               'max_features': max_features,
-               'max_depth': max_depth,
-               'min_samples_split': min_samples_split,
-               'min_samples_leaf': min_samples_leaf,
-               'bootstrap': bootstrap}
+               'max_depth': max_depth}
 
 rf = RandomForestClassifier()
 rf_grid = GridSearchCV(estimator=rf,
@@ -119,12 +116,12 @@ rf_grid = GridSearchCV(estimator=rf,
                        refit='F1-score',
                        scoring=scoring,
                        verbose=2,
-                       n_jobs=-1)
+                       n_jobs=18)
 
-search = rf_grid.fit(X_train_filtered, y_train)
-dump(search, 'models/rf_gridsearch_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
+search = rf_grid.fit(X_filtered, y)
+dump(search, 'models/rf_gridsearch_CV_ach-at_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
 
-# TEST
-X_test_filtered = fs.transform(X_test)
+# # TEST
+# X_test_filtered = fs.transform(X_test)
 
-dump(search.best_estimator_.predict(X_test_filtered), 'models/rf_predicted_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
+# dump(search.best_estimator_.predict(X_test_filtered), 'models/rf_predicted_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
