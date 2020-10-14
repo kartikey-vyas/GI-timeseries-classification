@@ -115,7 +115,7 @@ param_grid = {'qt__n_quantiles': n_quantiles,
               'clf__penalty' : penalty,
               'clf__solver' : ['saga'],
               'clf__C': C,
-              'clf__max_iter': [5000]}
+              'clf__max_iter': [1000]}
 
 clf_grid = GridSearchCV(pipeline,
                         param_grid=param_grid,
