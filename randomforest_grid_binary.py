@@ -95,4 +95,4 @@ rf_grid = GridSearchCV(estimator=rf,
 
 search = rf_grid.fit(X_filtered, y)
 
-dump(search, 'models/logreg_gridsearch_CV_'+problem+'.joblib')
+dump(search, 'models/FINAL/rf_gridsearch_CV_'+problem+'.joblib')
