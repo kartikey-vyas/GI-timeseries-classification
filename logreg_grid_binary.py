@@ -38,10 +38,10 @@ from sklearn.preprocessing import QuantileTransformer
 
 ## PARSE COMMAND LINE ARGS ---------------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('problem', help='Which binary problem to fit a model on. Choose from "base_v_drug", "base_v_at", "base_v_hex", "first_v_second", "ach_v_hex" and "at_v_hex"')
+parser.add_argument('problem', help='Which binary problem to fit a model on. Choose from "base_v_drug", "base_v_at", "base_v_hex", "first_v_second", "ach_v_hex", "at_v_hex" and "base_v_ach"')
 args = parser.parse_args()
 
-problems = ["base_v_drug", "base_v_at", "base_v_hex", "first_v_second", "ach_v_hex", "at_v_hex"]
+problems = ["base_v_drug", "base_v_at", "base_v_hex", "first_v_second", "ach_v_hex", "at_v_hex", "base_v_ach"]
 problem = problems[int(args.problem)]
 
 ## INITIALISE LOGGING --------------------------------------------------------------------------------------
