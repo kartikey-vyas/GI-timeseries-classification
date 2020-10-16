@@ -90,16 +90,16 @@ scoring = {'Accuracy': 'accuracy',
 # define the pipeline
 
 # DO FEATURE SELECTION ON ALL TRAINING DATA FOR NOW
-fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes), n_jobs=18)
+fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes), n_jobs=32)
 fs.fit(X,y)
 X_filtered = fs.transform(X)
 
 # hyperparameters
-n_estimators = [50, 100, 250, 500, 750, 1000]
-max_depth = [10, None]
+n_estimators = [100, 500, 1000]
+max_depth = [1, 2, 5, 10, 15, None]
 # min_samples_split = [2, 5, 10]
 # min_samples_leaf = [1, 2, 4]
-max_features = ['auto', 'sqrt']
+# max_features = ['log2', 'sqrt']
 # bootstrap = [True, False]
 
 # parameter grid
@@ -113,10 +113,10 @@ rf_grid = GridSearchCV(estimator=rf,
                        refit='F1-score',
                        scoring=scoring,
                        verbose=2,
-                       n_jobs=18)
+                       n_jobs=32)
 
 search = rf_grid.fit(X_filtered, y)
-dump(search, 'models/rf_gridsearch_CV_ach-at_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
+dump(search, 'models/FINAL/rf_gridsearch_CV_base_v_ach_v_at.joblib')
 
 # # TEST
 # X_test_filtered = fs.transform(X_test)

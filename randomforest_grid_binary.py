@@ -66,18 +66,18 @@ scoring = {'Accuracy': 'accuracy',
 # define the pipeline
 
 # DO FEATURE SELECTION ON ALL TRAINING DATA FOR NOW
-fs = FeatureSelector(n_jobs=20)
+fs = FeatureSelector(n_jobs=32)
 fs.fit(X,y)
 X_filtered = fs.transform(X)
 
 dump(fs, 'models/FINAL/feature_selector_'+problem+'.joblib')
 
 # hyperparameters
-n_estimators = [50, 100, 250, 500, 750, 1000]
-max_depth = [10, None]
+n_estimators = [100, 500, 1000]
+max_depth = [1, 2, 5, 10, 15, None]
 # min_samples_split = [2, 5, 10]
 # min_samples_leaf = [1, 2, 4]
-max_features = ['auto', 'sqrt']
+# max_features = ['auto', 'sqrt']
 # bootstrap = [True, False]
 
 # parameter grid
@@ -91,7 +91,7 @@ rf_grid = GridSearchCV(estimator=rf,
                        refit='F1-score',
                        scoring=scoring,
                        verbose=2,
-                       n_jobs=20)
+                       n_jobs=32)
 
 search = rf_grid.fit(X_filtered, y)
 
