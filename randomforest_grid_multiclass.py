@@ -94,6 +94,8 @@ fs = FeatureSelector(multiclass=True, n_significant=int(args.n_classes), n_jobs=
 fs.fit(X,y)
 X_filtered = fs.transform(X)
 
+dump(fs, 'models/FINAL/feature_selector_base_v_ach_v_at.joblib')
+
 # hyperparameters
 n_estimators = [100, 500, 1000]
 max_depth = [1, 2, 5, 10, 15, None]
