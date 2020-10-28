@@ -18,7 +18,7 @@ grid: GridSearchCV object, stored as HDF file
 Author: Kartikey Vyas"""
 
 import argparse
-import logging
+# import logging
 import os
 import time
 from datetime import datetime
@@ -46,9 +46,9 @@ problem = problems[int(args.problem)]
 now = datetime.now()
 job_id = now.strftime("%d%m%y_%H%M%S")
 
-# create log file
-logging.basicConfig(filename='logs/logreg_pipeline_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_'+job_id+'.txt',\
-     level=logging.DEBUG)
+# # create log file
+# logging.basicConfig(filename='logs/logreg_pipeline_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_'+job_id+'.txt',\
+#      level=logging.DEBUG)
 
 ## LOAD DATA --------------------------------------------------------------------------------------------
 if problem in ["all", "base_v_ach_v_drug2"]:
@@ -75,7 +75,7 @@ scoring = {'Accuracy': 'accuracy',
 # define the pipeline
 
 # DO FEATURE SELECTION ON ALL TRAINING DATA FOR NOW
-fs = FeatureSelector(multiclass=True, n_significant=int(args.n_significant), n_jobs=32)
+fs = FeatureSelector(multiclass=True, n_significant=3, n_jobs=32)
 fs.fit(X,y)
 X_filtered = fs.transform(X)
 
