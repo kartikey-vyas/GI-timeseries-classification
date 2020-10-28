@@ -8,21 +8,8 @@ select only the relevant features.
 
 Command line arguments 
 ----------
-window_size: Number of time steps in each observation. Choose 4000, 6000 or 10000.
-             Determines which set of features will be used in the pipeline.
-             one of:
-                ach-at-hex_4000_eff_combined.h5
-                ach-at-hex_6000_eff_combined.h5
-                ach-at-hex_10000_eff_combined.h5
-        
-n_significant: Number of classes for which a feature needs to be a statistically significant predictor to be
-               accepted as relevant. This is passed into tsfresh.transformers.FeatureSelector().
-               
-n_classes: Number of classes in the target variable.
-           one of:
-           4 - baseline, ach, at, hex
-           3 - baseline, ach, (at or hex)
-           2 - baseline, (ach, at or hex) OR at, hex
+
+problem: Which multiclass problem to fit a model on. Choose from "all", "base_v_ach_v_at", "base_v_ach_v_hex", "base_v_ach_v_drug2"
 
 Output
 -------
@@ -48,13 +35,11 @@ from sklearn.ensemble import RandomForestClassifier
 
 ## PARSE COMMAND LINE ARGS ---------------------------------------------------------------------------------
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('window_size', help='Number of time steps in each observation. Choose 4000, 6000 or 10000.')
-parser.add_argument('n_significant', help='Number of classes for which a feature needs to be a statistically significant predictor.')
-parser.add_argument('n_classes', help='Number of classes in the target variable')
+parser.add_argument('problem', help='Which multiclass problem to fit a model on. Choose from "all", "base_v_ach_v_at", "base_v_ach_v_hex", "base_v_ach_v_drug2"')
 args = parser.parse_args()
 
-assert int(args.window_size) in [4000, 6000, 10000], 'window_size must be one of 4000, 6000 or 10000'
-assert int(args.n_significant) <= int(args.n_classes), 'n_significant cannot exceed n_classes'
+problems = ["all", "base_v_ach_v_at", "base_v_ach_v_hex", "base_v_ach_v_drug2"]
+problem = problems[int(args.problem)]
 
 ## INITIALISE LOGGING --------------------------------------------------------------------------------------
 # use current time as a unique identifier
@@ -66,17 +51,17 @@ logging.basicConfig(filename='logs/logreg_pipeline_'+args.window_size+'_'+args.n
      level=logging.DEBUG)
 
 ## LOAD DATA --------------------------------------------------------------------------------------------
-X = pd.read_hdf('data/features/ach-at_'+args.window_size+'_eff_combined.h5')
-y = pd.read_hdf('data/processed/y_'+args.n_classes+'_class_'+args.window_size+'_AT.h5')
-sub = pd.read_hdf('data/processed/subject_'+args.window_size+'_AT.h5')
+if problem in ["all", "base_v_ach_v_drug2"]:
+    X = pd.read_hdf('data/FINAL/X_all.h5')
+else:
+    X = pd.read_hdf('data/FINAL/X_'+problem+'.h5')
+
+y = pd.read_hdf('data/FINAL/y_'+problem+'.h5')
+sub = pd.read_hdf('data/FINAL/subject_'+problem+'.h5')
 X = X.reset_index(drop=True)
 sub = sub.reset_index(drop=True)
 y = y.reset_index(drop=True)
 
-# train = sub[(sub != '02_0315_ach-at') & (sub != '06_0201_ach-hex')].index
-# test = sub[(sub == '02_0315_ach-at') | (sub == '06_0201_ach-hex')].index
-
-# X_train, X_test, y_train, y_test = X.iloc[train,:], X.iloc[test,:], y[train], y[test]
 
 # cross-validation iterator
 gkf = GroupKFold(n_splits = len(sub.unique()))
@@ -94,7 +79,7 @@ fs = FeatureSelector(multiclass=True, n_significant=int(args.n_significant), n_j
 fs.fit(X,y)
 X_filtered = fs.transform(X)
 
-dump(fs, 'models/FINAL/feature_selector_'+args.n_significant+'_base_v_ach_v_at.joblib')
+dump(fs, 'models/FINAL/feature_selector_'+problem+'_.joblib')
 
 # hyperparameters
 n_estimators = [100, 500, 1000]
@@ -112,15 +97,10 @@ rf = RandomForestClassifier()
 rf_grid = GridSearchCV(estimator=rf,
                        param_grid=param_grid,
                        cv=gkf,
-                       refit='F1-score',
+                       refit='Accuracy',
                        scoring=scoring,
                        verbose=2,
                        n_jobs=32)
 
 search = rf_grid.fit(X_filtered, y)
-dump(search, 'models/FINAL/rf_gridsearch_CV_'+args.n_significant+'_base_v_ach_v_at.joblib')
-
-# # TEST
-# X_test_filtered = fs.transform(X_test)
-
-# dump(search.best_estimator_.predict(X_test_filtered), 'models/rf_predicted_ach-at-hex_'+args.window_size+'_'+args.n_significant+'_'+args.n_classes+'_.joblib')
+dump(search, 'models/FINAL/rf_gridsearch_CV_'+problem+'_.joblib')
