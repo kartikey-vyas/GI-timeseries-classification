@@ -51,7 +51,7 @@ and selection, implemented through the FRESH (FeaturRe Extraction based on Scala
 Hypothesis tests) algorithm, was conducted. It was found that classifiers could reliably
 predict whether a subject was administered Atropine (AT) or Hexamethonium (Hex) subsequent
 to the administering of ACh (Acetylcholine). The most important features were
-explored. GI slow waves from subjects under the eect of AT consistently had higher
+explored. GI slow waves from subjects under the effect of AT consistently had higher
 values for each of the most important features indicating that AT has an excitatory effect
 on pacemaker potentials when administered after ACh, while Hex does not. For example,
 AT influenced slow waves had higher frequency and noise levels, on average containing
