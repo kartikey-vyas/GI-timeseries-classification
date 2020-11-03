@@ -77,6 +77,8 @@ The raw data consists of 33 `.mat` files containing MATLAB cell arrays. Within t
 - `ach-at` = first drug applied was ACh, second drug was AT
 - `_0.mat` = baseline recording, `_1.mat` = first drug, `_2.mat` = second drug
 
+Data has not been stored on GitHub due to size. Please enquire with Dr. Peng Du for access to the raw data.
+
 ## Execution
 
 ### Sripts
