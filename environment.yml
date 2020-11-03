@@ -75,6 +75,7 @@ dependencies:
   - libuuid=1.0.3=h1bed415_2
   - libxcb=1.13=h1bed415_1
   - libxml2=2.9.9=hea5a465_1
+  - locket=0.2.0=py_2
   - lz4-c=1.9.2=he6710b0_0
   - markupsafe=1.1.1=py38h7b6447c_0
   - matplotlib=3.1.3=py38_0
@@ -125,6 +126,7 @@ dependencies:
   - python-dateutil=2.8.1=py_0
   - python_abi=3.8=1_cp38
   - pytz=2020.1=py_0
+  - pyyaml=5.1.2=py38h516909a_0
   - pyzmq=18.1.1=py38he6710b0_0
   - qt=5.9.7=h5867ecd_1
   - qtconsole=4.7.4=py_0
@@ -162,15 +164,12 @@ dependencies:
   - xz=5.2.5=h7b6447c_0
   - yaml=0.1.7=had09818_2
   - zeromq=4.3.1=he6710b0_3
+  - zict=2.0.0=py_0
   - zipp=3.1.0=py_0
   - zlib=1.2.11=h7b6447c_3
   - zstd=1.4.4=h0b5b093_3
   - pip:
     - argparse==1.4.0
-    - locket==0.2.0
     - numexpr==2.7.1
-    - pyyaml==5.3.1
     - tables==3.6.1
-    - zict==2.0.0
 prefix: /home/kartikey/anaconda3/envs/ts
-

@@ -36,7 +36,11 @@ This is document will serve as a progress log for my part 4 project. It is writt
     - [Thursday 24 September](#thursday-24-september)
       - [RESULTS FROM NEW CLASSES](#results-from-new-classes)
     - [Monday 28 September](#monday-28-september)
-    - [Wednesday 30 September](#wednesday-30-september)
+  - [OCTOBER](#october)
+    - [Results visualisations](#results-visualisations)
+      - [Multiclass](#multiclass)
+      - [AT v Hex](#at-v-hex)
+    - [Best Features](#best-features)
 
 ## Setting up a development environment
 
@@ -574,6 +578,50 @@ This doesn't looks like its worked at all. Should probably go back to the origin
 Meeting w andreas regarding unit testing for tsfresh pull request
 Need to write unit tests ASAP and submit the pull request
 
+## OCTOBER
 
+Use `9.2-kv-final_data_splits.ipynb` to separate data into different classifcation problems
 
-### Wednesday 30 September
+Run random forest grid searches to find best models for each problem.
+
+Investigate these using `9.0-kv-randomforest.ipynb`
+
+Results are as follows:
+
+| Classes                    | Number of Classes | Total Observations | Number of Features Selected | Mean Cross Validation F1-score | Standard Deviation |
+|----------------------------|-------------------|--------------------|-----------------------------|--------------------------------|--------------------|
+| Baseline, Ach, AT, Hex     | 4                 | 990                | 7792                        | 0.431                          | 0.189              |
+| Baseline, ACh, AT          | 3                 | 810                | 2250                        | 0.616                          | 0.231              |
+| Baseline, ACh, Hex         | 3                 | 840                | 4064                        | 0.638                          | 0.244              |
+| Baseline, ACh, (AT or Hex) | 3                 | 990                | 3907                        | 0.480                          | 0.143              |
+| Baseline, Any Drug         | 2                 | 990                | 16320                       | 0.703                          | 0.196              |
+| Baseline, ACh              | 2                 | 660                | 14362                       | 0.700                          | 0.240              |
+| Baseline, AT               | 2                 | 480                | 18485                       | 0.755                          | 0.290              |
+| Baseline, Hex              | 2                 | 510                | 17134                       | 0.807                          | 0.260              |
+| ACh, (AT or Hex)           | 2                 | 660                | 2844                        | 0.569                          | 0.216              |
+| ACh, AT                    | 2                 | 480                | 8751                        | 0.744                          | 0.316              |
+| ACh, Hex                   | 2                 | 510                | 11915                       | 0.691                          | 0.288              |
+| AT, Hex                    | 2                 | 330                | 16238                       | 0.950                          | 0.154              |
+
+AT v. Hex is promising. Will explore the most impt features further.
+
+### Results visualisations
+#### Multiclass
+![](../reports/figures/base_v_ach_v_at_f1_cv.png)
+![](../reports/figures/base_v_ach_v_at_top5_pairs.png)
+
+#### AT v Hex
+![](../reports/figures/at_v_hex_f1_cv.png)
+![](../reports/figures/at_v_hex_top5_pairs.png)
+![](../reports/figures/at_v_hex_top_feature.png)
+
+### Best Features
+- Number of CWT peaks
+- Change quantiles (f_agg_"var")
+- Cid_ce
+
+get distributions of each one, explore how each one is calculated.
+
+in `9.5-kv-exploration.ipynb` I've made a visualisation of the CWT peaks feature.
+
+![](../reports/figures/cwt_peaks_at_v_hex.png)
