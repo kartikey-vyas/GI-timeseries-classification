@@ -1,5 +1,5 @@
-Kartikey Vyas Part IV Project 2020
-==================================
+Kartikey Vyas Part IV Project 2020 - Research Compendium
+========================================================
 
 >*Understanding the spatiotemporal organisation of GI bioelectrical activity at the microscale*
 
@@ -90,4 +90,15 @@ Here is the order in which scripts should be run to generate features:
 Next, one of the scripts from `models` can be run, e.g. `randomforest_grid_multiclass.py`
 
 ### HPC
-Due to the high computational cost and memory requirements of some of the scripts, much of the computation was done on the NeSI HPC Cluster (Mahuika). As such, the folder `slurm` contains Slurm scripts that create jobs that can be executed on the cluster.
+Due to the high computational cost and memory requirements of some of the scripts, much of the computation was done on the NeSI HPC Cluster (Mahuika). As such, the folder `slurm` contains Slurm scripts that create jobs that can be executed on the cluster. To submit jobs on the cluster, first commit any new code to this repo. Next, use `submit_jobs.sh` to choose a slurm script to execute.
+
+### Notebooks
+Several insights and visualisations were produced from iPython/Jupyter notebooks. The following notebooks are very important for producing the final results:
+- `9.0-kv-randomforest.ipynb`
+- `9.5-kv-exploration.ipynb`
+
+### Multiclass + tsfresh
+This repo contains an implementation of multiclass feature selection incorporated into the `tsfresh` library. The python scripts `modified_feature_selection.py` and `modified_feature_selector.py` contain local implementations of this code and are called in other functions as submodules of `src.features`. As of the 28th of October, the proposed multiclass feature selection method from this project has been accepted and merged into `tsfresh`.
+
+### Manual Multiclass
+The first multiclass feature selection implementation used the Mann-Whitney U test and Benjamini-Yekutieli procedure separately to first extract p-values and then correct for false discovery rate. This can be done through the scripts `hypothesis_tests.py` and `select_features_b-y.py`.
